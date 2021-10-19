@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Animated, FlatList, ImageBackground, Image, View, StyleSheet } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { Animated, FlatList, ImageBackground, Image, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { constants } from '../../constants';
 import CustomButton from '../../components/CustomButton';
 import { SIZES } from '../../constants/theme';
@@ -8,6 +8,12 @@ import OnBoardingItem from '../../components/OnBoardingItem';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+
+
+
 
 
 
@@ -49,6 +55,8 @@ const Paginator = ({ data, scrollX }) => {
 const OnBoarding = ({ appTheme }) => {
 
 
+
+
     const navigation = useNavigation();
 
 
@@ -78,6 +86,38 @@ const OnBoarding = ({ appTheme }) => {
     const slidesRef = useRef(null);
 
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+
+
+
+
+
+
+    // if (!homePageLoading) {
+    //     return (
+    //         <View>
+    //             <ActivityIndicator size="small" color="purple" />
+    //         </View>
+    //     )
+
+    // }
+
+
+
+    useEffect(() => {
+
+
+        setTimeout(() => {
+
+            <ActivityIndicator size="small" color="purple" />
+
+
+        }, 5000)
+
+
+    }, [])
+
+
 
 
     return (

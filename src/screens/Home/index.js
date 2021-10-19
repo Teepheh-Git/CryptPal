@@ -2,65 +2,18 @@ import { useFocusEffect } from '@react-navigation/core';
 import axios from 'axios';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react'
-import { StyleSheet, Image, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Image, Text, View, TouchableOpacity, FlatList, TextInput } from 'react-native'
 import { connect } from 'react-redux';
 import CoinCard from '../../components/CoinCard';
 import CoinList from '../../components/CoinList';
-import { SIZES } from '../../constants';
+import { COLORS, icons, SIZES } from '../../constants';
 import { getCoinMarket } from '../../stores/market/marketActions';
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-// import { useNavigation } from '@react-navigation/native';
-
-// EVERYTHING FROM HERE IS JUST TESTING 
+import LottieView from 'lottie-react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 
-const formatSparkline = (numbers) => {
-    const sevenDaysAgo = moment().subtract(7, 'days').unix()
 
-    let formatSparkline = numbers.map((item, index) => {
-        return {
-            x: sevenDaysAgo + (index + 1) * 3600,
-            y: item
-        }
-    })
-
-    return formatSparkline
-}
-
-const formatMarketData = (data) => {
-    let formattedData = []
-
-    data.forEach(item => {
-        const formattedSparkline = formatSparkline(item.sparkline_in_7d.price)
-
-        const formattedItem = {
-            ...item,
-            sparkline_in_7d: {
-                price: formattedSparkline
-            }
-        }
-
-        formattedData.push(formattedItem)
-    })
-
-    return formattedData
-}
-
-export const getMarketData = async () => {
-
-
-    try {
-        const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=true&price_change_percentage=7d')
-        const data = response.data;
-        return formatMarketData(data)
-
-    } catch (e) {
-        console.log(e.message)
-    }
-
-
-}
 
 
 
@@ -69,66 +22,55 @@ export const getMarketData = async () => {
 const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
 
-    // EVERYTHING FROM HERE IS JUST TESTING TOO
-
-    const [filteredData, setFilteredData] = useState([])
-    const [masterData, setMasterData] = useState([])
-    const [selectedCoin, setSelectedCoin] = useState(null)
 
 
-    const [searchCoin, setSearchCoin] = useState('')
+    // const netInfo = useNetInfo()
+    // console.log(netInfo.isInternetReachable)
 
-    // console.log(getMarketData)
 
-    function searchFilter(text) {
-        if (text) {
-            const newData = masterData.filter((item) => {
-                const itemData = item.name ? item.name.toUpperCase() : ' '.toUpperCase()
-                const textData = text.toUpperCase()
-                return itemData.indexOf(textData) > -1
-            })
-            setFilteredData(newData)
-            setSearchCoin(text)
-        } else {
-            setFilteredData(masterData)
-            setSearchCoin(text)
+    const [homePageLoading, setHomePageLoading] = useState(true)
 
-        }
 
+
+    // console.log(coins)
+
+
+    if (coins.length > 0) {
+        setTimeout(() => {
+            setHomePageLoading(false)
+        }, 2000)
     }
 
-    useEffect(() => {
 
-        const fetchMarketData = async () => {
-            const marketData = await getMarketData()
-            setFilteredData(marketData)
-            setMasterData(marketData)
-
-        }
-
-        fetchMarketData();
-    }, [])
-
-
-
-
-
-
-
-
-
-    // const navigation = useNavigation();
 
     useFocusEffect(
         useCallback(() => {
+
+
             getCoinMarket()
+
         }, [])
     )
 
 
 
 
-    CoinListRenderItem = ({ item }) =>
+    if (homePageLoading) {
+
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#FFFFFF" }}>
+
+                <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/cryptpalVid.mp4.lottie.json')} autoPlay loop />
+
+            </View>
+        )
+    }
+
+
+
+
+
+    CoinCardRenderItem = ({ item }) =>
         <CoinCard
             name={item.name}
             logoUrl={item.image}
@@ -139,10 +81,8 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
 
 
-
-    CoinCardRenderItem = ({ item }) =>
+    CoinListRenderItem = ({ item }) =>
         <CoinList
-
             name={item.name}
             logoUrl={item.image}
             symbol={item.symbol.toUpperCase()}
@@ -150,18 +90,11 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
             priceChangePercentage24h={item?.price_change_percentage_24h}
             chartData={item?.sparkline_in_7d?.price}
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
-
         />
 
 
-    const loadMore = async () => {
 
 
-        // await setPage(page + 1)
-
-        return console.log('Loading More')
-
-    }
 
 
 
@@ -175,29 +108,24 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
             </View>
 
 
-
             {/* Market Coins Lists */}
-
-            {/* <View> */}
             <FlatList
                 data={coins}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={2}
+                initialNumToRender={6}
                 maxToRenderPerBatch={1}
                 windowSize={3}
-                renderItem={CoinCardRenderItem}
+                renderItem={CoinListRenderItem}
                 ListFooterComponent={
                     <View style={{
                         marginBottom: SIZES.height * 0.15
                     }} />
                 }
                 ListHeaderComponent={
-
-
                     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-                        {/* Top movers Section */}
 
+                        {/* Top movers Section */}
                         <View style={styles.topMoversContainer}>
                             <View style={styles.topMoversContainer2}>
                                 <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers ✅</Text>
@@ -209,47 +137,33 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
                         </View>
 
-                        {/* Coin Card section */}
 
+                        {/* Coin Card section */}
                         <View style={styles.coinCard}>
                             <FlatList
                                 data={coins}
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                initialNumToRender={2}
+                                initialNumToRender={4}
                                 maxToRenderPerBatch={1}
                                 windowSize={3}
-                                renderItem={CoinListRenderItem}
-                                onEndReached={loadMore}
-
-
+                                renderItem={CoinCardRenderItem}
                             />
-
                         </View>
 
 
 
                         {/* Market Trend Tabs */}
                         <View>
-
                         </View>
 
                         {/* Market Trends  */}
-
-
                         <View style={styles.marketTrendsContainer}>
                             <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends 💰</Text>
                         </View>
-
-
-
                     </View>
-
-
-
                 }
-
             />
 
 

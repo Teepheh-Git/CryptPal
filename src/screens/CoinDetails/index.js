@@ -90,7 +90,7 @@ const CoinDetails = ({ appTheme, route, coins }) => {
                     <CoinDetailsInfo title={'ALL TIME HIGH DATE'} value={moment(dataFromHome.ath_date).format('DD/MM/YYYY')} />
                     <CoinDetailsInfo title={'ALL TIME LOW'} value={'$ ' + dataFromHome.atl.toLocaleString("en-US")} />
                     <CoinDetailsInfo title={'ALL TIME LOW DATE'} value={moment(dataFromHome.atl_date).format('DD/MM/YYYY')} />
-                    <CoinDetailsInfo title={'CIRCULATING SUPPLY'} value={'$ ' + dataFromHome.circulating_supply.toLocaleString("en-US")} />
+                    <CoinDetailsInfo title={'CIRCULATING SUPPLY'} value={'$ ' + dataFromHome?.circulating_supply?.toLocaleString("en-US")} />
                     <CoinDetailsInfo title={'TOTAL SUPPLY'} value={'$ ' + dataFromHome.total_supply.toLocaleString("en-US")} />
 
 

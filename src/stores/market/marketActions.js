@@ -22,7 +22,10 @@ export const getCoinMarketFailure = (error) => ({
 
 
 
-export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250, page = 2) => {
+export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50, page = 1) => {
+
+    // console.log(coins)
+
 
 
 
@@ -37,8 +40,12 @@ export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", spa
             }
         }).then((response) => {
 
+
+            // console.log(response.data)
+
             if (response.status === 200) {
                 dispatch(getCoinMarketSuccess(response.data))
+
             } else {
                 dispatch(getCoinMarketFailure(response.data))
             }
@@ -46,7 +53,6 @@ export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", spa
             dispatch(getCoinMarketFailure(error))
 
         })
-
 
     }
 

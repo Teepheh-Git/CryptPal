@@ -5,6 +5,7 @@ import BottomTabs from '../src/navigation/';
 import Settings from '../src/screens/Settings';
 import { createStackNavigator } from '@react-navigation/stack';
 import CoinDetails from '../src/screens/CoinDetails';
+import Search from '../src/screens/Search';
 
 
 
@@ -20,6 +21,7 @@ const Router = () => {
             <Stack.Screen name="OnBoarding" component={OnBoarding} />
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="CoinDetails" component={CoinDetails} />
+            <Stack.Screen name="Search" component={Search} />
         </Stack.Navigator>
     )
 }

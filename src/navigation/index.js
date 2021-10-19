@@ -1,6 +1,6 @@
 
-import React from 'react'
-import { Platform, Image, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { Platform, Image, Text, View, TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Favorite from '../screens/Favorite';
 import Home from '../screens/Home';
@@ -15,9 +15,43 @@ import LinearGradient from 'react-native-linear-gradient';
 import OnBoarding from '../screens/OnBoarding';
 
 
+
+
+
+const TabBarCustomButton = ({ children, onPress }) => {
+
+    return (
+        <TouchableOpacity
+            activeOpacity={0.6}
+            style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: "center"
+            }}
+            onPress={onPress}>
+
+            {children}
+
+        </TouchableOpacity>
+    )
+}
+
+
 const Tab = createBottomTabNavigator();
 
-const BottomTabs = ({ appTheme }) => {
+const BottomTabs = ({ appTheme, navigation }) => {
+
+
+
+
+    SearchButton = () => {
+        <View>
+            <Text>Shows</Text>
+        </View>
+    }
+
+
+
     return (
         <Tab.Navigator screenOptions={{
             headerShown: false,
@@ -139,6 +173,14 @@ const BottomTabs = ({ appTheme }) => {
                             </View>
                         );
                     },
+
+                    tabBarButton: (props) => (
+                        <TabBarCustomButton
+                            {...props}
+                            onPress={() => navigation.navigate('Search')}
+                        />
+                    )
+
                 }}
 
             />

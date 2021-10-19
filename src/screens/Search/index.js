@@ -1,12 +1,170 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, SafeAreaView, Image, TextInput, FlatList, Text } from 'react-native'
 import { connect } from 'react-redux'
+import CoinList from '../../components/CoinList'
+import CustomHeader from '../../components/CustomHeader'
+import { FONTS, icons, SIZES } from '../../constants'
 
-const Search = ({ appTheme }) => {
+
+
+const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50, page = 1) => {
+
+
+    try {
+        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+        const data = response.data;
+        return data
+
+    } catch (e) {
+        console.log(e.message)
+    }
+
+
+}
+
+const Search = ({ appTheme, navigation }) => {
+
+
+
+
+
+
+    const [searchCoin, setSearchCoin] = useState('')
+    const [masterData, setMasterData] = useState([])
+    const [filteredData, setFilteredData] = useState([])
+
+
+
+    const SearchFilter = (text) => {
+
+        if (text) {
+            const newData = masterData.filter((item) => {
+                const itemData = item.name ? item.name.toUpperCase() : ' '.toUpperCase()
+                const textData = text.toUpperCase()
+                return itemData.indexOf(textData) > -1
+            })
+
+            setFilteredData(newData)
+            setSearchCoin(text)
+        } else {
+            setFilteredData(masterData)
+            setSearchCoin(text)
+        }
+    }
+
+
+
+    useEffect(() => {
+
+        const fetchMarketData = async () => {
+
+            const marketData = await getMarketData()
+            setFilteredData(marketData)
+            setMasterData(marketData)
+        }
+
+        fetchMarketData()
+
+    }, [])
+
+    const FilteredDataCondition = () => {
+        if (searchCoin == '') {
+            return []
+        } else {
+            return filteredData
+        }
+
+
+    }
+
+
+
+
+
+    CoinListRenderItem = ({ item }) =>
+        <CoinList
+            name={item.name}
+            logoUrl={item.image}
+            symbol={item.symbol.toUpperCase()}
+            currentPrice={item.current_price}
+            priceChangePercentage24h={item?.price_change_percentage_24h}
+            chartData={item?.sparkline_in_7d?.price}
+            onPress={() => navigation.navigate('CoinDetails', { ...item })}
+        />
+
+
+    const TopResults = () => {
+
+        return (
+            <View style={{ width: SIZES.width * 0.9, marginVertical: 30 }}>
+                <Text style={{ alignSelf: 'flex-start', color: appTheme.textColor3, ...FONTS.body4 }}>Top Results</Text>
+            </View>
+        )
+    }
+
+
+    const AboutToSearch = () => {
+        return (
+
+
+            <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
+
+                <Image style={{}} source={require('../../assets/images/Unamused.png')} />
+                <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
+                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Sorry, you'll have to make a search to get any result here.</Text>
+
+            </View>
+
+        )
+    }
+
+
+
+
+
     return (
-        <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-            <Text>Search</Text>
-        </View>
+        <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+
+            <CustomHeader title='Search' image={icons.search} onPress={() => navigation.goBack()} />
+
+
+            <View style={{ flexDirection: 'row', width: SIZES.width * 0.9, height: 55, alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
+
+                <TextInput
+                    placeholder={"Search any crypto coin..."}
+                    value={searchCoin}
+                    onChangeText={(text) => SearchFilter(text)}
+                    placeholderTextColor={appTheme.textColor3}
+                    multiline={false}
+                    style={{ width: SIZES.width * 0.9, height: 55, backgroundColor: appTheme.backgroundColor, borderRadius: 8, paddingHorizontal: 15, left: 10, paddingRight: 30, color: appTheme.textColor }}
+                >
+                </TextInput>
+                <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }} source={icons.searchBarIcon} />
+            </View>
+
+
+            {searchCoin == '' && AboutToSearch()}
+
+
+            {searchCoin !== '' && TopResults()}
+            <FlatList
+                data={FilteredDataCondition()}
+                keyExtractor={item => item.id}
+                showsVerticalScrollIndicator={false}
+                initialNumToRender={6}
+                maxToRenderPerBatch={1}
+                windowSize={3}
+                renderItem={CoinListRenderItem}
+
+            />
+
+
+
+
+
+        </SafeAreaView>
     )
 }
 
@@ -15,7 +173,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        height: SIZES.height
     }
 })
 

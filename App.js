@@ -39,6 +39,16 @@ const App = () => {
   const [viewedOnboarding, setViewedOnboarding] = useState(false)
 
 
+
+
+
+
+
+
+
+
+
+
   const CheckOnboarding = async () => {
 
     try {
@@ -61,6 +71,11 @@ const App = () => {
   }, [])
 
 
+
+
+
+
+
   return (
 
     <Provider store={store}>
@@ -70,7 +85,13 @@ const App = () => {
         {/* {loading ? <Loading /> : viewedOnboarding ? <BottomTabs /> : */}
 
 
+
+
         <Router />
+
+
+
+
 
         {/* } */}
 
