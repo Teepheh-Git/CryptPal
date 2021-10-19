@@ -1,14 +1,16 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, SafeAreaView, Image, TextInput, FlatList, Text } from 'react-native'
+import { StyleSheet, View, Image, TextInput, FlatList, Text } from 'react-native'
 import { connect } from 'react-redux'
 import CoinList from '../../components/CoinList'
 import CustomHeader from '../../components/CustomHeader'
 import { FONTS, icons, SIZES } from '../../constants'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
+const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250,) => {
 
-const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50, page = 1) => {
+    let page = 1
 
 
     try {
@@ -80,8 +82,6 @@ const Search = ({ appTheme, navigation }) => {
 
 
 
-
-
     CoinListRenderItem = ({ item }) =>
         <CoinList
             name={item.name}
@@ -96,27 +96,43 @@ const Search = ({ appTheme, navigation }) => {
 
     const TopResults = () => {
 
-        return (
-            <View style={{ width: SIZES.width * 0.9, marginVertical: 30 }}>
-                <Text style={{ alignSelf: 'flex-start', color: appTheme.textColor3, ...FONTS.body4 }}>Top Results</Text>
-            </View>
-        )
+        if (searchCoin !== '' && FilteredDataCondition().length !== 0) {
+            return (
+                <View style={{ width: SIZES.width * 0.9, marginVertical: 30 }}>
+                    <Text style={{ alignSelf: 'flex-start', color: appTheme.textColor3, ...FONTS.body4 }}>Top Results</Text>
+                </View>
+            )
+
+        }
+
     }
 
 
     const AboutToSearch = () => {
         return (
 
-
             <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
 
-                <Image style={{}} source={require('../../assets/images/Unamused.png')} />
+                <Image style={{}} source={require('../../assets/images/Thinking.png')} />
                 <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
                 <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Sorry, you'll have to make a search to get any result here.</Text>
 
             </View>
 
         )
+    }
+    const Notfound = () => {
+
+        return (
+            <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
+                <Image style={{}} source={require('../../assets/images/Sad.png')} />
+                <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>No result found</Text>
+                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Sorry, we couldn't find any result in our database</Text>
+            </View>
+        )
+
+
+
     }
 
 
@@ -157,6 +173,12 @@ const Search = ({ appTheme, navigation }) => {
                 maxToRenderPerBatch={1}
                 windowSize={3}
                 renderItem={CoinListRenderItem}
+                ListHeaderComponent={
+
+                    searchCoin !== '' && FilteredDataCondition().length === 0 && Notfound()
+
+
+                }
 
             />
 

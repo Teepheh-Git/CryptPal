@@ -22,7 +22,7 @@ export const getCoinMarketFailure = (error) => ({
 
 
 
-export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50, page = 1) => {
+export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250, page = 1) => {
 
     // console.log(coins)
 

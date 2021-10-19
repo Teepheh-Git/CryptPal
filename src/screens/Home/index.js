@@ -18,7 +18,6 @@ import { useNetInfo } from '@react-native-community/netinfo';
 
 
 
-
 const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
 
@@ -81,6 +80,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
 
 
+
     CoinListRenderItem = ({ item }) =>
         <CoinList
             name={item.name}
@@ -91,10 +91,6 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
             chartData={item?.sparkline_in_7d?.price}
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
         />
-
-
-
-
 
 
 
@@ -131,7 +127,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
                                 <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers ✅</Text>
                                 <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
                             </View>
-                            <TouchableOpacity onPress={() => console.warn('go to see all')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('TopMovers')}>
                                 <Text style={[styles.seeAll, { color: appTheme.textColor2 }]}>See all</Text>
                             </TouchableOpacity>
 
