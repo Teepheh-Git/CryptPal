@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Image, TextInput, FlatList, Text } from 'react-native'
+import { StyleSheet, View, Image, TextInput, FlatList, Text, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import CoinList from '../../components/CoinList'
 import CustomHeader from '../../components/CustomHeader'
@@ -25,7 +25,7 @@ const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", spar
 
 }
 
-const Search = ({ appTheme, navigation }) => {
+const Search = ({ appTheme, navigation, e }) => {
 
 
 

@@ -1,14 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import CustomHeader from '../../components/CustomHeader'
 import { icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CoinList from '../../components/CoinList'
+import { getCoinMarket } from '../../stores/market/marketActions'
+import { GetMarketData, TopMoverCoins } from '../Home'
 
 
-const TopMovers = ({ appTheme, navigation, getCoinMarket, coins }) => {
+const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
 
+
+
+
+    const [coinFetched, setCoinFetched] = useState([])
+
+
+
+    useEffect(() => {
+
+        const FetchMarketData = async () => {
+
+            const MarketData = await GetMarketData()
+            setCoinFetched(MarketData)
+        }
+
+        FetchMarketData()
+
+    }, [])
 
 
 
@@ -27,7 +47,7 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins }) => {
 
 
     return (
-        <SafeAreaView style={styles.Container, { backgroundColor: appTheme.backgroundColor2 }}>
+        <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
             <View>
                 <CustomHeader title='Top Movers ✅' onPress={() => navigation.goBack()} />
@@ -36,12 +56,12 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins }) => {
             <View>
 
                 <FlatList
-                    data={coins}
+                    data={coinFetched.sort(TopMoverCoins)}
                     keyExtractor={(item) => item.id}
                     renderItem={CoinListRenderItem}
                     showsVerticalScrollIndicator={false}
                     initialNumToRender={6}
-                    maxToRenderPerBatch={1}
+                    maxToRenderPerBatch={2}
                     windowSize={3}
 
                 />
@@ -63,8 +83,8 @@ const styles = StyleSheet.create({
 
         flex: 1,
         alignItems: 'center',
-        height: SIZES.height,
-        justifyContent: 'center',
+        // height: SIZES.height,
+        // justifyContent: 'center',
         width: SIZES.width
     }
 })

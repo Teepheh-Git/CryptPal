@@ -14,43 +14,70 @@ import { useNetInfo } from '@react-native-community/netinfo';
 
 
 
+export const GetMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50,) => {
+
+    let page = 1
+
+
+    try {
+        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+        const data = response.data;
+        return data
+
+    } catch (e) {
+        console.log(e.message)
+    }
+
+}
+
+
+
+export function TopMoverCoins(a, b) {
+    return b.price_change_percentage_24h - a.price_change_percentage_24h
+}
 
 
 
 
-const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
+const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
-
-
-    // const netInfo = useNetInfo()
-    // console.log(netInfo.isInternetReachable)
 
 
     const [homePageLoading, setHomePageLoading] = useState(true)
+    const [coinFetched, setCoinFetched] = useState([])
+    const [coinListFetched, setCoinListFetched] = useState([])
 
 
 
-    // console.log(coins)
-
-
-    if (coins.length > 0) {
+    if (coinFetched.length > 0 && coinListFetched.length > 0) {
         setTimeout(() => {
             setHomePageLoading(false)
-        }, 2000)
+        }, 200)
     }
 
 
 
-    useFocusEffect(
-        useCallback(() => {
 
 
-            getCoinMarket()
+    useEffect(() => {
 
-        }, [])
-    )
+        const FetchCardMarketData = async () => {
 
+            const MarketData = await GetMarketData()
+            setCoinFetched(MarketData)
+        }
+
+        const FetchListMarketData = async () => {
+            const ListMarketData = await GetMarketData()
+            setCoinListFetched(ListMarketData)
+
+        }
+
+        FetchCardMarketData();
+        FetchListMarketData();
+
+    }, [])
 
 
 
@@ -106,11 +133,11 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
 
             {/* Market Coins Lists */}
             <FlatList
-                data={coins}
+                data={coinListFetched}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={6}
-                maxToRenderPerBatch={1}
+                initialNumToRender={15}
+                maxToRenderPerBatch={2}
                 windowSize={3}
                 renderItem={CoinListRenderItem}
                 ListFooterComponent={
@@ -127,7 +154,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
                                 <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers ✅</Text>
                                 <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate('TopMovers')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('TopMovers', { ...item })}>
                                 <Text style={[styles.seeAll, { color: appTheme.textColor2 }]}>See all</Text>
                             </TouchableOpacity>
 
@@ -137,12 +164,12 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation }) => {
                         {/* Coin Card section */}
                         <View style={styles.coinCard}>
                             <FlatList
-                                data={coins}
+                                data={coinFetched.sort(TopMoverCoins)}
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                initialNumToRender={4}
-                                maxToRenderPerBatch={1}
+                                initialNumToRender={8}
+                                maxToRenderPerBatch={2}
                                 windowSize={3}
                                 renderItem={CoinCardRenderItem}
                             />

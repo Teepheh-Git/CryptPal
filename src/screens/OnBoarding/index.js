@@ -92,18 +92,6 @@ const OnBoarding = ({ appTheme }) => {
 
 
 
-
-    // if (!homePageLoading) {
-    //     return (
-    //         <View>
-    //             <ActivityIndicator size="small" color="purple" />
-    //         </View>
-    //     )
-
-    // }
-
-
-
     useEffect(() => {
 
 

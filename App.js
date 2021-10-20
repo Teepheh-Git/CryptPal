@@ -4,9 +4,8 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-import Router from './router';
-import OnBoarding from './src/screens/OnBoarding';
-import BottomTabs from './src/navigation/';
+import AppRoute from './router/AppRoute';
+import OnBoardingRoute from './router/OnBoardingRoute';
 import { ActivityIndicator, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import rootReducer from './src/stores/rootReducer';
@@ -23,7 +22,6 @@ const Loading = () => {
   return (
     <View >
       <ActivityIndicator size={'large'} />
-
     </View >
   )
 
@@ -35,9 +33,8 @@ const App = () => {
     SplashScreen.hide();
   }, [])
 
-  const [loading, setLoading] = useState(true)
   const [viewedOnboarding, setViewedOnboarding] = useState(false)
-
+  const [loading, setLoading] = useState(true)
 
 
 
@@ -55,6 +52,7 @@ const App = () => {
       const value = await AsyncStorage.getItem('@viewedOnboarding')
       if (value !== null) {
         setViewedOnboarding(true)
+
       }
 
     } catch (error) {
@@ -63,7 +61,6 @@ const App = () => {
     } finally {
       setLoading(false)
     }
-
   }
 
   useEffect(() => {
@@ -82,19 +79,8 @@ const App = () => {
 
       <NavigationContainer>
 
-        {/* {loading ? <Loading /> : viewedOnboarding ? <BottomTabs /> : */}
 
-
-
-
-        <Router />
-
-
-
-
-
-        {/* } */}
-
+        {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
 
 
 
