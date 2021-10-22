@@ -2,59 +2,108 @@ import { useFocusEffect } from '@react-navigation/core';
 import axios from 'axios';
 import moment from 'moment';
 import React, { useCallback, useState, useEffect } from 'react'
-import { StyleSheet, Image, Text, View, TouchableOpacity, FlatList, TextInput } from 'react-native'
+import {
+    StyleSheet, Image, Text, View, TouchableOpacity, FlatList, ActivityIndicator
+    , Animated
+} from 'react-native'
 import { connect } from 'react-redux';
 import CoinCard from '../../components/CoinCard';
 import CoinList from '../../components/CoinList';
-import { COLORS, icons, SIZES } from '../../constants';
+
+import { COLORS, FONTS, icons, SIZES } from '../../constants';
 import { getCoinMarket } from '../../stores/market/marketActions';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from 'lottie-react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
 
 
+const listTab = [
+    {
+        key: 1,
+        status: 'Popular'
+    },
+    {
+        key: 2,
+        status: '$100+'
+    },
+    {
+        key: 3,
+        status: '$5,000+'
+    },
+    {
+        key: 4,
+        status: '$10,000+'
+    },
 
-export const GetMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 50,) => {
-
-    let page = 1
-
-
-    try {
-        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
-        const data = response.data;
-        return data
-
-    } catch (e) {
-        console.log(e.message)
-    }
-
-}
+]
 
 
 
 export function TopMoverCoins(a, b) {
     return b.price_change_percentage_24h - a.price_change_percentage_24h
 }
+function MarketCapSort(a, b) {
+    return a.market_cap_rank - b.market_cap_rank
+}
 
+
+
+let AnimatedHeaderValue = new Animated.Value(0)
+const HeaderMaxHeight = 90
+const HeaderMinHeight = 74
 
 
 
 const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
-
-
-
+    const [currentPage, setCurrentPage] = useState(1)
     const [homePageLoading, setHomePageLoading] = useState(true)
     const [coinFetched, setCoinFetched] = useState([])
     const [coinListFetched, setCoinListFetched] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [status, setStatus] = useState('Popular')
+    const [filteredDataList, setFilteredDataList] = useState(coinListFetched)
 
 
+    const GetCardMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 25,) => {
 
-    if (coinFetched.length > 0 && coinListFetched.length > 0) {
-        setTimeout(() => {
-            setHomePageLoading(false)
-        }, 200)
+        try {
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const Data = response.data;
+            return Data
+
+        } catch (e) {
+            console.log(e.message)
+        }
+
     }
+    const GetListMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 200,) => {
+
+
+        try {
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${currentPage}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const Data = coinListFetched.concat(response.data);
+            setIsLoading(false)
+            // setFilteredDataList(coinListFetched)
+
+            return Data
+
+
+        } catch (e) {
+            console.log(e.message)
+        }
+
+    }
+
+
+
+
+
+    // if (coinFetched.length > 0 && coinListFetched.length > 0) {
+    setTimeout(() => {
+        setHomePageLoading(false)
+    }, 200)
+    // }
 
 
 
@@ -62,22 +111,38 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     useEffect(() => {
 
-        const FetchCardMarketData = async () => {
-
-            const MarketData = await GetMarketData()
-            setCoinFetched(MarketData)
-        }
 
         const FetchListMarketData = async () => {
-            const ListMarketData = await GetMarketData()
+            const ListMarketData = await GetListMarketData()
             setCoinListFetched(ListMarketData)
+            setFilteredDataList(coinListFetched)
+
 
         }
 
-        FetchCardMarketData();
         FetchListMarketData();
 
+
+    }, [currentPage])
+
+
+
+
+
+
+    useEffect(() => {
+        const FetchCardMarketData = async () => {
+
+            const MarketData = await GetCardMarketData()
+            setCoinFetched(MarketData)
+        }
+        FetchCardMarketData();
+
+
+
     }, [])
+
+
 
 
 
@@ -91,6 +156,25 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
             </View>
         )
     }
+
+
+    RenderFooter = () => {
+        return (
+            isLoading ?
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2, marginBottom: 90 }}>
+
+                    <ActivityIndicator size='large' color={appTheme.textColor2} />
+
+                </View> : null
+        )
+    }
+    HandleLoadMore = () => {
+
+        setCurrentPage(currentPage + 1)
+        setIsLoading(true)
+
+    }
+
 
 
 
@@ -121,29 +205,68 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
+    const AnimateHeaderHeight = AnimatedHeaderValue.interpolate({
+        inputRange: [0, HeaderMaxHeight - HeaderMinHeight],
+        outputRange: [HeaderMaxHeight, HeaderMinHeight],
+        extrapolate: 'clamp',
+    })
+
+
+
+    setStatusFilter = status => {
+
+        if (status === 'Popular') {
+
+            setFilteredDataList(coinListFetched)
+
+
+        } else if (status === '$100+') {
+
+            setFilteredDataList([...coinListFetched.filter(item => item.current_price < 500)])
+
+        }
+
+
+        else if (status === '$5,000+') {
+            setFilteredDataList([...coinListFetched.filter(item => item.current_price < 5000)])
+        }
+        else if (status === '$10,000+') {
+            setFilteredDataList([...coinListFetched.filter(item => item.current_price > 10000)])
+        }
+
+
+        setStatus(status)
+    }
+
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
             {/* Header Section */}
-            <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2, }]}>
+            <Animated.View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2, height: AnimateHeaderHeight }]}>
                 <Image resizeMode='cover' style={[styles.imgHeader, { tintColor: appTheme.tintColor }]} source={require('../../assets/images/logo.png')} />
-            </View>
+            </Animated.View>
 
 
             {/* Market Coins Lists */}
             <FlatList
-                data={coinListFetched}
-                keyExtractor={item => item.id}
+                data={filteredDataList}
+                keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={15}
                 maxToRenderPerBatch={2}
-                windowSize={3}
+                // windowSize={3}
                 renderItem={CoinListRenderItem}
+                onEndReached={HandleLoadMore}
+                onEndReachedThreshold={0}
+                scrollEventThrottle={16}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
+                    { useNativeDriver: false }
+                )}
+
                 ListFooterComponent={
-                    <View style={{
-                        marginBottom: SIZES.height * 0.15
-                    }} />
+                    RenderFooter
                 }
                 ListHeaderComponent={
                     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
@@ -165,7 +288,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                         <View style={styles.coinCard}>
                             <FlatList
                                 data={coinFetched.sort(TopMoverCoins)}
-                                keyExtractor={item => item.id}
+                                keyExtractor={(item, index) => index.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                                 initialNumToRender={8}
@@ -177,14 +300,37 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
-                        {/* Market Trend Tabs */}
-                        <View>
-                        </View>
+
 
                         {/* Market Trends  */}
                         <View style={styles.marketTrendsContainer}>
                             <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends 💰</Text>
                         </View>
+
+
+                        {/* Market Trend Tabs */}
+
+                        <View style={styles.listTab}  >
+
+                            {
+                                listTab.map(i => (
+
+
+                                    < TouchableOpacity
+                                        style={[styles.btnTab, status === i.status && styles.btnTabActive]}
+                                        onPress={() => setStatusFilter(i.status)}
+
+                                    >
+                                        <Text style={[styles.textTab, status === i.status && styles.textTabActive]}>{i.status}</Text>
+                                    </TouchableOpacity>
+                                ))
+
+                            }
+                        </View>
+
+
+
+
                     </View>
                 }
             />
@@ -202,7 +348,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerContainer: {
-        height: 73.73,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -211,7 +358,8 @@ const styles = StyleSheet.create({
     },
     imgHeader: {
         width: 85.84,
-        height: 73.73,
+        height: 74,
+        top: 5
     },
     topMoversContainer: {
         flexDirection: 'row',
@@ -250,6 +398,33 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         lineHeight: 24
 
+    },
+    listTab: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: SIZES.width * 0.9
+
+    },
+    btnTab: {
+        height: 40,
+        marginHorizontal: 5,
+        borderWidth: 0.25,
+        alignItems: 'center',
+        borderColor: COLORS.grey,
+        borderRadius: 5,
+        justifyContent: 'center'
+
+    }, textTab: {
+        ...FONTS.body5,
+        marginHorizontal: 5,
+        color: COLORS.grey,
+    },
+    btnTabActive: {
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
+    },
+    textTabActive: {
+        color: 'white'
     }
 })
 
