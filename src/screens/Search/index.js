@@ -8,7 +8,7 @@ import { FONTS, icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
-const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250,) => {
+const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 25,) => {
 
     let page = 1
 

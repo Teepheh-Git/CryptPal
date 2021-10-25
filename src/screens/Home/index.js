@@ -19,20 +19,20 @@ import { useNetInfo } from '@react-native-community/netinfo';
 
 const listTab = [
     {
-        key: 1,
+        key: '1',
         status: 'Popular'
     },
     {
-        key: 2,
-        status: '$100+'
+        key: '2',
+        status: 'A-Z'
     },
     {
-        key: 3,
+        key: '3',
         status: '$5,000+'
     },
     {
-        key: 4,
-        status: '$10,000+'
+        key: '4',
+        status: 'Volume'
     },
 
 ]
@@ -42,15 +42,17 @@ const listTab = [
 export function TopMoverCoins(a, b) {
     return b.price_change_percentage_24h - a.price_change_percentage_24h
 }
-function MarketCapSort(a, b) {
-    return a.market_cap_rank - b.market_cap_rank
+function VolumeSort(a, b) {
+    return b.total_volume - a.total_volume
+} function NameSort(a, b) {
+    return a.name - b.name
 }
 
 
 
-let AnimatedHeaderValue = new Animated.Value(0)
-const HeaderMaxHeight = 90
-const HeaderMinHeight = 74
+// let AnimatedHeaderValue = new Animated.Value(0)
+// const HeaderMaxHeight = 90
+// const HeaderMinHeight = 74
 
 
 
@@ -64,12 +66,16 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
     const [status, setStatus] = useState('Popular')
     const [filteredDataList, setFilteredDataList] = useState(coinListFetched)
 
+    const CardCoinFetched = coinFetched.sort(TopMoverCoins)
 
-    const GetCardMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 25,) => {
 
+
+    const GetCardMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 249,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = response.data;
+
+            // console.log(Data)
             return Data
 
         } catch (e) {
@@ -77,17 +83,14 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         }
 
     }
-    const GetListMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 200,) => {
 
-
+    const GetListMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 100,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${currentPage}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = coinListFetched.concat(response.data);
             setIsLoading(false)
-            // setFilteredDataList(coinListFetched)
-
+            setFilteredDataList(coinListFetched)
             return Data
-
 
         } catch (e) {
             console.log(e.message)
@@ -97,52 +100,38 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
+    if (coinFetched.length > 0 && coinListFetched.length > 0) {
+        setTimeout(() => {
+            setHomePageLoading(false)
+            setFilteredDataList(coinListFetched)
 
-
-    // if (coinFetched.length > 0 && coinListFetched.length > 0) {
-    setTimeout(() => {
-        setHomePageLoading(false)
-    }, 200)
-    // }
-
-
+        }, 200)
+    }
 
 
 
     useEffect(() => {
-
-
         const FetchListMarketData = async () => {
             const ListMarketData = await GetListMarketData()
             setCoinListFetched(ListMarketData)
-            setFilteredDataList(coinListFetched)
-
-
+            // setFilteredDataList(coinListFetched)
         }
-
         FetchListMarketData();
-
 
     }, [currentPage])
 
 
 
-
-
-
     useEffect(() => {
         const FetchCardMarketData = async () => {
-
             const MarketData = await GetCardMarketData()
             setCoinFetched(MarketData)
         }
         FetchCardMarketData();
-
+        // setFilteredDataList(coinListFetched)
 
 
     }, [])
-
-
 
 
 
@@ -150,9 +139,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#FFFFFF" }}>
-
                 <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/cryptpalVid.mp4.lottie.json')} autoPlay loop />
-
             </View>
         )
     }
@@ -162,22 +149,16 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         return (
             isLoading ?
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2, marginBottom: 90 }}>
-
                     <ActivityIndicator size='large' color={appTheme.textColor2} />
-
                 </View> : null
         )
     }
-    HandleLoadMore = () => {
 
+
+    HandleLoadMore = () => {
         setCurrentPage(currentPage + 1)
         setIsLoading(true)
-
     }
-
-
-
-
 
 
     CoinCardRenderItem = ({ item }) =>
@@ -187,9 +168,6 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
             currentPrice={item?.current_price}
             priceChangePercentage24h={item?.price_change_percentage_24h}
         />
-
-
-
 
 
     CoinListRenderItem = ({ item }) =>
@@ -205,37 +183,31 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
-    const AnimateHeaderHeight = AnimatedHeaderValue.interpolate({
-        inputRange: [0, HeaderMaxHeight - HeaderMinHeight],
-        outputRange: [HeaderMaxHeight, HeaderMinHeight],
-        extrapolate: 'clamp',
-    })
+    // const AnimateHeaderHeight = AnimatedHeaderValue.interpolate({
+    //     inputRange: [0, HeaderMaxHeight - HeaderMinHeight],
+    //     outputRange: [HeaderMaxHeight, HeaderMinHeight],
+    //     extrapolate: 'clamp',
+    // })
 
 
 
     setStatusFilter = status => {
 
+        setStatus(status)
+
+
         if (status === 'Popular') {
-
             setFilteredDataList(coinListFetched)
-
-
-        } else if (status === '$100+') {
-
-            setFilteredDataList([...coinListFetched.filter(item => item.current_price < 500)])
-
         }
-
-
-        else if (status === '$5,000+') {
+        if (status === 'A-Z') {
+            setFilteredDataList([...coinListFetched.filter(item => item.name)])
+        }
+        if (status === '$5,000+') {
             setFilteredDataList([...coinListFetched.filter(item => item.current_price < 5000)])
         }
-        else if (status === '$10,000+') {
-            setFilteredDataList([...coinListFetched.filter(item => item.current_price > 10000)])
+        if (status === 'Volume') {
+            setFilteredDataList([...coinListFetched.sort(VolumeSort)])
         }
-
-
-        setStatus(status)
     }
 
 
@@ -243,9 +215,9 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
             {/* Header Section */}
-            <Animated.View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2, height: AnimateHeaderHeight }]}>
+            <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2, /*height: AnimateHeaderHeight*/ }]}>
                 <Image resizeMode='cover' style={[styles.imgHeader, { tintColor: appTheme.tintColor }]} source={require('../../assets/images/logo.png')} />
-            </Animated.View>
+            </View>
 
 
             {/* Market Coins Lists */}
@@ -260,11 +232,10 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 onEndReached={HandleLoadMore}
                 onEndReachedThreshold={0}
                 scrollEventThrottle={16}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
-                    { useNativeDriver: false }
-                )}
-
+                // onScroll={Animated.event(
+                //     [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
+                //     { useNativeDriver: false }
+                // )}
                 ListFooterComponent={
                     RenderFooter
                 }
@@ -287,13 +258,13 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                         {/* Coin Card section */}
                         <View style={styles.coinCard}>
                             <FlatList
-                                data={coinFetched.sort(TopMoverCoins)}
+                                data={CardCoinFetched.slice(0, 5)}
                                 keyExtractor={(item, index) => index.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                initialNumToRender={8}
+                                initialNumToRender={4}
                                 maxToRenderPerBatch={2}
-                                windowSize={3}
+                                // windowSize={3}
                                 renderItem={CoinCardRenderItem}
                             />
                         </View>
@@ -314,15 +285,13 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
                             {
                                 listTab.map(i => (
-
-
-                                    < TouchableOpacity
+                                    <TouchableOpacity
                                         style={[styles.btnTab, status === i.status && styles.btnTabActive]}
                                         onPress={() => setStatusFilter(i.status)}
-
                                     >
                                         <Text style={[styles.textTab, status === i.status && styles.textTabActive]}>{i.status}</Text>
                                     </TouchableOpacity>
+
                                 ))
 
                             }
@@ -407,7 +376,8 @@ const styles = StyleSheet.create({
     },
     btnTab: {
         height: 40,
-        marginHorizontal: 5,
+        marginHorizontal: 10,
+        marginVertical: 5,
         borderWidth: 0.25,
         alignItems: 'center',
         borderColor: COLORS.grey,
