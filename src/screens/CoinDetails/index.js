@@ -13,7 +13,7 @@ import CoinDetailsInfo from '../../components/CoinDetailsInfo'
 import moment from 'moment'
 
 
-const CoinDetails = ({ appTheme, route, coins }) => {
+const CoinDetails = ({ appTheme, route, coins, navigation }) => {
 
 
 
@@ -25,14 +25,9 @@ const CoinDetails = ({ appTheme, route, coins }) => {
     }, [])
 
 
-    navigation = useNavigation()
+    // navigation = useNavigation()
 
     const dataFromHome = route.params
-
-
-
-    // console.log(dataFromHome?.sparkline_in_7d?.price)
-    // console.log(coins[0]?.sparkline_in_7d?.price)
 
 
     return (
@@ -91,7 +86,7 @@ const CoinDetails = ({ appTheme, route, coins }) => {
                     <CoinDetailsInfo title={'ALL TIME LOW'} value={'$ ' + dataFromHome.atl.toLocaleString("en-US")} />
                     <CoinDetailsInfo title={'ALL TIME LOW DATE'} value={moment(dataFromHome.atl_date).format('DD/MM/YYYY')} />
                     <CoinDetailsInfo title={'CIRCULATING SUPPLY'} value={'$ ' + dataFromHome?.circulating_supply?.toLocaleString("en-US")} />
-                    <CoinDetailsInfo title={'TOTAL SUPPLY'} value={'$ ' + dataFromHome.total_supply.toLocaleString("en-US")} />
+                    {/* <CoinDetailsInfo title={'TOTAL SUPPLY'} value={'$ ' + dataFromHome.total_supply.toLocaleString("en-US")} /> */}
 
 
 

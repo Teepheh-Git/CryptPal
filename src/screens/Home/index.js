@@ -50,12 +50,6 @@ function VolumeSort(a, b) {
 
 
 
-// let AnimatedHeaderValue = new Animated.Value(0)
-// const HeaderMaxHeight = 90
-// const HeaderMinHeight = 74
-
-
-
 const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -74,28 +68,24 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = response.data;
-
-            // console.log(Data)
             return Data
-
         } catch (e) {
-            console.log(e.message)
+            alert(e.message)
         }
 
     }
 
-    const GetListMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 100,) => {
+    const GetListMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 10,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${currentPage}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = coinListFetched.concat(response.data);
             setIsLoading(false)
-            setFilteredDataList(coinListFetched)
+            // setFilteredDataList(coinListFetched)
             return Data
 
         } catch (e) {
-            console.log(e.message)
+            alert(e.message)
         }
-
     }
 
 
@@ -104,42 +94,38 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         setTimeout(() => {
             setHomePageLoading(false)
             setFilteredDataList(coinListFetched)
-
-        }, 200)
+        }, 10)
     }
 
 
+    useFocusEffect(
+        useCallback(() => {
+            const FetchListMarketData = async () => {
+                const ListMarketData = await GetListMarketData()
+                setCoinListFetched(ListMarketData)
+            }
+            FetchListMarketData();
+        }, [currentPage]
 
-    useEffect(() => {
-        const FetchListMarketData = async () => {
-            const ListMarketData = await GetListMarketData()
-            setCoinListFetched(ListMarketData)
-            // setFilteredDataList(coinListFetched)
-        }
-        FetchListMarketData();
+        ))
 
-    }, [currentPage])
-
-
-
-    useEffect(() => {
-        const FetchCardMarketData = async () => {
-            const MarketData = await GetCardMarketData()
-            setCoinFetched(MarketData)
-        }
-        FetchCardMarketData();
-        // setFilteredDataList(coinListFetched)
-
-
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            const FetchCardMarketData = async () => {
+                const MarketData = await GetCardMarketData()
+                setCoinFetched(MarketData)
+            }
+            FetchCardMarketData();
+        }, []
+        )
+    )
 
 
 
     if (homePageLoading) {
-
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#FFFFFF" }}>
-                <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/cryptpalVid.mp4.lottie.json')} autoPlay loop />
+                <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/loader.mp4.lottie.json')} autoPlay loop />
             </View>
         )
     }
@@ -191,24 +177,24 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
-    setStatusFilter = status => {
+    // setStatusFilter = status => {
 
-        setStatus(status)
+    //     setStatus(status)
 
 
-        if (status === 'Popular') {
-            setFilteredDataList(coinListFetched)
-        }
-        if (status === 'A-Z') {
-            setFilteredDataList([...coinListFetched.filter(item => item.name)])
-        }
-        if (status === '$5,000+') {
-            setFilteredDataList([...coinListFetched.filter(item => item.current_price < 5000)])
-        }
-        if (status === 'Volume') {
-            setFilteredDataList([...coinListFetched.sort(VolumeSort)])
-        }
-    }
+    //     if (status === 'Popular') {
+    //         setFilteredDataList(coinListFetched)
+    //     }
+    //     if (status === 'A-Z') {
+    //         setFilteredDataList([...coinListFetched.filter(item => item.name)])
+    //     }
+    //     if (status === '$5,000+') {
+    //         setFilteredDataList([...coinListFetched.filter(item => item.current_price < 5000)])
+    //     }
+    //     if (status === 'Volume') {
+    //         setFilteredDataList([...coinListFetched.sort(VolumeSort)])
+    //     }
+    // }
 
 
     return (
@@ -225,17 +211,12 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 data={filteredDataList}
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={15}
+                initialNumToRender={10}
                 maxToRenderPerBatch={2}
-                // windowSize={3}
                 renderItem={CoinListRenderItem}
                 onEndReached={HandleLoadMore}
                 onEndReachedThreshold={0}
                 scrollEventThrottle={16}
-                // onScroll={Animated.event(
-                //     [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
-                //     { useNativeDriver: false }
-                // )}
                 ListFooterComponent={
                     RenderFooter
                 }
@@ -258,7 +239,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                         {/* Coin Card section */}
                         <View style={styles.coinCard}>
                             <FlatList
-                                data={CardCoinFetched.slice(0, 5)}
+                                data={CardCoinFetched.slice(0, 7)}
                                 keyExtractor={(item, index) => index.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
@@ -281,7 +262,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
                         {/* Market Trend Tabs */}
 
-                        <View style={styles.listTab}  >
+                        {/* <View style={styles.listTab}  >
 
                             {
                                 listTab.map(i => (
@@ -295,7 +276,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                                 ))
 
                             }
-                        </View>
+                        </View> */}
 
 
 

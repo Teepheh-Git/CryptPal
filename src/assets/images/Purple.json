@@ -1,0 +1,76 @@
+{
+  "Rectangle 1": {
+    "anchorPoint": "MIDDLECENTER",
+    "keyframes": {
+      "opacity": [
+        {
+          "id": "0780d5b4-4d70-4086-8bf1-626dfff360e6",
+          "ms": 0,
+          "property": "opacity",
+          "value": 0,
+          "easing": "linear",
+          "easingCurve": [
+            0.42,
+            0,
+            0.58,
+            1
+          ]
+        },
+        {
+          "id": "99c4f73f-a9d3-4245-8317-c4eee0612e3e",
+          "ms": 304,
+          "property": "opacity",
+          "value": 1,
+          "easing": "linear",
+          "easingCurve": [
+            0.42,
+            0,
+            0.58,
+            1
+          ]
+        },
+        {
+          "id": "57553810-1e05-41e2-91b6-1aef1023d3d1",
+          "ms": 600,
+          "property": "opacity",
+          "value": 0,
+          "easing": "linear",
+          "easingCurve": [
+            0.42,
+            0,
+            0.58,
+            1
+          ]
+        },
+        {
+          "id": "7cc503d8-9883-4bd2-964d-e5de962a7d6f",
+          "ms": 900,
+          "property": "opacity",
+          "value": 1,
+          "easing": "linear",
+          "easingCurve": [
+            0.42,
+            0,
+            0.58,
+            1
+          ]
+        }
+      ],
+      "height": [
+        {
+          "id": "6835452c-a704-43ed-9b89-ce42a743745f",
+          "ms": 0,
+          "property": "height",
+          "value": 57.00590133666992,
+          "easing": "linear",
+          "easingCurve": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  }
+}

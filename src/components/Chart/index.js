@@ -30,7 +30,7 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
         if (value === '') {
             return ''
         }
-        return `$${Number(value).toFixed(2)}`
+        return `$${Number(value).toLocaleString("en-US")}`
     }
     const formatDateTime = (value) => {
         'worklet';
@@ -151,6 +151,7 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
                             position: 'absolute',
                             left: -10,
                             width: 80,
+                            justifyContent: 'center',
                             // height: SIZES.width * 0.2,
                             bottom: 25,
                             borderRadius: 15,
@@ -174,6 +175,10 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
                                 style={{
                                     color: appTheme.textColor,
                                     ...FONTS.h3,
+                                    // backgroundColor: 'red',
+                                    padding: 5,
+                                    bottom: 5
+
 
                                 }} />
 

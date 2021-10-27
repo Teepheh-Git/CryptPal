@@ -9,6 +9,7 @@ const home = require("../assets/icons/home.png")
 const star = require("../assets/icons/star.png")
 const backArrow = require("../assets/icons/backArrow.png")
 const overviewGraph = require("../assets/icons/overviewGraph.png")
+const filterButton = require("../assets/icons/filterButton.png")
 
 export default {
     settings,
@@ -21,5 +22,6 @@ export default {
     home,
     star,
     backArrow,
-    overviewGraph
+    overviewGraph,
+    filterButton,
 }
