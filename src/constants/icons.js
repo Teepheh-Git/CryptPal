@@ -10,6 +10,7 @@ const star = require("../assets/icons/star.png")
 const backArrow = require("../assets/icons/backArrow.png")
 const overviewGraph = require("../assets/icons/overviewGraph.png")
 const filterButton = require("../assets/icons/filterButton.png")
+const FavCheck = require("../assets/icons/FavCheck.png")
 
 export default {
     settings,
@@ -24,4 +25,5 @@ export default {
     backArrow,
     overviewGraph,
     filterButton,
+    FavCheck
 }

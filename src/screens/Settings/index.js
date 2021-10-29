@@ -32,6 +32,17 @@ const Settings = ({ appTheme, toggleTheme }) => {
 
     }
 
+    const ClearFavorites = async () => {
+        try {
+            await AsyncStorage.removeItem('FavoriteCoin')
+
+        } catch (error) {
+            console.log('Error Favorite: ', error)
+
+        }
+
+    }
+
 
     return (
         <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
@@ -49,6 +60,13 @@ const Settings = ({ appTheme, toggleTheme }) => {
                 style={{ height: 60, width: "50%", backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
                 onPress={() => ClearOnboarding()}>
                 <Text>Reset Onboarding </Text>
+
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={{ height: 60, width: "50%", backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
+                onPress={() => ClearFavorites()}>
+                <Text>Clear Favorites </Text>
 
             </TouchableOpacity>
 

@@ -18,7 +18,6 @@ const store = createStore(
 )
 
 const Loading = () => {
-
   return (
     <View >
       <ActivityIndicator size={'large'} />
@@ -28,31 +27,27 @@ const Loading = () => {
 }
 
 const App = () => {
-
-  useEffect(() => {
-    SplashScreen.hide();
-  }, [])
-
   const [viewedOnboarding, setViewedOnboarding] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    SplashScreen.hide();
+    CheckOnboarding();
+  }, [])
 
 
 
 
-
-
-
-
+  // useEffect(() => {
+  //   CheckOnboarding();
+  // }, [])
 
 
   const CheckOnboarding = async () => {
-
     try {
       const value = await AsyncStorage.getItem('@viewedOnboarding')
       if (value !== null) {
         setViewedOnboarding(true)
-
       }
 
     } catch (error) {
@@ -63,28 +58,13 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    CheckOnboarding();
-  }, [])
-
-
-
-
-
 
 
   return (
 
     <Provider store={store}>
-
       <NavigationContainer>
-
-
         {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
-
-
-
-
       </NavigationContainer>
     </Provider>
   );

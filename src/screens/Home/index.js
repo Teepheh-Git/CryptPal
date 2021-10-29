@@ -15,6 +15,7 @@ import { getCoinMarket } from '../../stores/market/marketActions';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from 'lottie-react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const listTab = [
@@ -64,6 +65,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
+
     const GetCardMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 249,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
@@ -98,6 +100,21 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
     }
 
 
+    // if (coinListFetched.length == undefined || coinFetched.length == undefined) {
+
+    //     return (
+    //         <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', top: SIZES.height * 0.2 }}>
+    //             <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
+    //             <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network Error! </Text>
+    //             <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
+    //         </View>
+
+    //     )
+
+    // }
+
+
+
     useFocusEffect(
         useCallback(() => {
             const FetchListMarketData = async () => {
@@ -105,7 +122,10 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 setCoinListFetched(ListMarketData)
             }
             FetchListMarketData();
-        }, [currentPage]
+            // console.log('THE COINS: ' + filteredDataList)
+
+        }, [currentPage],
+
 
         ))
 
@@ -119,6 +139,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
         }, []
         )
     )
+
 
 
 
@@ -195,6 +216,14 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
     //         setFilteredDataList([...coinListFetched.sort(VolumeSort)])
     //     }
     // }
+
+
+
+
+
+
+
+
 
 
     return (
