@@ -27,7 +27,7 @@ import constants from '../../constants/constants'
 
 
 
-export function TopMoverCoins(a, b) {
+function TopMoverCoins(a, b) {
     return b.price_change_percentage_24h - a.price_change_percentage_24h
 }
 
@@ -40,11 +40,11 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
     let currencySignList = ['$', '₦', '¥', '€']
 
 
-    const [currentPage, setCurrentPage] = useState(1)
+    // const [currentPage, setCurrentPage] = useState(1)
     const [homePageLoading, setHomePageLoading] = useState(true)
     const [coinFetched, setCoinFetched] = useState([])
     const [coinListFetched, setCoinListFetched] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
     const [currency, setCurrency] = useState('usd')
     const [currencySign, setCurrencySign] = useState('$')
     const [status, setStatus] = useState('Popular')
@@ -58,7 +58,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
 
 
-    const GetCardMarketData = async (orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 240,) => {
+    const GetCardMarketData = async (orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 250,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = response.data;
@@ -69,12 +69,12 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     }
 
-    const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", perPage = 7,) => {
+    const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${1}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             // const Data = coinListFetched.concat(response.data);
             const Data = response.data;
-            setIsLoading(false)
+            // setIsLoading(false)
             // setFilteredDataList(coinListFetched)
             return Data
 
@@ -118,7 +118,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
             }
             FetchListMarketData();
 
-        }, [currency, currentPage, orderBy, category],
+        }, [currency, orderBy, category],
 
 
         ))
@@ -139,27 +139,29 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     if (homePageLoading) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#FFFFFF" }}>
-                <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/loader.mp4.lottie.json')} autoPlay loop />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2 }}>
+                {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
+
+
             </View>
         )
     }
 
 
-    RenderFooter = () => {
-        return (
-            isLoading ?
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2, marginBottom: 90 }}>
-                    <ActivityIndicator size='large' color={appTheme.textColor2} />
-                </View> : null
-        )
-    }
+    // RenderFooter = () => {
+    //     return (
+    //         isLoading ?
+    //             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2, marginBottom: 90 }}>
+    //                 <ActivityIndicator size='large' color={appTheme.textColor2} />
+    //             </View> : null
+    //     )
+    // }
 
 
-    HandleLoadMore = () => {
-        setCurrentPage(currentPage + 1)
-        setIsLoading(true)
-    }
+    // HandleLoadMore = () => {
+    //     setCurrentPage(currentPage + 1)
+    //     setIsLoading(true)
+    // }
 
 
     CoinCardRenderItem = ({ item }) =>
@@ -265,18 +267,17 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
             {/* Market Coins Lists */}
             <FlatList
-                data={filteredDataList}
+                data={coinListFetched?.slice(0, 11)}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={10}
-                maxToRenderPerBatch={2}
+                initialNumToRender={5}
+                maxToRenderPerBatch={1}
                 renderItem={CoinListRenderItem}
                 // onEndReached={HandleLoadMore}
                 // onEndReachedThreshold={0}
                 scrollEventThrottle={16}
                 ListFooterComponent={
-                    RenderFooter
-                }
+                    <View style={{ marginBottom: 70 }} />}
                 ListHeaderComponent={
                     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 

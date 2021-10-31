@@ -4,12 +4,18 @@ import { LineChart } from 'react-native-chart-kit'
 import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
 
-const CoinList = ({ appTheme, priceChangePercentage24h, logoUrl, name, symbol, currentPrice, chartData, onPress }) => {
+const CoinList = ({ appTheme, priceChangePercentage24h, priceChangePercentageInCurrency, logoUrl, name, symbol, currentPrice, chartData, onPress }) => {
 
 
 
     const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
+    const priceChangeColorForChartInCurrency = priceChangePercentageInCurrency > 0 ? COLORS.primary : COLORS.primary;
+
+
+
+
     const priceChangeColor = priceChangePercentage24h > 0 ? '#34C759' : '#EB0000';
+    const priceChangeColorInCurrency = priceChangePercentageInCurrency > 0 ? '#34C759' : '#EB0000';
 
 
 
@@ -69,12 +75,18 @@ const CoinList = ({ appTheme, priceChangePercentage24h, logoUrl, name, symbol, c
 
                 <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{currentPrice?.toLocaleString('en-US')}</Text>
 
-                <View style={styles.coinPercentage}>
+                {priceChangePercentage24h ? <View style={styles.coinPercentage}>
                     {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
                         style={{ width: 13, height: 13, tintColor: priceChangeColor, transform: priceChangePercentage24h > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}
-
                     <Text style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString('en-US')}%</Text>
-                </View>
+                </View> :
+
+                    <View style={styles.coinPercentage}>
+                        {priceChangePercentageInCurrency != 0 && <Image source={icons.arrowUp}
+                            style={{ width: 13, height: 13, tintColor: priceChangeColorInCurrency, transform: priceChangePercentageInCurrency > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}
+                        <Text style={[styles.priceChange, { color: priceChangeColorInCurrency }]}> {priceChangePercentageInCurrency?.toLocaleString('en-US')}%</Text>
+
+                    </View>}
 
 
             </View>

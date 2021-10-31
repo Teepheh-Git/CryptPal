@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import WebView from 'react-native-webview'
+import LottieView from 'lottie-react-native';
 import { connect } from 'react-redux'
 
 const NewsWebPage = ({ appTheme, navigation, route }) => {
@@ -15,9 +16,10 @@ const NewsWebPage = ({ appTheme, navigation, route }) => {
 
 
         return (
-            <View style={[styles.loadingIndicator, { backgroundColor: appTheme.backgroundColor2 }]}>
+            <View style={[styles.loadingIndicator, { backgroundColor: appTheme.backgroundColor }]}>
 
-                <ActivityIndicator size='large' color='purple' />
+                {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
+
 
             </View>
 
@@ -57,7 +59,8 @@ const styles = StyleSheet.create({
         right: 0,
         top: 0,
         bottom: 0,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
 

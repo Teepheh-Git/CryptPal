@@ -6,6 +6,7 @@ import CoinList from '../../components/CoinList'
 import CustomHeader from '../../components/CustomHeader'
 import { FONTS, icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import LottieView from 'lottie-react-native';
 
 
 const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, page = 1, priceChangePerc = "24h", perPage = 25,) => {
@@ -133,8 +134,9 @@ const Search = ({ appTheme, navigation, e }) => {
 
 
     return (
-        searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2 }}>
-            <ActivityIndicator size="large" color={appTheme.textColor2} />
+        searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor }}>
+            {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
+
         </View>
             : <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
                 <CustomHeader title='Search' image={icons.search} onPress={() => navigation.goBack()} />

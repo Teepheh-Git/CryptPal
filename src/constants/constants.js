@@ -61,10 +61,37 @@ const listTab = [
         status: 'Name'
     },
 ]
+const topMoversListTab = [
+    {
+        key: '1',
+        status: '1H'
+    },
+    {
+        key: '2',
+        status: '24H'
+    },
+    {
+        key: '3',
+        status: '7D'
+    }, {
+        key: '4',
+        status: '2W'
+    }, {
+        key: '5',
+        status: '1M'
+    }, {
+        key: '6',
+        status: '6M'
+    }, {
+        key: '7',
+        status: '1Y'
+    },
+]
 const constants = {
     slides,
     categoryList,
-    listTab
+    listTab,
+    topMoversListTab
 };
 
 export default constants;
