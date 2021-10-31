@@ -19,8 +19,6 @@ const Favorite = ({ appTheme, navigation }) => {
             GetCoinFavorite()
         }, [])
     )
-
-
     const GetCoinFavorite = () => {
         AsyncStorage.getItem('FavoriteCoin')
             .then((coinGotten) => {
@@ -56,12 +54,9 @@ const Favorite = ({ appTheme, navigation }) => {
         )
     }
 
-
     UniqueFavCoins = value.reduce((acc, cur) => [
-
         ...acc.filter((obj) => obj.id !== cur.id), cur
     ], [])
-
 
 
     return (
@@ -71,9 +66,7 @@ const Favorite = ({ appTheme, navigation }) => {
                 <View style={styles.titleContainer}>
                     <Text style={[styles.title, { color: appTheme.textColor }]}>Favorite 🌟</Text>
                 </View>
-
             </View>
-
 
 
             {value.length < 1 && EmptyFavorite()}
@@ -86,7 +79,6 @@ const Favorite = ({ appTheme, navigation }) => {
                 maxToRenderPerBatch={2}
                 windowSize={3}
             />
-
         </SafeAreaView>
     )
 }
@@ -96,7 +88,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center',
         width: SIZES.width,
 
     },
@@ -105,8 +96,6 @@ const styles = StyleSheet.create({
         width: SIZES.width * 0.9,
         justifyContent: 'center',
         alignItems: 'center',
-        // flexDirection: 'row',
-        // marginBottom: 5
     },
     titleContainer: {
         width: SIZES.width * 0.775,
@@ -117,7 +106,6 @@ const styles = StyleSheet.create({
     title: {
         ...FONTS.h2,
         marginHorizontal: 5,
-        // backgroundColor: 'red'
     },
 
 })

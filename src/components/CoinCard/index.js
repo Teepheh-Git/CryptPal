@@ -13,8 +13,8 @@ const CoinCard = ({ appTheme, name, currentPrice, priceChangePercentage24h, logo
     return (
         <View style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
             <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }} resizeMode='contain' />
-            <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/USD</Text>
-            <Text style={[styles.coinPrice, { color: appTheme.textColor }]}>${currentPrice.toLocaleString('en-US')}</Text>
+            <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}</Text>
+            <Text style={[styles.coinPrice, { color: appTheme.textColor }]}>{currentPrice.toLocaleString('en-US')}</Text>
             <View style={styles.coinPercentage}>
                 {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
                     style={{ width: 13, height: 13, tintColor: priceChangeColor, transform: priceChangePercentage24h > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}

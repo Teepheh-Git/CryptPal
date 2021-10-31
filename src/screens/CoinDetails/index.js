@@ -19,7 +19,6 @@ import { useFocusEffect } from '@react-navigation/core'
 const CoinDetails = ({ appTheme, route, coins, navigation }) => {
     const dataFromHome = route.params
 
-    const [favCoinSaved, setFavCoinSaved] = useState(dataFromHome)
 
     const [favAdded, setFavAdded] = useState(false)
 
@@ -32,43 +31,32 @@ const CoinDetails = ({ appTheme, route, coins, navigation }) => {
     )
 
 
-    useEffect(() => {
-
-
-
-
-        favCoin.filter(x => {
-            const xValue = x.id
-
-            if (xValue === favCoinSaved.id) {
-                setFavAdded(true)
-            }
-            return xValue
-        })
-    }, [])
-
-
-
-
-
-
     const SaveToFavorites = () => {
         AsyncStorage.getItem('FavoriteCoin')
             .then(fav => {
                 favCoin = fav == null ? [] : JSON.parse(fav)
-                favCoin.push(favCoinSaved);
-                // alert('successfully saved')
-
-                // if (favCoin.filter(x => x.id === favCoinSaved.id)) {
-                // console.log(x.id)
+                favCoin.push(dataFromHome);
                 setFavAdded(true)
-                // }
-                // setFavAdded(true)
                 return AsyncStorage.setItem('FavoriteCoin', JSON.stringify(favCoin))
             })
     }
 
 
+    useEffect(() => {
+        AsyncStorage.getItem('FavoriteCoin')
+            .then(fav => {
+                savedCoins = fav == null ? [] : JSON.parse(fav)
+                function findSaved(savedCoins) {
+                    return savedCoins.id === dataFromHome.id
+                }
+                const CoinStoredCheck = savedCoins.find(findSaved)
+                if (CoinStoredCheck !== undefined) {
+                    setFavAdded(true)
+                }
+                return savedCoins
+            })
+
+    }, [])
 
 
     return (
@@ -81,28 +69,23 @@ const CoinDetails = ({ appTheme, route, coins, navigation }) => {
                 <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
                     <CoinDetailsTitle
-                        name={dataFromHome.name}
-                        logoUrl={dataFromHome.image}
-                        symbol={dataFromHome.symbol.toUpperCase()}
-                        currentPrice={dataFromHome.current_price}
+                        name={dataFromHome?.name}
+                        logoUrl={dataFromHome?.image}
+                        symbol={dataFromHome?.symbol.toUpperCase()}
+                        currentPrice={dataFromHome?.current_price}
                         priceChangePercentage24h={dataFromHome?.price_change_percentage_24h}
                     />
 
 
                     <View>
-
                         <Chart
                             chartPrices={
-                                // coins[0]?.sparkline_in_7d?.price
                                 dataFromHome?.sparkline_in_7d?.price
-                                // selectedCoin ? selectedCoin?.sparkline_in_7d?.price : coins[0]?.sparkline_in_7d?.price
                             }
                             containerStyle={{
                                 marginTop: SIZES.padding,
                                 marginHorizontal: 15,
-                                // alignItems: 'center',
                                 flexDirection: "row",
-                                // backgroundColor: 'red'
                             }} />
 
 
@@ -164,9 +147,6 @@ const styles = StyleSheet.create({
         width: SIZES.width,
         alignItems: 'center',
         alignSelf: 'center'
-
-        // height: SIZES.height
-        // justifyContent: 'center',
     },
 
     coinDetailsContainer: {
