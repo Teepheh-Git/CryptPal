@@ -267,7 +267,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
             {/* Market Coins Lists */}
             <FlatList
-                data={coinListFetched?.slice(0, 11)}
+                data={coinListFetched?.slice(0, 10)}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={5}
@@ -277,7 +277,16 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 // onEndReachedThreshold={0}
                 scrollEventThrottle={16}
                 ListFooterComponent={
-                    <View style={{ marginBottom: 70 }} />}
+
+
+
+                    <TouchableOpacity style={styles.listSeeAllContainer} onPress={() => navigation.navigate('MarketTrends')}>
+                        <Text style={[styles.listSeeAll, { color: appTheme.textColor2 }]}>See all </Text>
+                        <Image style={{ width: 16, height: 16, tintColor: appTheme.textColor2 }} source={icons.arrowRight} />
+
+
+
+                    </TouchableOpacity>}
                 ListHeaderComponent={
                     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
@@ -459,7 +468,22 @@ const styles = StyleSheet.create({
     },
     textTabActive: {
         color: 'white'
+    },
+    listSeeAllContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: 5,
+        alignItems: 'center',
+        marginBottom: 110,
+        flexDirection: 'row',
+
+    },
+    listSeeAll: {
+        ...FONTS.body4,
+        fontWeight: 'bold'
+
     }
+
 })
 
 

@@ -100,16 +100,16 @@ const CoinDetails = ({ appTheme, route, coins, navigation }) => {
 
                         <Text style={[styles.coinDetails, { color: appTheme.textColor }]}>Coin Details</Text>
 
-                        <CoinDetailsInfo title={'MARKET CAP'} value={'$ ' + dataFromHome.market_cap.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'TRADING VOLUME'} value={'$ ' + dataFromHome.total_volume.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'24HR HIGH'} value={'$ ' + dataFromHome.high_24h.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'24HR LOW'} value={'$ ' + dataFromHome.low_24h.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'ALL TIME HIGH'} value={'$ ' + dataFromHome.ath.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'ALL TIME HIGH DATE'} value={moment(dataFromHome.ath_date).format('DD/MM/YYYY')} />
-                        <CoinDetailsInfo title={'ALL TIME LOW'} value={'$ ' + dataFromHome.atl.toLocaleString("en-US")} />
-                        <CoinDetailsInfo title={'ALL TIME LOW DATE'} value={moment(dataFromHome.atl_date).format('DD/MM/YYYY')} />
+                        <CoinDetailsInfo title={'MARKET CAP'} value={'$ ' + dataFromHome?.market_cap?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'TRADING VOLUME'} value={'$ ' + dataFromHome?.total_volume?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'24HR HIGH'} value={'$ ' + dataFromHome?.high_24h?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'24HR LOW'} value={'$ ' + dataFromHome?.low_24h?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'ALL TIME HIGH'} value={'$ ' + dataFromHome?.ath?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'ALL TIME HIGH DATE'} value={moment(dataFromHome?.ath_date)?.format('DD/MM/YYYY')} />
+                        <CoinDetailsInfo title={'ALL TIME LOW'} value={'$ ' + dataFromHome?.atl?.toLocaleString("en-US")} />
+                        <CoinDetailsInfo title={'ALL TIME LOW DATE'} value={moment(dataFromHome?.atl_date)?.format('DD/MM/YYYY')} />
                         <CoinDetailsInfo title={'CIRCULATING SUPPLY'} value={'$ ' + dataFromHome?.circulating_supply?.toLocaleString("en-US")} />
-                        {/* <CoinDetailsInfo title={'TOTAL SUPPLY'} value={'$ ' + dataFromHome.total_supply.toLocaleString("en-US")} /> */}
+                        <CoinDetailsInfo title={'TOTAL SUPPLY'} value={'$ ' + dataFromHome?.total_supply?.toLocaleString("en-US")} />
 
                     </View>
                     <TouchableOpacity activeOpacity={0.6} onPress={SaveToFavorites}>

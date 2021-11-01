@@ -3,6 +3,7 @@ const news = require("../assets/icons/news.png")
 const arrow = require("../assets/icons/arrow.png")
 const arrowUp = require("../assets/icons/arrowUp.png")
 const arrowDown = require("../assets/icons/arrowDown.png")
+const arrowRight = require("../assets/icons/arrowRight.png")
 const search = require("../assets/icons/search.png")
 const searchBarIcon = require("../assets/icons/searchBarIcon.png")
 const home = require("../assets/icons/home.png")
@@ -18,6 +19,7 @@ export default {
     arrow,
     arrowUp,
     arrowDown,
+    arrowRight,
     search,
     searchBarIcon,
     home,

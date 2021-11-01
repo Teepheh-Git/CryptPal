@@ -7,6 +7,7 @@ import CoinDetails from '../src/screens/CoinDetails';
 import Search from '../src/screens/Search';
 import TopMovers from '../src/screens/TopMovers';
 import NewsWebPage from '../src/screens/NewsWebPage';
+import MarketTrends from '../src/screens/MarketTrends';
 
 
 
@@ -24,6 +25,7 @@ const AppRoute = () => {
             <Stack.Screen name="Search" component={Search} />
             <Stack.Screen name="TopMovers" component={TopMovers} />
             <Stack.Screen name="NewsWebPage" component={NewsWebPage} />
+            <Stack.Screen name="MarketTrends" component={MarketTrends} />
         </Stack.Navigator>
     )
 }

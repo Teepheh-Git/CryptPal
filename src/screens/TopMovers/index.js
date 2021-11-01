@@ -37,7 +37,7 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
     const [currencySign, setCurrencySign] = useState('$')
     const [status, setStatus] = useState('24H')
 
-    const [priceChangePerc, setPriceChangePerc] = useState('1h')
+    const [priceChangePerc, setPriceChangePerc] = useState('24h')
     const [coinFetched, setCoinFetched] = useState([])
 
 

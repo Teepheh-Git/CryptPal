@@ -27,13 +27,13 @@ const CoinDetailsTitle = ({ appTheme, priceChangePercentage24h, logoUrl, name, s
 
             {/* Price and percentage price change */}
             <View style={styles.pricePercContainer}>
-                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>${currentPrice.toLocaleString("en-US")}</Text>
+                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>${currentPrice?.toLocaleString("en-US")}</Text>
 
                 <View style={styles.coinPercentage}>
                     {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
                         style={{ width: 13, height: 13, tintColor: priceChangeColor, transform: priceChangePercentage24h > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}
 
-                    <Text style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h.toLocaleString("en-US")}%</Text>
+                    <Text style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString("en-US")}%</Text>
                 </View>
 
             </View>

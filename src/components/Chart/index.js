@@ -152,7 +152,7 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
                             left: -10,
                             width: 80,
                             justifyContent: 'center',
-                            // height: SIZES.width * 0.2,
+                            height: SIZES.width * 0.15,
                             bottom: 25,
                             borderRadius: 15,
                             alignItems: 'center',
@@ -162,7 +162,8 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
                             shadowOffset: {
                                 width: 2,
                                 height: 2,
-                            }
+                            },
+                            zIndex: 1
                         }}>
 
 
@@ -177,7 +178,7 @@ const Chart = ({ containerStyle, chartPrices, appTheme }) => {
                                     ...FONTS.h3,
                                     // backgroundColor: 'red',
                                     padding: 5,
-                                    bottom: 5
+                                    // bottom: 5
 
 
                                 }} />
