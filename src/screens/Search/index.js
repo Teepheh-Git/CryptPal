@@ -11,6 +11,7 @@ import LottieView from 'lottie-react-native';
 
 
 
+
 const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 

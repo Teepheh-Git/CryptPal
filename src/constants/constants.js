@@ -46,6 +46,15 @@ let categoryList = [
 ]
 
 
+let currencyList = [
+    { label: 'USD', value: 'dollar' },
+    { label: 'NGN', value: 'naira' },
+    { label: 'EUR', value: 'euro' },
+    { label: 'JPY', value: 'yen' }
+]
+
+
+
 
 const listTab = [
     {
@@ -115,7 +124,8 @@ constants = {
     categoryList,
     listTab,
     topMoversListTab,
-    currencyToggle
+    currencyToggle,
+    currencyList,
 };
 
 export default constants;

@@ -7,8 +7,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { toggleTheme } from '../../stores/theme/themeActions';
 import { toggleCurrency } from '../../stores/currency/currencyActions'
-import { COLORS, FONTS, SIZES } from '../../constants';
+import { COLORS, constants, FONTS, SIZES } from '../../constants';
 import ActionSheet from 'react-native-actionsheet';
+import RNPickerSelect from 'react-native-picker-select';
+import { Chevron } from 'react-native-shapes';
+
 
 
 
@@ -16,36 +19,15 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
     let actionSheet = useRef()
 
-    let currencyList = ['dollar', 'naira', 'euro', 'yen', 'cancel']
+    // let currencyList = ['dollar', 'naira', 'euro', 'yen', 'cancel']
 
     // const [status, setStatus] = useState('usd')
 
-
-
-    // setStatusFilter = status => {
-
-    //     setStatus(status)
+    const [currency, setCurrency] = useState(appCurrency.name)
 
 
 
-    //     if (status === 'usd') {
-    //         toggleCurrency('usd')
 
-    //     } if (status === 'ngn') {
-    //         toggleCurrency('ngn')
-
-
-
-    //     } if (status === 'eur') {
-    //         toggleCurrency('eur')
-
-
-    //     } if (status === 'jpy') {
-    //         toggleCurrency('jpy')
-
-    //     }
-
-    // }
 
 
 
@@ -58,22 +40,6 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
     }
 
 
-
-    function toggleCurrencyHandler() {
-        if (appCurrency.name === 'dollar') {
-            toggleCurrency('euro');
-        } else {
-            toggleCurrency('naira')
-        }
-    }
-
-
-
-
-    const showCurrencyOption = () => {
-        actionSheet.current.show()
-
-    }
 
 
 
@@ -101,27 +67,59 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
     }
 
 
+
+    const pickerSelectStyles = StyleSheet.create({
+        inputIOS: {
+
+            fontSize: 16,
+            left: 5,
+            top: 5,
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            // borderWidth: 1,
+            fontWeight: 'bold',
+            // borderColor: appTheme.textColor2,
+            borderRadius: 5,
+            color: 'white',
+            backgroundColor: COLORS.primary,
+            paddingRight: 35, // to ensure the text is never behind the icon
+        },
+        inputAndroid: {
+            fontSize: 16,
+            paddingHorizontal: 10,
+            paddingVertical: 8,
+            borderWidth: 0.5,
+            borderColor: 'purple',
+            borderRadius: 8,
+            color: 'black',
+            paddingRight: 30, // to ensure the text is never behind the icon
+        },
+        iconContainer: {
+            top: SIZES.height * 0.024,
+            right: 15,
+        },
+    })
+
+
     return (
         <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
 
+            <RNPickerSelect
+                value={currency}
+                style={pickerSelectStyles}
+                onValueChange={(value, itemIndex) => {
+                    setCurrency(value)
+                    if (value !== null) {
+                        toggleCurrency(value)
+                    }
 
-            {/* <View style={styles.listTab}  >
-                {
-                    constants.currencyToggle.map((buttonLabel, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={[styles.btnTab, status === buttonLabel.status && styles.btnTabActive]}
-                            onPress={() => setStatusFilter(buttonLabel.status)}
-                        >
-                            <Text style={[styles.textTab, status === buttonLabel.status && styles.textTabActive]}>{buttonLabel.status}</Text>
-                        </TouchableOpacity>
-
-                    ))
-                }
-
-
-            </View> */}
+                }}
+                items={constants.currencyList}
+                Icon={() => {
+                    return <Chevron size={1.5} color={'white'} />;
+                }}
+            />
 
 
 
@@ -147,15 +145,15 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
                 <Text>Clear Favorites </Text>
 
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{ height: 60, width: "50%", backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
                 onPress={toggleCurrencyHandler()}>
                 <Text>Currency Options </Text>
 
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
-            <ActionSheet
+            {/* <ActionSheet
                 ref={actionSheet}
                 title={'currency'}
                 options={currencyList}
@@ -175,7 +173,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
                 }}
 
 
-            />
+            /> */}
 
 
 

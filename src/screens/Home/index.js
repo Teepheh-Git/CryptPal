@@ -215,10 +215,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
 
 
 
-    const showCurrencyOption = () => {
-        actionSheet.current.show()
 
-    }
 
     const pickerSelectStyles = StyleSheet.create({
         inputIOS: {
