@@ -1,6 +1,7 @@
 import constants from './constants';
 import dummyData from './dummyData';
 import icons from './icons';
+import { usd, ngn, eur, jpy, selectedCurrency } from './currency';
 // import images from './images';
 import theme, {
     COLORS,
@@ -23,4 +24,5 @@ export {
     darkTheme,
     lightTheme,
     selectedTheme,
+    usd, ngn, eur, jpy, selectedCurrency
 };

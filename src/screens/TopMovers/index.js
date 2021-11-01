@@ -25,7 +25,7 @@ function TopMoverCoins(a, b) {
 }
 
 
-const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
+const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, route }) => {
 
 
 
@@ -33,8 +33,6 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
 
 
 
-    const [currency, setCurrency] = useState('usd')
-    const [currencySign, setCurrencySign] = useState('$')
     const [status, setStatus] = useState('24H')
 
     const [priceChangePerc, setPriceChangePerc] = useState('24h')
@@ -64,7 +62,7 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
 
         let page = 1
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const data = response.data;
             return data
 
@@ -100,8 +98,8 @@ const TopMovers = ({ appTheme, navigation, getCoinMarket, coins, route }) => {
         <CoinList
             name={item?.name}
             logoUrl={item?.image}
-            symbol={item?.symbol.toUpperCase()}
-            currentPrice={item?.current_price.toPrecision(2)}
+            symbol={item?.symbol?.toUpperCase()}
+            currentPrice={item?.current_price?.toLocaleString('en-US')}
             priceChangePercentageInCurrency={
                 item?.price_change_percentage_1h_in_currency ||
                 item?.price_change_percentage_24h_in_currency ||
@@ -249,6 +247,8 @@ export function mapStateToProps(state) {
         coins: state.marketReducer.coins,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
     };
 }
 

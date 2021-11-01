@@ -15,12 +15,10 @@ import LottieView from 'lottie-react-native';
 
 
 
-const MarketTrends = ({ appTheme, navigation }) => {
+const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
 
 
 
-    let currencyList = ['usd', 'ngn', 'jpy', 'eur', 'cancel']
-    let currencySignList = ['$', '₦', '¥', '€']
 
 
     // const [currentPage, setCurrentPage] = useState(1)
@@ -28,8 +26,6 @@ const MarketTrends = ({ appTheme, navigation }) => {
     // const [coinFetched, setCoinFetched] = useState([])
     const [coinListFetched, setCoinListFetched] = useState([])
     // const [isLoading, setIsLoading] = useState(false)
-    const [currency, setCurrency] = useState('usd')
-    const [currencySign, setCurrencySign] = useState('$')
     const [status, setStatus] = useState('Popular')
     const [orderBy, setOrderBy] = useState('market_cap_desc')
 
@@ -38,7 +34,7 @@ const MarketTrends = ({ appTheme, navigation }) => {
 
     const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             // const Data = coinListFetched.concat(response.data);
             const Data = response.data;
             // setIsLoading(false)
@@ -251,6 +247,11 @@ export function mapStateToProps(state) {
         coins: state.marketReducer.coins,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
+
+
     };
 }
 

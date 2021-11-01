@@ -9,20 +9,25 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from 'lottie-react-native';
 
 
-const getMarketData = async (currency = "usd", orderBy = "market_cap_desc", sparkline = true, page = 1, priceChangePerc = "24h", perPage = 25,) => {
-    try {
-        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
-        const data = response.data;
-        return data
 
-    } catch (e) {
-        console.log(e.message)
+
+const Search = ({ appTheme, navigation, e, appCurrency }) => {
+
+
+    const getMarketData = async (orderBy = "market_cap_desc", sparkline = true, page = 1, priceChangePerc = "24h", perPage = 250,) => {
+        try {
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const data = response.data;
+            return data
+
+        } catch (e) {
+            console.log(e.message)
+        }
+
+
     }
 
 
-}
-
-const Search = ({ appTheme, navigation, e }) => {
 
 
     const [searchCoin, setSearchCoin] = useState('')
@@ -71,7 +76,7 @@ const Search = ({ appTheme, navigation, e }) => {
 
         fetchMarketData()
 
-    }, [])
+    }, [appCurrency])
 
     const FilteredDataCondition = () => {
         if (searchCoin == '') {
@@ -85,10 +90,10 @@ const Search = ({ appTheme, navigation, e }) => {
 
     CoinListRenderItem = ({ item }) =>
         <CoinList
-            name={item.name}
-            logoUrl={item.image}
-            symbol={item.symbol.toUpperCase()}
-            currentPrice={item.current_price}
+            name={item?.name}
+            logoUrl={item?.image}
+            symbol={item?.symbol?.toUpperCase()}
+            currentPrice={item?.current_price}
             priceChangePercentage24h={item?.price_change_percentage_24h}
             chartData={item?.sparkline_in_7d?.price}
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
@@ -198,6 +203,8 @@ export function mapStateToProps(state) {
     return {
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
     };
 }
 

@@ -4,7 +4,7 @@ import { LineChart } from 'react-native-chart-kit'
 import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
 
-const CoinList = ({ appTheme, priceChangePercentage24h, priceChangePercentageInCurrency, logoUrl, name, symbol, currentPrice, chartData, onPress }) => {
+const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChangePercentageInCurrency, logoUrl, name, symbol, currentPrice, chartData, onPress }) => {
 
 
 
@@ -73,7 +73,7 @@ const CoinList = ({ appTheme, priceChangePercentage24h, priceChangePercentageInC
             <View style={styles.pricePercContainer}>
 
 
-                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{currentPrice?.toLocaleString('en-US')}</Text>
+                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol}{currentPrice?.toLocaleString('en-US')}</Text>
 
                 {priceChangePercentage24h ? <View style={styles.coinPercentage}>
                     {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
@@ -150,6 +150,8 @@ export function mapStateToProps(state) {
     return {
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
     };
 }
 

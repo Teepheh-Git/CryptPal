@@ -32,12 +32,9 @@ function TopMoverCoins(a, b) {
 }
 
 
-const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
+const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item }) => {
 
-    let actionSheet = useRef()
 
-    let currencyList = ['usd', 'ngn', 'jpy', 'eur', 'cancel']
-    let currencySignList = ['$', '₦', '¥', '€']
 
 
     // const [currentPage, setCurrentPage] = useState(1)
@@ -60,7 +57,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     const GetCardMarketData = async (orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", page = 1, perPage = 250,) => {
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = response.data;
             return Data
         } catch (e) {
@@ -71,7 +68,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
 
     const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             // const Data = coinListFetched.concat(response.data);
             const Data = response.data;
             // setIsLoading(false)
@@ -118,7 +115,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
             }
             FetchListMarketData();
 
-        }, [currency, orderBy, category],
+        }, [appCurrency, orderBy, category],
 
 
         ))
@@ -130,7 +127,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 setCoinFetched(MarketData)
             }
             FetchCardMarketData();
-        }, [currency]
+        }, [appCurrency]
         )
     )
 
@@ -163,12 +160,14 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
     //     setIsLoading(true)
     // }
 
+    // console.log(appCurrency.ticker)
+
 
     CoinCardRenderItem = ({ item }) =>
         <CoinCard
-            name={`${item.name}/${currency.toUpperCase()}`}
+            name={item.name}
             logoUrl={item.image}
-            currentPrice={`${currencySign} ${item?.current_price.toLocaleString('en-US')}`}
+            currentPrice={item?.current_price.toLocaleString('en-US')}
             priceChangePercentage24h={item?.price_change_percentage_24h}
         />
 
@@ -178,7 +177,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
             name={item?.name}
             logoUrl={item?.image}
             symbol={item?.symbol?.toUpperCase()}
-            currentPrice={`${currencySign} ${item?.current_price?.toLocaleString('en-US')}`}
+            currentPrice={item?.current_price?.toLocaleString('en-US')}
             priceChangePercentage24h={item?.price_change_percentage_24h}
             chartData={item?.sparkline_in_7d?.price}
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
@@ -324,7 +323,6 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                         {/* Market Trends  */}
                         <View style={styles.marketTrendsContainer}>
                             <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends 💰</Text>
-                            <TouchableOpacity onPress={showCurrencyOption} ><Text>CurrencyOptions</Text></TouchableOpacity>
                         </View>
 
 
@@ -363,18 +361,7 @@ const Home = ({ appTheme, getCoinMarket, coins, navigation, item }) => {
                 }
             />
 
-            <ActionSheet
-                ref={actionSheet}
-                title={'currency'}
-                options={currencyList}
-                cancelButtonIndex={4}
-                onPress={(item) => {
-                    setCurrency(currencyList[item])
-                    setCurrencySign(currencySignList[item])
-                }}
 
-
-            />
 
 
         </SafeAreaView >
@@ -492,6 +479,8 @@ export function mapStateToProps(state) {
         coins: state.marketReducer.coins,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
     };
 }
 

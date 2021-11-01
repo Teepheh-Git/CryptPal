@@ -87,11 +87,35 @@ const topMoversListTab = [
         status: '1Y'
     },
 ]
-const constants = {
+
+
+
+const currencyToggle = [
+    {
+        key: '1',
+        status: 'usd'
+    },
+    {
+        key: '2',
+        status: 'ngn'
+    },
+    {
+        key: '3',
+        status: 'eur'
+    }, {
+        key: '4',
+        status: 'jpy'
+    },
+]
+
+
+
+constants = {
     slides,
     categoryList,
     listTab,
-    topMoversListTab
+    topMoversListTab,
+    currencyToggle
 };
 
 export default constants;
