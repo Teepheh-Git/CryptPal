@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
 
 
-const CoinDetailsTitle = ({ appTheme, priceChangePercentage24h, logoUrl, name, symbol, currentPrice }) => {
+const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, logoUrl, name, symbol, currentPrice }) => {
 
 
     const priceChangeColor = priceChangePercentage24h > 0 ? '#34C759' : '#FF3B30';
@@ -27,7 +27,7 @@ const CoinDetailsTitle = ({ appTheme, priceChangePercentage24h, logoUrl, name, s
 
             {/* Price and percentage price change */}
             <View style={styles.pricePercContainer}>
-                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>${currentPrice?.toLocaleString("en-US")}</Text>
+                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ' '}{currentPrice?.toLocaleString("en-US")}</Text>
 
                 <View style={styles.coinPercentage}>
                     {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
@@ -101,6 +101,8 @@ export function mapStateToProps(state) {
     return {
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
+        appCurrency: state.currencyReducer.appCurrency,
+        error: state.currencyReducer.error
     };
 }
 

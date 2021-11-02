@@ -1,20 +1,20 @@
 import React from 'react'
-import { StyleSheet, Image, Text, View } from 'react-native'
+import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { COLORS, icons, SIZES } from '../../constants'
 
 
 
-const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl }) => {
+const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress }) => {
 
 
     const priceChangeColor = priceChangePercentage24h > 0 ? '#34C759' : '#EB0000';
 
     return (
-        <View style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+        <TouchableOpacity onPress={onPress} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
             <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }} resizeMode='contain' />
             <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
-            <Text style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol}{currentPrice.toLocaleString('en-US')}</Text>
+            <Text style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ''} {currentPrice.toLocaleString('en-US')}</Text>
             <View style={styles.coinPercentage}>
                 {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
                     style={{ width: 13, height: 13, tintColor: priceChangeColor, transform: priceChangePercentage24h > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}
@@ -22,7 +22,7 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
                 <Text style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h.toLocaleString('en-US')}%</Text>
             </View>
 
-        </View >
+        </TouchableOpacity >
 
     )
 }

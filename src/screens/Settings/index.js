@@ -17,15 +17,11 @@ import { Chevron } from 'react-native-shapes';
 
 const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
-    let actionSheet = useRef()
-
-    // let currencyList = ['dollar', 'naira', 'euro', 'yen', 'cancel']
-
-    // const [status, setStatus] = useState('usd')
 
     const [currency, setCurrency] = useState(appCurrency.name)
 
 
+    console.log(currency)
 
 
 
@@ -40,30 +36,20 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
     }
 
 
-
-
-
-
     const ClearOnboarding = async () => {
         try {
             await AsyncStorage.removeItem('@viewedOnboarding')
-
         } catch (error) {
             console.log('Error @clearOnboarding: ', error)
-
         }
-
     }
 
     const ClearFavorites = async () => {
         try {
             await AsyncStorage.removeItem('FavoriteCoin')
-
         } catch (error) {
             console.log('Error Favorite: ', error)
-
         }
-
     }
 
 
@@ -110,6 +96,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
                 style={pickerSelectStyles}
                 onValueChange={(value, itemIndex) => {
                     setCurrency(value)
+                    // console.log(value)
                     if (value !== null) {
                         toggleCurrency(value)
                     }

@@ -21,7 +21,8 @@ import { Picker } from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { Chevron } from 'react-native-shapes';
 import constants from '../../constants/constants'
-
+import CustomButton from '../../components/CustomButton'
+import LinearGradient from 'react-native-linear-gradient';
 
 
 
@@ -34,19 +35,13 @@ function TopMoverCoins(a, b) {
 
 const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item }) => {
 
-
-
-
-    // const [currentPage, setCurrentPage] = useState(1)
     const [homePageLoading, setHomePageLoading] = useState(true)
     const [coinFetched, setCoinFetched] = useState([])
     const [coinListFetched, setCoinListFetched] = useState([])
-    // const [isLoading, setIsLoading] = useState(false)
-    const [currency, setCurrency] = useState('usd')
-    const [currencySign, setCurrencySign] = useState('$')
     const [status, setStatus] = useState('Popular')
     const [orderBy, setOrderBy] = useState('market_cap_desc')
     const [category, setCategory] = useState('smart-contract-platform')
+    const [retry, setRetry] = useState('')
 
     const [filteredDataList, setFilteredDataList] = useState(coinListFetched)
 
@@ -61,14 +56,14 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
             const Data = response.data;
             return Data
         } catch (e) {
-            alert(e.message)
+            // alert(e.message)
         }
 
     }
 
     const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
         try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             // const Data = coinListFetched.concat(response.data);
             const Data = response.data;
             // setIsLoading(false)
@@ -76,7 +71,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
             return Data
 
         } catch (e) {
-            alert(e.message)
+            // alert(e.message)
         }
     }
 
@@ -91,19 +86,11 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
     }
 
 
-    // if (coinListFetched.length == undefined || coinFetched.length == undefined) {
-
-    //     return (
-    //         <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', top: SIZES.height * 0.2 }}>
-    //             <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
-    //             <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network Error! </Text>
-    //             <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
-    //         </View>
-
-    //     )
-
-    // }
-
+    if (coinFetched == null || coinListFetched == null) {
+        setTimeout(() => {
+            setHomePageLoading(false)
+        }, 5000)
+    }
 
 
 
@@ -114,11 +101,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                 setCoinListFetched(ListMarketData)
             }
             FetchListMarketData();
-
-        }, [appCurrency, orderBy, category],
-
-
-        ))
+        }, [appCurrency, orderBy, category, retry])
+    )
 
     useFocusEffect(
         useCallback(() => {
@@ -127,8 +111,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                 setCoinFetched(MarketData)
             }
             FetchCardMarketData();
-        }, [appCurrency]
-        )
+        }, [appCurrency, retry])
     )
 
 
@@ -137,30 +120,14 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
     if (homePageLoading) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2 }}>
-                {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
-
-
+                {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }}
+                    source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop />
+                    : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')}
+                        autoPlay loop />}
             </View>
         )
     }
 
-
-    // RenderFooter = () => {
-    //     return (
-    //         isLoading ?
-    //             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2, marginBottom: 90 }}>
-    //                 <ActivityIndicator size='large' color={appTheme.textColor2} />
-    //             </View> : null
-    //     )
-    // }
-
-
-    // HandleLoadMore = () => {
-    //     setCurrentPage(currentPage + 1)
-    //     setIsLoading(true)
-    // }
-
-    // console.log(appCurrency.ticker)
 
 
     CoinCardRenderItem = ({ item }) =>
@@ -169,6 +136,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
             logoUrl={item.image}
             currentPrice={item?.current_price.toLocaleString('en-US')}
             priceChangePercentage24h={item?.price_change_percentage_24h}
+            onPress={() => { navigation.navigate('CoinDetails', { ...item }) }}
         />
 
 
@@ -185,69 +153,55 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
 
 
 
-    // const AnimateHeaderHeight = AnimatedHeaderValue.interpolate({
-    //     inputRange: [0, HeaderMaxHeight - HeaderMinHeight],
-    //     outputRange: [HeaderMaxHeight, HeaderMinHeight],
-    //     extrapolate: 'clamp',
-    // })
-
 
 
     setStatusFilter = status => {
 
         setStatus(status)
 
-
         if (status === 'Popular') {
             setOrderBy('market_cap_desk')
         }
-        if (status === 'Volume') {
+        if (status === 'Volume ↑') {
             setOrderBy('volume_desc')
         }
-        if (status === 'Name') {
+        if (status === 'A - Z') {
             setOrderBy('id_asc')
-
-
         }
-
+        if (status === 'Volume ↓') {
+            setOrderBy('volume_asc')
+        }
+        if (status === 'Z - A') {
+            setOrderBy('id_desc')
+        }
     }
 
+    const Retry = () => {
+        setHomePageLoading(true)
+        let r = Math.random().toString(36).substr(2, 5)
+        setRetry(r)
+    }
+
+    const NetworkError = () => {
+        return (
+            <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', top: SIZES.height * 0.2 }}>
+                <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
+                <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
+                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
 
 
+                <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
 
+                    <LinearGradient style={styles.refreshButton} colors={['#4F36C4', '#4F36C4']}>
+                        <Text style={styles.refresh}>Refresh</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
 
+            </View>
 
-    const pickerSelectStyles = StyleSheet.create({
-        inputIOS: {
+        )
+    }
 
-            fontSize: 16,
-            left: 5,
-            top: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-            // borderWidth: 1,
-            fontWeight: 'bold',
-            // borderColor: appTheme.textColor2,
-            borderRadius: 5,
-            color: 'white',
-            backgroundColor: COLORS.primary,
-            paddingRight: 35, // to ensure the text is never behind the icon
-        },
-        inputAndroid: {
-            fontSize: 16,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-            borderWidth: 0.5,
-            borderColor: 'purple',
-            borderRadius: 8,
-            color: 'black',
-            paddingRight: 30, // to ensure the text is never behind the icon
-        },
-        iconContainer: {
-            top: SIZES.height * 0.024,
-            right: 15,
-        },
-    })
 
 
 
@@ -262,7 +216,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
 
 
             {/* Market Coins Lists */}
-            <FlatList
+
+            {coinListFetched == null || CardCoinFetched == null ? NetworkError() : <FlatList
                 data={coinListFetched?.slice(0, 10)}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
@@ -308,9 +263,11 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                                 showsHorizontalScrollIndicator={false}
                                 initialNumToRender={4}
                                 maxToRenderPerBatch={2}
-                                // windowSize={3}
                                 renderItem={CoinCardRenderItem}
                             />
+
+
+
                         </View>
 
 
@@ -339,26 +296,12 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                                 ))
                             }
 
-                            <RNPickerSelect
-                                value={category}
-                                style={pickerSelectStyles}
-                                onValueChange={(value, itemIndex) =>
-                                    setCategory(value)
-                                }
-                                items={constants.categoryList}
-                                Icon={() => {
-                                    return <Chevron size={1.5} color={'white'} />;
-                                }}
-                            />
-
-
                         </View>
-
                     </View>
                 }
             />
 
-
+            }
 
 
         </SafeAreaView >
@@ -466,6 +409,18 @@ const styles = StyleSheet.create({
         ...FONTS.body4,
         fontWeight: 'bold'
 
+    },
+    refreshButton: {
+        width: SIZES.width * 0.34,
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: SIZES.radius3,
+        marginVertical: 40,
+    },
+    refresh: {
+        color: COLORS.white,
+        ...FONTS.h5,
     }
 
 })

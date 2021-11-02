@@ -36,13 +36,6 @@ const App = () => {
   }, [])
 
 
-
-
-  // useEffect(() => {
-  //   CheckOnboarding();
-  // }, [])
-
-
   const CheckOnboarding = async () => {
     try {
       const value = await AsyncStorage.getItem('@viewedOnboarding')

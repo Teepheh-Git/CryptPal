@@ -40,7 +40,7 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 
 
-    if (filteredData.length > 0) {
+    if (filteredData?.length > 0) {
         setTimeout(() => {
             setSearchLoading(false)
         }, 200)
@@ -51,8 +51,8 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
     const SearchFilter = (text) => {
         if (text) {
-            const newData = masterData.filter((item) => {
-                const itemData = item.name ? item.name.toUpperCase() : ' '.toUpperCase()
+            const newData = masterData?.filter((item) => {
+                const itemData = item?.name ? item?.name.toUpperCase() : ' '.toUpperCase()
                 const textData = text.toUpperCase()
                 return itemData.indexOf(textData) > -1
             })
@@ -140,7 +140,7 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 
     return (
-        searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor }}>
+        searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2 }}>
             {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
 
         </View>

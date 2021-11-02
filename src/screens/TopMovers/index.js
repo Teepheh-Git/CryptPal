@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, FlatList, TouchableOpacity, Text, ActivityIndicator, Image } from 'react-native'
 import { connect } from 'react-redux'
 import CustomHeader from '../../components/CustomHeader'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
@@ -7,10 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CoinList from '../../components/CoinList'
 import { getCoinMarket } from '../../stores/market/marketActions'
 import LottieView from 'lottie-react-native';
-
-// import { TopMoverCoins } from '../Home'
 import axios from 'axios'
 import constants from '../../constants/constants'
+import LinearGradient from 'react-native-linear-gradient'
 
 
 function TopMoverCoins(a, b) {
@@ -27,23 +26,11 @@ function TopMoverCoins(a, b) {
 
 const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, route }) => {
 
-
-
-
-
-
-
     const [status, setStatus] = useState('24H')
-
     const [priceChangePerc, setPriceChangePerc] = useState('24h')
     const [coinFetched, setCoinFetched] = useState([])
-
-
-
-
     const [searchLoading, setSearchLoading] = useState(true)
-
-
+    const [retry, setRetry] = useState('')
 
 
 
@@ -52,22 +39,20 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
             setSearchLoading(false)
         }, 200)
     }
+    if (coinFetched == null) {
+        setTimeout(() => {
+            setSearchLoading(false)
+        }, 3000)
+    }
 
 
-    // const [category, setCategory] = useState('smart-contract-platform')
 
-    // 1h%2C24h%2C7d%2C14d%2C30d%2C200d%2C1y
-
-    const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250) => {
-
-        let page = 1
+    const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const data = response.data;
             return data
-
         } catch (e) {
-            alert(e.message)
         }
 
     }
@@ -75,21 +60,14 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
 
 
 
-
-
-
-
     useEffect(() => {
 
         const FetchMarketData = async () => {
-
             const MarketData = await GetMarketData()
             setCoinFetched(MarketData)
         }
-
         FetchMarketData()
-
-    }, [priceChangePerc])
+    }, [priceChangePerc, retry])
 
 
 
@@ -118,7 +96,6 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
 
         setStatus(status)
 
-
         if (status === '1H') {
             setPriceChangePerc('1h')
         } if (status === '24H') {
@@ -134,25 +111,53 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
         } if (status === '1Y') {
             setPriceChangePerc('1y')
         }
+    }
+
+    const Retry = () => {
+        setSearchLoading(true)
+        let r = Math.random().toString(36).substr(2, 5)
+        setRetry(r)
+    }
+
+
+    const NetworkErrorPage = () => {
+        return (
+            <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', top: SIZES.height * 0.2, alignSelf: 'center' }}>
+                <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
+                <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
+                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
+
+
+                <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
+
+                    <LinearGradient style={styles.refreshButton} colors={['#4F36C4', '#4F36C4']}>
+                        <Text style={styles.refresh}>Refresh</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+
+            </View>
+
+        )
+    }
 
 
 
-
-
+    if (searchLoading) {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor }}>
+                {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
+            </View>
+        )
     }
 
 
 
 
-    return (searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor }}>
-        {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
 
-
-    </View> : <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    return (<SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
         <View>
             <CustomHeader title='Top Movers ✅' onPress={() => navigation.goBack()} />
-
         </View>
         <View>
 
@@ -173,25 +178,25 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
 
             </View>
 
-            <FlatList
-                data={coinFetched.sort(TopMoverCoins).slice(0, 31)}
-                keyExtractor={(item) => item.id}
-                renderItem={CoinListRenderItem}
-                showsVerticalScrollIndicator={false}
-                initialNumToRender={6}
-                maxToRenderPerBatch={2}
-                windowSize={3}
-                ListFooterComponent={
-                    <View style={{ marginBottom: 50 }} />
-                }
 
-            />
+            {coinFetched == null ? NetworkErrorPage() :
+
+                <FlatList
+                    data={coinFetched?.sort(TopMoverCoins).slice(0, 31)}
+                    keyExtractor={(item) => item.id}
+                    renderItem={CoinListRenderItem}
+                    showsVerticalScrollIndicator={false}
+                    initialNumToRender={6}
+                    maxToRenderPerBatch={2}
+                    windowSize={3}
+                    ListFooterComponent={
+                        <View style={{ marginBottom: 50 }} />
+                    }
+                />
+
+            }
 
         </View>
-
-
-
-
 
     </SafeAreaView>
     )
@@ -237,6 +242,18 @@ const styles = StyleSheet.create({
     },
     textTabActive: {
         color: 'white'
+    },
+    refreshButton: {
+        width: SIZES.width * 0.34,
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: SIZES.radius3,
+        marginVertical: 40,
+    },
+    refresh: {
+        color: COLORS.white,
+        ...FONTS.h5,
     }
 })
 

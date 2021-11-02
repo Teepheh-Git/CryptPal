@@ -73,7 +73,7 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
             <View style={styles.pricePercContainer}>
 
 
-                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol}{currentPrice?.toLocaleString('en-US')}</Text>
+                <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ' '}{currentPrice?.toLocaleString('en-US')}</Text>
 
                 {priceChangePercentage24h ? <View style={styles.coinPercentage}>
                     {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}

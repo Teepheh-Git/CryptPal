@@ -37,6 +37,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         padding: 5,
+        elevation: 1,
+        shadowOpacity: 0.1,
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+
 
     },
     backArrowContainer: {

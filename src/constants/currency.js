@@ -22,13 +22,16 @@ export const jpy = {
 
 
 
+
+
 export const selectedCurrency = usd
 
 const appCurrency = {
     usd,
     ngn,
     eur,
-    jpy
+    jpy,
+
 }
 
 

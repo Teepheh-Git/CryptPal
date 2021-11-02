@@ -1,4 +1,4 @@
-import { usd, ngn, eur, jpy } from '../../constants'
+import { usd, ngn, eur, jpy, aud, chf, cad } from '../../constants'
 
 export const TOGGLE_CURRENCY_BEGIN = 'TOGGLE_CURRENCY_BEGIN';
 export const TOGGLE_CURRENCY_SUCCESS = 'TOGGLE_CURRENCY_SUCCESS';
@@ -34,6 +34,15 @@ export function toggleCurrency(currencyType) {
                 break;
             case 'yen':
                 dispatch(toggleCurrencySuccess(jpy));
+                break;
+            case 'aus dollar':
+                dispatch(toggleCurrencySuccess(aud));
+                break;
+            case 'swiss franc':
+                dispatch(toggleCurrencySuccess(chf));
+                break;
+            case 'can dollar':
+                dispatch(toggleCurrencySuccess(cad));
                 break;
             default:
                 dispatch(toggleCurrencyFailure({ error: 'Invalid currency type' }))

@@ -50,7 +50,8 @@ let currencyList = [
     { label: 'USD', value: 'dollar' },
     { label: 'NGN', value: 'naira' },
     { label: 'EUR', value: 'euro' },
-    { label: 'JPY', value: 'yen' }
+    { label: 'JPY', value: 'yen' },
+
 ]
 
 
@@ -63,11 +64,17 @@ const listTab = [
     },
     {
         key: '2',
-        status: 'Volume'
+        status: 'Volume ↑'
+    }, {
+        key: '3',
+        status: 'Volume ↓'
     },
     {
-        key: '3',
-        status: 'Name'
+        key: '4',
+        status: 'A - Z'
+    }, {
+        key: '5',
+        status: 'Z - A'
     },
 ]
 const topMoversListTab = [
@@ -111,10 +118,12 @@ const currencyToggle = [
     {
         key: '3',
         status: 'eur'
-    }, {
+    },
+    {
         key: '4',
         status: 'jpy'
     },
+
 ]
 
 
