@@ -24,35 +24,31 @@ export const getCoinMarketFailure = (error) => ({
 
 export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250, page = 1) => {
 
-    // console.log(coins)
 
 
 
 
-    return dispatch => {
+    return async dispatch => {
         let apiUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`
 
-        return axios({
-            url: apiUrl,
-            method: `GET`,
-            headers: {
-                Accept: "application/json"
-            }
-        }).then((response) => {
-
-
+        try {
+            const response = await axios({
+                url: apiUrl,
+                method: `GET`,
+                headers: {
+                    Accept: "application/json"
+                }
+            });
             // console.log(response.data)
-
             if (response.status === 200) {
-                dispatch(getCoinMarketSuccess(response.data))
+                dispatch(getCoinMarketSuccess(response.data));
 
             } else {
-                dispatch(getCoinMarketFailure(response.data))
+                dispatch(getCoinMarketFailure(response.data));
             }
-        }).catch((error) => {
-            dispatch(getCoinMarketFailure(error))
-
-        })
+        } catch (error_1) {
+            dispatch(getCoinMarketFailure(error_1));
+        }
 
     }
 

@@ -1,27 +1,24 @@
-import { useFocusEffect } from '@react-navigation/core';
-import axios from 'axios';
-import moment from 'moment';
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, { useCallback, useState, } from 'react'
 import {
-    StyleSheet, Image, Text, View, TouchableOpacity, FlatList, ActivityIndicator
-    , Animated
+    StyleSheet,
+    Image,
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    Platform
 } from 'react-native'
+import axios from 'axios';
 import { connect } from 'react-redux';
 import CoinCard from '../../components/CoinCard';
 import CoinList from '../../components/CoinList';
-
+import { useFocusEffect } from '@react-navigation/core';
 import { COLORS, FONTS, icons, SIZES } from '../../constants';
 import { getCoinMarket } from '../../stores/market/marketActions';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from 'lottie-react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ActionSheet from 'react-native-actionsheet';
-import { Picker } from '@react-native-picker/picker';
-import RNPickerSelect from 'react-native-picker-select';
-import { Chevron } from 'react-native-shapes';
 import constants from '../../constants/constants'
-import CustomButton from '../../components/CustomButton'
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -64,12 +61,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
     const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
-            // const Data = coinListFetched.concat(response.data);
             const Data = response.data;
-            // setIsLoading(false)
-            // setFilteredDataList(coinListFetched)
             return Data
-
         } catch (e) {
             // alert(e.message)
         }
@@ -210,7 +203,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
         <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
             {/* Header Section */}
-            <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2, /*height: AnimateHeaderHeight*/ }]}>
+            <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
                 <Image resizeMode='cover' style={[styles.imgHeader, { tintColor: appTheme.tintColor }]} source={require('../../assets/images/logo.png')} />
             </View>
 
@@ -221,8 +214,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                 data={coinListFetched?.slice(0, 10)}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={5}
-                maxToRenderPerBatch={1}
+                initialNumToRender={10}
+                maxToRenderPerBatch={2}
                 renderItem={CoinListRenderItem}
                 // onEndReached={HandleLoadMore}
                 // onEndReachedThreshold={0}
@@ -261,7 +254,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, coins, navigation, item })
                                 keyExtractor={(item, index) => index.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                initialNumToRender={4}
+                                initialNumToRender={10}
                                 maxToRenderPerBatch={2}
                                 renderItem={CoinCardRenderItem}
                             />
@@ -355,7 +348,7 @@ const styles = StyleSheet.create({
     },
     coinCard: {
         height: 130,
-        marginBottom: 30
+        marginBottom: 10
     },
     marketTrendsContainer: {
         width: SIZES.width * 0.9,
@@ -372,6 +365,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: SIZES.width * 0.9,
         alignItems: 'center',
+        marginBottom: 10
 
     },
     btnTab: {
@@ -401,12 +395,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         top: 5,
         alignItems: 'center',
-        marginBottom: 110,
+        marginBottom: Platform.OS === "ios" ? 110 : 130,
+        marginTop: Platform.OS === "ios" ? 10 : 20,
         flexDirection: 'row',
 
     },
     listSeeAll: {
-        ...FONTS.body4,
+        ...FONTS.body3,
         fontWeight: 'bold'
 
     },
