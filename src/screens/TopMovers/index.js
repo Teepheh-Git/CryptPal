@@ -32,8 +32,6 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
     const [searchLoading, setSearchLoading] = useState(true)
     const [retry, setRetry] = useState('')
 
-
-
     if (coinFetched?.length > 0) {
         setTimeout(() => {
             setSearchLoading(false)
@@ -45,31 +43,23 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
         }, 3000)
     }
 
-
-
     const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
         try {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const data = response.data;
             return data
         } catch (e) {
+            console.log(e.message)
         }
-
     }
 
-
-
-
     useEffect(() => {
-
         const FetchMarketData = async () => {
             const MarketData = await GetMarketData()
             setCoinFetched(MarketData)
         }
         FetchMarketData()
     }, [priceChangePerc, retry])
-
-
 
 
     CoinListRenderItem = ({ item }) =>
@@ -87,15 +77,15 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
                 item?.price_change_percentage_200d_in_currency ||
                 item?.price_change_percentage_1y_in_currency
             }
-            // priceChangePercentage24h={item?.price_change_percentage_24h}
             chartData={item?.sparkline_in_7d?.price}
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
         />
 
+
+
+
     setStatusFilter = status => {
-
         setStatus(status)
-
         if (status === '1H') {
             setPriceChangePerc('1h')
         } if (status === '24H') {
@@ -113,12 +103,13 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
         }
     }
 
+
+
     const Retry = () => {
         setSearchLoading(true)
         let r = Math.random().toString(36).substr(2, 5)
         setRetry(r)
     }
-
 
     const NetworkErrorPage = () => {
         return (
@@ -126,20 +117,14 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
                 <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
                 <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
                 <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
-
-
                 <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
-
                     <LinearGradient style={styles.refreshButton} colors={['#4F36C4', '#4F36C4']}>
                         <Text style={styles.refresh}>Refresh</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-
             </View>
-
         )
     }
-
 
 
     if (searchLoading) {
@@ -152,35 +137,24 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
 
 
 
-
-
     return (<SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
-
         <View>
             <CustomHeader title='Top Movers ✅' onPress={() => navigation.goBack()} />
         </View>
         <View>
-
             <View style={styles.listTab}  >
-                {
-                    constants.topMoversListTab.map((buttonLabel, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={[styles.btnTab, status === buttonLabel.status && styles.btnTabActive]}
-                            onPress={() => setStatusFilter(buttonLabel.status)}
-                        >
-                            <Text style={[styles.textTab, status === buttonLabel.status && styles.textTabActive]}>{buttonLabel.status}</Text>
-                        </TouchableOpacity>
-
-                    ))
+                {constants.topMoversListTab.map((buttonLabel, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        style={[styles.btnTab, status === buttonLabel.status && styles.btnTabActive]}
+                        onPress={() => setStatusFilter(buttonLabel.status)}>
+                        <Text style={[styles.textTab, status === buttonLabel.status && styles.textTabActive]}>{buttonLabel.status}</Text>
+                    </TouchableOpacity>
+                ))
                 }
-
-
             </View>
 
-
             {coinFetched == null ? NetworkErrorPage() :
-
                 <FlatList
                     data={coinFetched?.sort(TopMoverCoins).slice(0, 31)}
                     keyExtractor={(item) => item.id}
@@ -195,22 +169,16 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
                 />
 
             }
-
         </View>
-
     </SafeAreaView>
     )
 }
 
 
 const styles = StyleSheet.create({
-
     Container: {
-
         flex: 1,
         alignItems: 'center',
-        // height: SIZES.height,
-        // justifyContent: 'center',
         width: SIZES.width
     },
     listTab: {
@@ -218,7 +186,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: SIZES.width * 0.9,
         alignItems: 'center',
-
     },
     btnTab: {
         height: 40,
@@ -229,8 +196,8 @@ const styles = StyleSheet.create({
         borderColor: COLORS.grey,
         borderRadius: 5,
         justifyContent: 'center'
-
-    }, textTab: {
+    },
+    textTab: {
         ...FONTS.body5,
         paddingHorizontal: 5,
         color: COLORS.grey,

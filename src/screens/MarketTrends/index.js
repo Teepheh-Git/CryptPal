@@ -13,20 +13,13 @@ import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient'
 
 
-
-
 const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
-
-    const [retry, setRetry] = useState('')
-
-
-
-
     const [marketPageLoading, setMarketPageLoading] = useState(true)
     const [coinListFetched, setCoinListFetched] = useState([])
     const [status, setStatus] = useState('Popular')
     const [orderBy, setOrderBy] = useState('market_cap_desc')
     const [category, setCategory] = useState('smart-contract-platform')
+    const [retry, setRetry] = useState('')
 
 
     const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
@@ -34,7 +27,6 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
             const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
             const Data = response.data;
             return Data
-
         } catch (e) {
             console.log(e.message)
         }
@@ -46,12 +38,12 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
             setMarketPageLoading(false)
         }, 200)
     }
+
     if (coinListFetched == null) {
         setTimeout(() => {
             setMarketPageLoading(false)
         }, 5000)
     }
-
 
 
     useEffect(() => {
@@ -95,11 +87,8 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
     }
 
 
-
-
     const pickerSelectStyles = StyleSheet.create({
         inputIOS: {
-
             fontSize: 16,
             width: SIZES.width * 0.5,
             left: 25,
@@ -129,16 +118,11 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
         },
     })
 
-
-
-
-
     const Retry = () => {
         setMarketPageLoading(true)
         let r = Math.random().toString(36).substr(2, 5)
         setRetry(r)
     }
-
 
     const NetworkErrorPage = () => {
         return (
@@ -189,8 +173,6 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
                     return <Chevron size={1.5} color={'white'} />;
                 }}
             />
-
-
             {coinListFetched == null ? NetworkErrorPage() : <FlatList
                 data={coinListFetched}
                 keyExtractor={(item) => item.id}
@@ -230,7 +212,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         justifyContent: 'center'
 
-    }, textTab: {
+    },
+    textTab: {
         ...FONTS.body5,
         marginHorizontal: 5,
         color: COLORS.grey,
@@ -254,8 +237,6 @@ const styles = StyleSheet.create({
         color: COLORS.white,
         ...FONTS.h5,
     }
-
-
 })
 
 export function mapStateToProps(state) {

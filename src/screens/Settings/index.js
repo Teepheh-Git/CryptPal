@@ -21,7 +21,6 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
     const [currency, setCurrency] = useState(appCurrency.name)
 
 
-    console.log(currency)
 
 
 

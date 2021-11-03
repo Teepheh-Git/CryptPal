@@ -11,6 +11,7 @@ export const COLORS = {
     white: '#FFFFFF',
     white2: '#FCFBFE',
     white3: '#F0F0F0',
+    white4: '#EEF1F5',
     grey: '#B1BBCD',
 
 
@@ -92,6 +93,7 @@ export const darkTheme = {
     backgroundColor: COLORS.black,
     backgroundColor2: COLORS.black2,
     backgroundColor3: COLORS.black,
+    backgroundColor4: COLORS.black,
     textColor: COLORS.white,
     textColor2: COLORS.white2,
     textColor3: COLORS.white2,
@@ -107,6 +109,7 @@ export const lightTheme = {
     backgroundColor: COLORS.white,
     backgroundColor2: COLORS.white2,
     backgroundColor3: COLORS.white3,
+    backgroundColor4: COLORS.white4,
     textColor: COLORS.black,
     textColor2: COLORS.primary,
     textColor3: COLORS.primary2,
