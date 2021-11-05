@@ -7,46 +7,17 @@ import CustomHeader from '../../components/CustomHeader'
 import { FONTS, icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from 'lottie-react-native';
+import { getCoinMarket } from '../../stores/market/marketActions'
 
 
 
 
-
-const Search = ({ appTheme, navigation, e, appCurrency }) => {
-
-
-    const getMarketData = async (orderBy = "market_cap_desc", sparkline = true, page = 1, priceChangePerc = "24h", perPage = 250,) => {
-        try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
-            const data = response.data;
-            return data
-
-        } catch (e) {
-            console.log(e.message)
-        }
-
-
-    }
-
-
+const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency }) => {
 
 
     const [searchCoin, setSearchCoin] = useState('')
     const [masterData, setMasterData] = useState([])
     const [filteredData, setFilteredData] = useState([])
-    const [searchLoading, setSearchLoading] = useState(true)
-
-
-
-
-
-    if (filteredData?.length > 0) {
-        setTimeout(() => {
-            setSearchLoading(false)
-        }, 200)
-    }
-
-
 
 
     const SearchFilter = (text) => {
@@ -56,12 +27,10 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
                 const textData = text.toUpperCase()
                 return itemData.indexOf(textData) > -1
             })
-
             setFilteredData(newData)
             setSearchCoin(text)
-
         } else {
-            setFilteredData(masterData)
+            setFilteredData(coins)
             setSearchCoin(text)
         }
     }
@@ -69,14 +38,9 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 
     useEffect(() => {
-        const fetchMarketData = async () => {
-            const marketData = await getMarketData()
-            setFilteredData(marketData)
-            setMasterData(marketData)
-        }
-
-        fetchMarketData()
-
+        getCoinMarket(currency = appCurrency.ticker)
+        setFilteredData(coins)
+        setMasterData(coins)
     }, [appCurrency])
 
     const FilteredDataCondition = () => {
@@ -86,7 +50,6 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
             return filteredData
         }
     }
-
 
 
     CoinListRenderItem = ({ item }) =>
@@ -102,7 +65,6 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 
     const TopResults = () => {
-
         if (searchCoin !== '' && FilteredDataCondition().length !== 0) {
             return (
                 <View style={{ width: SIZES.width * 0.9, marginVertical: 30 }}>
@@ -140,51 +102,47 @@ const Search = ({ appTheme, navigation, e, appCurrency }) => {
 
 
     return (
-        searchLoading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: appTheme.backgroundColor2 }}>
-            {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop /> : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')} autoPlay loop />}
+        <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+            <CustomHeader title='Search' image={icons.search} onPress={() => navigation.goBack()} />
+            <View style={{ flexDirection: 'row', width: SIZES.width * 0.9, height: 55, alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
 
-        </View>
-            : <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-                <CustomHeader title='Search' image={icons.search} onPress={() => navigation.goBack()} />
-                <View style={{ flexDirection: 'row', width: SIZES.width * 0.9, height: 55, alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
-
-                    <TextInput
-                        placeholder={"Search any crypto coin..."}
-                        value={searchCoin}
-                        onChangeText={(text) => SearchFilter(text)}
-                        placeholderTextColor={appTheme.textColor3}
-                        multiline={false}
-                        style={{
-                            width: SIZES.width * 0.9,
-                            height: 55, backgroundColor: appTheme.backgroundColor,
-                            borderRadius: 8,
-                            paddingHorizontal: 15,
-                            left: 10,
-                            paddingRight: 30,
-                            color: appTheme.textColor
-                        }} >
-                    </TextInput>
-                    <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }} source={icons.searchBarIcon} />
-                </View>
+                <TextInput
+                    placeholder={"Search any crypto coin..."}
+                    value={searchCoin}
+                    onChangeText={(text) => SearchFilter(text)}
+                    placeholderTextColor={appTheme.textColor3}
+                    multiline={false}
+                    style={{
+                        width: SIZES.width * 0.9,
+                        height: 55, backgroundColor: appTheme.backgroundColor,
+                        borderRadius: 8,
+                        paddingHorizontal: 15,
+                        left: 10,
+                        paddingRight: 30,
+                        color: appTheme.textColor
+                    }} >
+                </TextInput>
+                <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }} source={icons.searchBarIcon} />
+            </View>
 
 
-                {searchCoin == '' && AboutToSearch()}
+            {searchCoin == '' && AboutToSearch()}
 
 
-                {searchCoin !== '' && TopResults()}
-                <FlatList
-                    data={FilteredDataCondition()}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
-                    initialNumToRender={6}
-                    maxToRenderPerBatch={1}
-                    windowSize={3}
-                    renderItem={CoinListRenderItem}
-                    ListHeaderComponent={
-                        searchCoin !== '' && FilteredDataCondition().length === 0 && Notfound()
-                    }
-                />
-            </SafeAreaView>
+            {searchCoin !== '' && TopResults()}
+            <FlatList
+                data={FilteredDataCondition()}
+                keyExtractor={item => item.id}
+                showsVerticalScrollIndicator={false}
+                initialNumToRender={6}
+                maxToRenderPerBatch={1}
+                windowSize={3}
+                renderItem={CoinListRenderItem}
+                ListHeaderComponent={
+                    searchCoin !== '' && FilteredDataCondition().length === 0 && Notfound()
+                }
+            />
+        </SafeAreaView>
 
     )
 }
@@ -198,19 +156,23 @@ const styles = StyleSheet.create({
     }
 })
 
-
-
 export function mapStateToProps(state) {
     return {
+        coins: state.marketReducer.coins,
+        coinCard: state.marketReducer.coinCard,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
         appCurrency: state.currencyReducer.appCurrency,
-        error: state.currencyReducer.error
+        error: state.currencyReducer.error,
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+        },
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -62,11 +62,17 @@ const BottomTabs = ({ appTheme, navigation }) => {
                 left: 0,
                 paddingHorizontal: 15,
                 right: 0,
-                borderRadius: 40,
-                elevation: 0,
+                borderTopLeftRadius: 40,
+                borderTopRightRadius: 40,
+                elevation: 3,
+                shadowOpacity: 0.1,
+                shadowOffset: {
+                    width: 5,
+                    height: 3,
+                },
                 backgroundColor: appTheme.backgroundColor,
                 borderTopColor: 'transparent',
-                height: Platform.OS === 'android' ? 80 : 100,
+                height: Platform.OS === 'android' ? 90 : 100,
             },
 
 
@@ -154,6 +160,12 @@ const BottomTabs = ({ appTheme, navigation }) => {
                                     alignItems: 'center',
                                     height: 50,
                                     justifyContent: 'space-around',
+                                    elevation: 7,
+                                    shadowOpacity: 0.1,
+                                    shadowOffset: {
+                                        width: 4,
+                                        height: 5,
+                                    },
                                 }}>
                                 <LinearGradient
                                     style={{
@@ -163,6 +175,7 @@ const BottomTabs = ({ appTheme, navigation }) => {
                                         justifyContent: 'center',
                                         bottom: 20,
                                         borderRadius: 35,
+
                                     }}
                                     colors={['#6B55D0', '#8572D8']}>
                                     <Image

@@ -36,7 +36,6 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
 
 
             {/* Coin Chart */}
-
             <View>
                 <LineChart
                     withVerticalLabels={false}
@@ -45,6 +44,7 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
                     withInnerLines={false}
                     withVerticalLines={false}
                     withOuterLines={false}
+                    bezier
                     data={{
                         datasets: [{ data: chartData }]
                     }}
@@ -58,9 +58,7 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
                         strokeWidth: 1,
                         fillShadowGradient: COLORS.primary,
                         fillShadowGradientOpacity: 0.2
-
                     }}
-                    bezier
                     style={{
                         paddingRight: 0,
 
@@ -71,8 +69,6 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
             {/* Price and percentage price change */}
 
             <View style={styles.pricePercContainer}>
-
-
                 <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ' '}{currentPrice?.toLocaleString('en-US')}</Text>
 
                 {priceChangePercentage24h ? <View style={styles.coinPercentage}>
@@ -108,7 +104,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        borderRadius: 10
+        borderRadius: 10,
+        elevation: 3,
+        shadowOpacity: 0.1,
+        shadowOffset: {
+            width: -3,
+            height: -2,
+        },
 
     },
     priceChange: {

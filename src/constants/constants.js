@@ -60,47 +60,47 @@ let currencyList = [
 const listTab = [
     {
         key: '1',
-        status: 'Popular'
+        tabStatus: 'Popular'
     },
     {
         key: '2',
-        status: 'Volume ↑'
+        tabStatus: 'Volume ↑'
     }, {
         key: '3',
-        status: 'Volume ↓'
+        tabStatus: 'Volume ↓'
     },
     {
         key: '4',
-        status: 'A - Z'
+        tabStatus: 'A - Z'
     }, {
         key: '5',
-        status: 'Z - A'
+        tabStatus: 'Z - A'
     },
 ]
 const topMoversListTab = [
     {
         key: '1',
-        status: '1H'
+        tabStatus: '1H'
     },
     {
         key: '2',
-        status: '24H'
+        tabStatus: '24H'
     },
     {
         key: '3',
-        status: '7D'
+        tabStatus: '7D'
     }, {
         key: '4',
-        status: '2W'
+        tabStatus: '2W'
     }, {
         key: '5',
-        status: '1M'
+        tabStatus: '1M'
     }, {
         key: '6',
-        status: '6M'
+        tabStatus: '6M'
     }, {
         key: '7',
-        status: '1Y'
+        tabStatus: '1Y'
     },
 ]
 

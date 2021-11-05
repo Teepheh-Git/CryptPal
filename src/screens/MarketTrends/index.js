@@ -1,45 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, FlatList, View, TouchableOpacity, Image } from 'react-native'
+import { Text, FlatList, View, TouchableOpacity, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import CustomHeader from '../../components/CustomHeader'
-import { COLORS, FONTS, SIZES } from '../../constants'
 import CoinList from '../../components/CoinList'
 import constants from '../../constants/constants'
-import RNPickerSelect from 'react-native-picker-select';
-import { Chevron } from 'react-native-shapes';
-import axios from 'axios'
 import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient'
+import { getCoinMarket } from '../../stores/market/marketActions'
+import styles from './styles'
 
 
-const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
+const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation }) => {
+
     const [marketPageLoading, setMarketPageLoading] = useState(true)
-    const [coinListFetched, setCoinListFetched] = useState([])
-    const [status, setStatus] = useState('Popular')
-    const [orderBy, setOrderBy] = useState('market_cap_desc')
-    const [category, setCategory] = useState('smart-contract-platform')
+    const [tabStatus, setTabStatus] = useState('Popular')
+    const [orderByCoin, setOrderByCoin] = useState('market_cap_desc')
     const [retry, setRetry] = useState('')
 
 
-    const GetListMarketData = async (sparkline = true, priceChangePerc = "24h", page = 1, perPage = 10,) => {
-        try {
-            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&category=${category}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
-            const Data = response.data;
-            return Data
-        } catch (e) {
-            console.log(e.message)
-        }
-    }
-
-
-    if (coinListFetched?.length > 0) {
+    if (coins?.length > 0) {
         setTimeout(() => {
             setMarketPageLoading(false)
         }, 200)
     }
 
-    if (coinListFetched == null) {
+    if (coins == null) {
         setTimeout(() => {
             setMarketPageLoading(false)
         }, 5000)
@@ -47,12 +33,8 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
 
 
     useEffect(() => {
-        const FetchListMarketData = async () => {
-            const ListMarketData = await GetListMarketData()
-            setCoinListFetched(ListMarketData)
-        }
-        FetchListMarketData();
-    }, [orderBy, category, retry])
+        getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin)
+    }, [orderByCoin, retry])
 
 
     CoinListRenderItem = ({ item }) =>
@@ -66,57 +48,26 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
             onPress={() => navigation.navigate('CoinDetails', { ...item })}
         />
 
-    setStatusFilter = status => {
-
-        setStatus(status)
-        if (status === 'Popular') {
-            setOrderBy('market_cap_desk')
+    // SELECTED TREND TABS
+    setTabStatusFilter = tabStatus => {
+        setTabStatus(tabStatus)
+        if (tabStatus === 'Popular') {
+            setOrderByCoin('market_cap_desc')
         }
-        if (status === 'Volume ↑') {
-            setOrderBy('volume_desc')
+        if (tabStatus === 'Volume ↑') {
+            setOrderByCoin('volume_desc')
         }
-        if (status === 'A - Z') {
-            setOrderBy('id_asc')
+        if (tabStatus === 'A - Z') {
+            setOrderByCoin('id_asc')
         }
-        if (status === 'Volume ↓') {
-            setOrderBy('volume_asc')
+        if (tabStatus === 'Volume ↓') {
+            setOrderByCoin('volume_asc')
         }
-        if (status === 'Z - A') {
-            setOrderBy('id_desc')
+        if (tabStatus === 'Z - A') {
+            setOrderByCoin('id_desc')
         }
     }
 
-
-    const pickerSelectStyles = StyleSheet.create({
-        inputIOS: {
-            fontSize: 16,
-            width: SIZES.width * 0.5,
-            left: 25,
-            top: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-            marginVertical: 10,
-            fontWeight: 'bold',
-            borderRadius: 5,
-            color: 'white',
-            backgroundColor: COLORS.primary,
-            paddingRight: 35, // to ensure the text is never behind the icon
-        },
-        inputAndroid: {
-            fontSize: 16,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-            borderWidth: 0.5,
-            borderColor: 'purple',
-            borderRadius: 8,
-            color: 'black',
-            paddingRight: 30, // to ensure the text is never behind the icon
-        },
-        iconContainer: {
-            top: SIZES.height * 0.034,
-            right: 210,
-        },
-    })
 
     const Retry = () => {
         setMarketPageLoading(true)
@@ -126,10 +77,10 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
 
     const NetworkErrorPage = () => {
         return (
-            <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', top: SIZES.height * 0.2, alignSelf: 'center' }}>
-                <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/Sleepy.png')} />
-                <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
-                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Your network is asleep, please check your internet connections and click refresh.</Text>
+            <View style={styles.networkErrorContainer}>
+                <Image style={{ height: 98, width: 98 }} source={require('../../assets/images/ExpressionLess.png')} />
+                <Text style={[styles.networkErrorText, { color: appTheme.textColor }]}>Network error!! </Text>
+                <Text style={[styles.networkErrorDesc, { color: appTheme.textColor3 }]}>Your network is asleep, please check your internet connections and click refresh.</Text>
                 <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
                     <LinearGradient style={styles.refreshButton} colors={['#4F36C4', '#4F36C4']}>
                         <Text style={styles.refresh}>Refresh</Text>
@@ -154,32 +105,22 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
                 {constants.listTab.map((buttonLabel, index) => (
                     <TouchableOpacity
                         key={index}
-                        style={[styles.btnTab, status === buttonLabel.status && styles.btnTabActive]}
-                        onPress={() => setStatusFilter(buttonLabel.status)}>
-                        <Text style={[styles.textTab, status === buttonLabel.status && styles.textTabActive]}>{buttonLabel.status}</Text>
+                        style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                        onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                        <Text style={[styles.textTab, tabStatus === buttonLabel.status && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
                     </TouchableOpacity>
                 ))
                 }
             </View>
 
-            <RNPickerSelect
-                value={category}
-                style={pickerSelectStyles}
-                onValueChange={(value, itemIndex) =>
-                    setCategory(value)
-                }
-                items={constants.categoryList}
-                Icon={() => {
-                    return <Chevron size={1.5} color={'white'} />;
-                }}
-            />
-            {coinListFetched == null ? NetworkErrorPage() : <FlatList
-                data={coinListFetched}
+
+            {coins == null ? NetworkErrorPage() : <FlatList
+                data={coins}
                 keyExtractor={(item) => item.id}
                 renderItem={CoinListRenderItem}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={10}
-                maxToRenderPerBatch={2}
+                initialNumToRender={50}
+                maxToRenderPerBatch={3}
                 ListFooterComponent={
                     <View style={{ marginBottom: 50 }} />
                 }
@@ -189,71 +130,25 @@ const MarketTrends = ({ appTheme, appCurrency, navigation }) => {
 }
 
 
-const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        alignItems: 'center',
-        width: SIZES.width
-    },
-    listTab: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        width: SIZES.width * 0.9,
-        alignItems: 'center',
 
-    },
-    btnTab: {
-        height: 40,
-        marginHorizontal: 5,
-        marginVertical: 5,
-        borderWidth: 0.25,
-        alignItems: 'center',
-        borderColor: COLORS.grey,
-        borderRadius: 5,
-        justifyContent: 'center'
-
-    },
-    textTab: {
-        ...FONTS.body5,
-        marginHorizontal: 5,
-        color: COLORS.grey,
-    },
-    btnTabActive: {
-        backgroundColor: COLORS.primary,
-        borderColor: COLORS.primary,
-    },
-    textTabActive: {
-        color: 'white'
-    },
-    refreshButton: {
-        width: SIZES.width * 0.34,
-        height: 48,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: SIZES.radius3,
-        marginVertical: 40,
-    },
-    refresh: {
-        color: COLORS.white,
-        ...FONTS.h5,
-    }
-})
 
 export function mapStateToProps(state) {
     return {
         coins: state.marketReducer.coins,
+        coinCard: state.marketReducer.coinCard,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
         appCurrency: state.currencyReducer.appCurrency,
-        error: state.currencyReducer.error
+        error: state.currencyReducer.error,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
     return {
-        getCoinMarket: (currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page))
-        }
+        getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 50, page))
+        },
+
     };
 }
 

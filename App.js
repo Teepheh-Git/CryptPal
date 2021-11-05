@@ -9,13 +9,22 @@ import OnBoardingRoute from './router/OnBoardingRoute';
 import { ActivityIndicator, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import rootReducer from './src/stores/rootReducer';
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage
+}
 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = createStore(
-  rootReducer,
+  persistedReducer,
   applyMiddleware(thunk)
 )
+
+const persistor = persistStore(store)
 
 const Loading = () => {
   return (
@@ -56,9 +65,13 @@ const App = () => {
   return (
 
     <Provider store={store}>
-      <NavigationContainer>
-        {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
-      </NavigationContainer>
+      <PersistGate persistor={persistor} loading={null}>
+
+        <NavigationContainer>
+          {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
+        </NavigationContainer>
+      </PersistGate>
+
     </Provider>
   );
 };

@@ -5,7 +5,7 @@ import CustomHeader from '../../components/CustomHeader'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CoinList from '../../components/CoinList'
-import { getCoinMarket } from '../../stores/market/marketActions'
+import { getCardMarket } from '../../stores/market/marketActions'
 import LottieView from 'lottie-react-native';
 import axios from 'axios'
 import constants from '../../constants/constants'
@@ -24,20 +24,20 @@ function TopMoverCoins(a, b) {
 }
 
 
-const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, route }) => {
+const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard, route }) => {
 
-    const [status, setStatus] = useState('24H')
-    const [priceChangePerc, setPriceChangePerc] = useState('24h')
+    const [tabStatus, setTabStatus] = useState('24H')
+    const [coinPriceChangePerc, setCoinPriceChangePerc] = useState('24h')
     const [coinFetched, setCoinFetched] = useState([])
     const [searchLoading, setSearchLoading] = useState(true)
     const [retry, setRetry] = useState('')
 
-    if (coinFetched?.length > 0) {
+    if (coinCard?.length > 0) {
         setTimeout(() => {
             setSearchLoading(false)
         }, 200)
     }
-    if (coinFetched == null) {
+    if (coinCard == null) {
         setTimeout(() => {
             setSearchLoading(false)
         }, 3000)
@@ -54,12 +54,13 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
     }
 
     useEffect(() => {
-        const FetchMarketData = async () => {
-            const MarketData = await GetMarketData()
-            setCoinFetched(MarketData)
-        }
-        FetchMarketData()
-    }, [priceChangePerc, retry])
+        // const FetchMarketData = async () => {
+        // const MarketData = await
+        getCardMarket(currency = appCurrency.ticker, priceChangePerc = coinPriceChangePerc)
+        // setCoinFetched(MarketData)
+        // }
+        // FetchMarketData()
+    }, [coinPriceChangePerc, retry])
 
 
     CoinListRenderItem = ({ item }) =>
@@ -84,22 +85,22 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
 
 
 
-    setStatusFilter = status => {
-        setStatus(status)
-        if (status === '1H') {
-            setPriceChangePerc('1h')
-        } if (status === '24H') {
-            setPriceChangePerc('24h')
-        } if (status === '7D') {
-            setPriceChangePerc('7d')
-        } if (status === '2W') {
-            setPriceChangePerc('14d')
-        } if (status === '1M') {
-            setPriceChangePerc('30d')
-        } if (status === '6M') {
-            setPriceChangePerc('200d')
-        } if (status === '1Y') {
-            setPriceChangePerc('1y')
+    setTabStatusFilter = tabStatus => {
+        setTabStatus(tabStatus)
+        if (tabStatus === '1H') {
+            setCoinPriceChangePerc('1h')
+        } if (tabStatus === '24H') {
+            setCoinPriceChangePerc('24h')
+        } if (tabStatus === '7D') {
+            setCoinPriceChangePerc('7d')
+        } if (tabStatus === '2W') {
+            setCoinPriceChangePerc('14d')
+        } if (tabStatus === '1M') {
+            setCoinPriceChangePerc('30d')
+        } if (tabStatus === '6M') {
+            setCoinPriceChangePerc('200d')
+        } if (tabStatus === '1Y') {
+            setCoinPriceChangePerc('1y')
         }
     }
 
@@ -146,23 +147,22 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCoinMarket, coins, ro
                 {constants.topMoversListTab.map((buttonLabel, index) => (
                     <TouchableOpacity
                         key={index}
-                        style={[styles.btnTab, status === buttonLabel.status && styles.btnTabActive]}
-                        onPress={() => setStatusFilter(buttonLabel.status)}>
-                        <Text style={[styles.textTab, status === buttonLabel.status && styles.textTabActive]}>{buttonLabel.status}</Text>
+                        style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                        onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                        <Text style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
                     </TouchableOpacity>
                 ))
                 }
             </View>
 
-            {coinFetched == null ? NetworkErrorPage() :
+            {coinCard == null ? NetworkErrorPage() :
                 <FlatList
-                    data={coinFetched?.sort(TopMoverCoins).slice(0, 31)}
+                    data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
                     keyExtractor={(item) => item.id}
                     renderItem={CoinListRenderItem}
                     showsVerticalScrollIndicator={false}
-                    initialNumToRender={6}
-                    maxToRenderPerBatch={2}
-                    windowSize={3}
+                    initialNumToRender={20}
+                    maxToRenderPerBatch={3}
                     ListFooterComponent={
                         <View style={{ marginBottom: 50 }} />
                     }
@@ -229,20 +229,20 @@ const styles = StyleSheet.create({
 export function mapStateToProps(state) {
     return {
         coins: state.marketReducer.coins,
+        coinCard: state.marketReducer.coinCard,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
         appCurrency: state.currencyReducer.appCurrency,
-        error: state.currencyReducer.error
+        error: state.currencyReducer.error,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
     return {
-        getCoinMarket: (currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page))
-        }
+        getCardMarket: (currency, orderBy, priceChangePerc, perPage, page) => {
+            return dispatch(getCardMarket(currency, priceChangePerc, orderBy, sparkline = true, perPage, page))
+        },
     };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMovers);

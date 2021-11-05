@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-
-
 export const GET_COIN_MARKET_BEGIN = "GET_COIN_MARKET_BEGIN"
 export const GET_COIN_MARKET_SUCCESS = "GET_COIN_MARKET_SUCCESS"
 export const GET_COIN_MARKET_FAILURE = "GET_COIN_MARKET_FAILURE"
 
+export const GET_CARD_MARKET_BEGIN = "GET_CARD_MARKET_BEGIN"
+export const GET_CARD_MARKET_SUCCESS = "GET_CARD_MARKET_SUCCESS"
+export const GET_CARD_MARKET_FAILURE = "GET_CARD_MARKET_FAILURE"
 
 
 export const getCoinMarketBegin = () => ({
@@ -21,36 +22,53 @@ export const getCoinMarketFailure = (error) => ({
 })
 
 
+export const getCardMarketBegin = () => ({
+    type: GET_CARD_MARKET_BEGIN
+})
+export const getCardMarketSuccess = (coinCard) => ({
+    type: GET_CARD_MARKET_SUCCESS,
+    payload: { coinCard }
+})
+export const getCardMarketFailure = (error) => ({
+    type: GET_CARD_MARKET_FAILURE,
+    payload: { error }
+})
 
-export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", sparkline = true, priceChangePerc = "24h", perPage = 250, page = 1) => {
 
 
-
-
-
+export const getCoinMarket = (currency = "usd", orderBy = orderBy, sparkline = true, priceChangePerc = "24h", perPage = perPage, page = 1) => {
     return async dispatch => {
-        let apiUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`
-
         try {
-            const response = await axios({
-                url: apiUrl,
-                method: `GET`,
-                headers: {
-                    Accept: "application/json"
-                }
-            });
-            // console.log(response.data)
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const Data = response.data;
             if (response.status === 200) {
-                dispatch(getCoinMarketSuccess(response.data));
-
+                dispatch(getCoinMarketSuccess(Data));
             } else {
-                dispatch(getCoinMarketFailure(response.data));
+                dispatch(getCoinMarketFailure(Data));
             }
-        } catch (error_1) {
-            dispatch(getCoinMarketFailure(error_1));
+        } catch (e) {
+            dispatch(getCoinMarketFailure(e));
         }
-
     }
 
 }
+
+export const getCardMarket = (currency = "usd", priceChangePerc = '24h', orderBy = 'market_cap_desc', sparkline = true, perPage = 250, page = 1) => {
+    return async dispatch => {
+        try {
+            const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`)
+            const Data = response.data;
+            if (response.status === 200) {
+                dispatch(getCardMarketSuccess(Data));
+            } else {
+                dispatch(getCardMarketFailure(Data));
+            }
+        } catch (e) {
+            dispatch(getCardMarketFailure(e));
+        }
+    }
+}
+
+
+
 
