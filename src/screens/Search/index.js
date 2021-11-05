@@ -6,18 +6,16 @@ import CoinList from '../../components/CoinList'
 import CustomHeader from '../../components/CustomHeader'
 import { FONTS, icons, SIZES } from '../../constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import LottieView from 'lottie-react-native';
-import { getCoinMarket } from '../../stores/market/marketActions'
+import { getCoinMarket, getSearchMarket, getSearchMarket2 } from '../../stores/market/marketActions'
 
 
-
-
-const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency }) => {
-
+const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinSearch, coinSearch2, getSearchMarket, getSearchMarket2 }) => {
 
     const [searchCoin, setSearchCoin] = useState('')
     const [masterData, setMasterData] = useState([])
     const [filteredData, setFilteredData] = useState([])
+
+    let combinedSearchResult = [...coins, ...coinSearch, ...coinSearch2]
 
 
     const SearchFilter = (text) => {
@@ -30,17 +28,21 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency }) => 
             setFilteredData(newData)
             setSearchCoin(text)
         } else {
-            setFilteredData(coins)
+            setFilteredData(combinedSearchResult)
             setSearchCoin(text)
         }
     }
 
 
-
     useEffect(() => {
         getCoinMarket(currency = appCurrency.ticker)
-        setFilteredData(coins)
-        setMasterData(coins)
+
+        getSearchMarket(currency = appCurrency.ticker)
+        getSearchMarket2(currency = appCurrency.ticker)
+
+
+        setFilteredData(combinedSearchResult)
+        setMasterData(combinedSearchResult)
     }, [appCurrency])
 
     const FilteredDataCondition = () => {
@@ -128,7 +130,6 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency }) => 
 
             {searchCoin == '' && AboutToSearch()}
 
-
             {searchCoin !== '' && TopResults()}
             <FlatList
                 data={FilteredDataCondition()}
@@ -159,7 +160,8 @@ const styles = StyleSheet.create({
 export function mapStateToProps(state) {
     return {
         coins: state.marketReducer.coins,
-        coinCard: state.marketReducer.coinCard,
+        coinSearch: state.marketReducer.coinSearch,
+        coinSearch2: state.marketReducer.coinSearch2,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
         appCurrency: state.currencyReducer.appCurrency,
@@ -170,8 +172,15 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 250, page))
         },
+        getSearchMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+            return dispatch(getSearchMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+        },
+        getSearchMarket2: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+            return dispatch(getSearchMarket2(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+        },
+
     };
 }
 
