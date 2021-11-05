@@ -148,7 +148,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={20}
-                maxToRenderPerBatch={3}
+                // maxToRenderPerBatch={3}
                 renderItem={CoinListRenderItem}
                 // scrollEventThrottle={16}
                 ListFooterComponent={

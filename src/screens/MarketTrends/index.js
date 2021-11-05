@@ -119,8 +119,8 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
                 keyExtractor={(item) => item.id}
                 renderItem={CoinListRenderItem}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={50}
-                maxToRenderPerBatch={3}
+                initialNumToRender={30}
+                // maxToRenderPerBatch={3}
                 ListFooterComponent={
                     <View style={{ marginBottom: 50 }} />
                 }
@@ -146,7 +146,7 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 50, page))
+            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 30, page))
         },
 
     };

@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     },
     coinCard: {
         height: 130,
-        marginBottom: 10
+        marginBottom: 5,
+        marginLeft: 10
     },
     marketTrendsContainer: {
         width: SIZES.width * 0.9,

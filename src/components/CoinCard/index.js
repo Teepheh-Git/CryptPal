@@ -30,8 +30,8 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
 
 const styles = StyleSheet.create({
     container: {
-        width: 128,
-        height: 120,
+        width: SIZES.width * 0.35,
+        height: SIZES.height * 0.14,
         borderRadius: 8,
         padding: 15,
         justifyContent: 'space-between',
