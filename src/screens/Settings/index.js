@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { toggleTheme } from '../../stores/theme/themeActions';
 import { toggleCurrency } from '../../stores/currency/currencyActions'
 import { COLORS, constants, FONTS, SIZES } from '../../constants';
-import ActionSheet from 'react-native-actionsheet';
 import RNPickerSelect from 'react-native-picker-select';
 import { Chevron } from 'react-native-shapes';
 
@@ -19,12 +18,6 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
 
     const [currency, setCurrency] = useState(appCurrency.name)
-
-
-
-
-
-
 
     function toggleThemeHandler() {
         if (appTheme.name === 'light') {
@@ -131,35 +124,6 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
                 <Text>Clear Favorites </Text>
 
             </TouchableOpacity>
-            {/* <TouchableOpacity
-                style={{ height: 60, width: "50%", backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}
-                onPress={toggleCurrencyHandler()}>
-                <Text>Currency Options </Text>
-
-            </TouchableOpacity> */}
-
-
-            {/* <ActionSheet
-                ref={actionSheet}
-                title={'currency'}
-                options={currencyList}
-                cancelButtonIndex={4}
-                onPress={(item) => {
-
-
-                    if (appCurrency.name === 'dollar') {
-                        toggleCurrency[item[3]]
-                    } if (appCurrency.name === 'naira') {
-                        toggleCurrency[item[2]]
-                    } if (appCurrency.name === 'euro') {
-                        toggleCurrency[item[1]]
-                    } if (appCurrency.name === 'yen') {
-                        toggleCurrency[item[0]]
-                    }
-                }}
-
-
-            /> */}
 
 
 

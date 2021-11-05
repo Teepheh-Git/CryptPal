@@ -17,9 +17,12 @@ const Stack = createStackNavigator();
 
 const AppRoute = () => {
     return (
-        <Stack.Navigator screenOptions={{
-            headerShown: false
-        }}>
+        <Stack.Navigator
+            detachInactiveScreens
+            screenOptions={{
+                headerShown: false,
+                // animationEnabled: false
+            }}>
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="CoinDetails" component={CoinDetails} />
             <Stack.Screen name="Search" component={Search} />

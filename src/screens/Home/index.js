@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import CoinCard from '../../components/CoinCard';
 import CoinList from '../../components/CoinList';
 import { useFocusEffect } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native'
 import { icons } from '../../constants';
 import { getCoinMarket, getCardMarket } from '../../stores/market/marketActions';
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -20,7 +21,12 @@ import styles from './styles'
 
 
 
-const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, navigation, item }) => {
+
+
+const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
+
+
+    const navigation = useNavigation()
 
     //  SORT COIN CARD FUNCTION
     function TopMoverCoins(a, b) {
@@ -42,7 +48,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     if (coins == null || coinCard == null) {
         setTimeout(() => {
             setHomePageLoading(false)
-        }, 5000)
+        }, 2000)
     }
 
 
@@ -56,7 +62,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     // HOME PAGE LOADING FUNCTION
     if (homePageLoading) {
         return (
-            <View style={[styles.homePageLoading, { backgroundColor: appTheme.backgroundColor2 }]}>
+            <View style={[styles.homePageLoading, { backgroundColor: appTheme.backgroundColor5 }]}>
                 {appTheme.name === 'light' ? <LottieView style={{ width: 80, height: 80 }}
                     source={require('../../assets/images/pupr.mp4.lottie.json')} autoPlay loop />
                     : <LottieView style={{ width: 80, height: 80 }} source={require('../../assets/images/black.mp4.lottie.json')}

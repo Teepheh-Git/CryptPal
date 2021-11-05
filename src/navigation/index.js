@@ -53,30 +53,32 @@ const BottomTabs = ({ appTheme, navigation }) => {
 
 
     return (
-        <Tab.Navigator screenOptions={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarStyle: {
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                paddingHorizontal: 15,
-                right: 0,
-                borderTopLeftRadius: 40,
-                borderTopRightRadius: 40,
-                elevation: 3,
-                shadowOpacity: 0.1,
-                shadowOffset: {
-                    width: 5,
-                    height: 3,
+        <Tab.Navigator
+            detachInactiveScreens
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarStyle: {
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    paddingHorizontal: 15,
+                    right: 0,
+                    borderTopLeftRadius: 40,
+                    borderTopRightRadius: 40,
+                    elevation: 4,
+                    shadowOpacity: 0.1,
+                    shadowOffset: {
+                        width: 5,
+                        height: - 3,
+                    },
+                    backgroundColor: appTheme.backgroundColor,
+                    borderTopColor: 'transparent',
+                    height: Platform.OS === 'android' ? 90 : 100,
                 },
-                backgroundColor: appTheme.backgroundColor,
-                borderTopColor: 'transparent',
-                height: Platform.OS === 'android' ? 90 : 100,
-            },
 
 
-        }}>
+            }}>
             <Tab.Screen name="Home" component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => {

@@ -9,8 +9,6 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
         <View style={styles.container}>
 
             <TouchableOpacity activeOpacity={0.6} style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]} onPress={onPress}>
-
-
                 <Image style={styles.backArrow} source={icons.backArrow} />
 
             </TouchableOpacity>
@@ -31,13 +29,13 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: SIZES.width * 0.95,
-        height: 55,
+        width: SIZES.width * 0.9,
+        height: SIZES.height * 0.08,
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
         padding: 10,
-        elevation: 1,
+        elevation: 4,
         shadowOpacity: 0.1,
         shadowOffset: {
             width: 5,

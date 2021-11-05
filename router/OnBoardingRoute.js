@@ -11,9 +11,11 @@ const Stack = createStackNavigator();
 
 const OnBoardingRoute = () => {
     return (
-        <Stack.Navigator screenOptions={{
-            headerShown: false
-        }}>
+        <Stack.Navigator
+            detachInactiveScreens
+            screenOptions={{
+                headerShown: false
+            }}>
             <Stack.Screen name="OnBoarding" component={OnBoarding} />
             <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="CoinDetails" component={CoinDetails} />

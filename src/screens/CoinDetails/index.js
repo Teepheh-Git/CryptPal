@@ -16,7 +16,11 @@ import LinearGradient from 'react-native-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/core'
 
-const CoinDetails = ({ appTheme, appCurrency, route, coins, navigation }) => {
+const CoinDetails = ({ appTheme, appCurrency, route, coins }) => {
+
+
+
+    const navigation = useNavigation()
     const dataFromHome = route.params
 
 
@@ -35,33 +39,15 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins, navigation }) => {
         if (!amount && amount !== 0) {
             setTextUnit('')
             setFiatValue('')
-            return
-        }
-
-        setFiatValue((amount * dataFromHome?.current_price))
-
-
-    }, [textUnit])
-
-
-
-    useEffect(() => {
-        getCoinMarket()
-        const amount = parseFloat(textUnit)
-
-        if (!amount && amount !== 0) {
-            setTextUnit('')
             setTokenValue('')
             return
         }
 
+        setFiatValue((amount * dataFromHome?.current_price))
         setTokenValue((amount / dataFromHome?.current_price))
 
 
     }, [textUnit])
-
-
-
 
 
 
@@ -98,15 +84,11 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins, navigation }) => {
 
 
     function toggleSwapButton() {
-
         if (swap) {
             setSwap(false)
         } else {
             setSwap(true)
         }
-
-
-
     }
 
 
@@ -174,7 +156,7 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins, navigation }) => {
                             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 15 }}>
                                 <View style={{ width: SIZES.width * 0.35, height: SIZES.height * 0.07, borderWidth: 1, flexDirection: 'row', borderColor: appTheme.textColor3, borderRadius: 10, justifyContent: 'space-evenly', alignItems: 'center' }}>
 
-                                    <Image style={{ width: 30, height: 30 }} source={swap ? { uri: dataFromHome.image } : appCurrency.image} />
+                                    <Image style={{ width: 30, height: 30, borderRadius: 30 }} source={swap ? { uri: dataFromHome.image } : appCurrency.image} />
 
 
                                     <Text style={{ color: appTheme.textColor, ...FONTS.body3 }}>{swap ? dataFromHome.symbol.toUpperCase() : appCurrency.ticker}</Text>
@@ -213,18 +195,9 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins, navigation }) => {
                                 onChangeText={setTextUnit}
                                 keyboardType={'decimal-pad'}
                                 style={{ color: appTheme.textColor, borderWidth: 0.5, height: SIZES.height * 0.06, borderRadius: 8, borderColor: COLORS.grey, paddingHorizontal: 10 }}
-
-
-
                             />
 
                         </View>
-
-
-
-
-
-
 
                         <TouchableOpacity activeOpacity={0.6} onPress={SaveToFavorites}>
                             {favAdded ? <LinearGradient style={[styles.root2, { borderColor: appTheme.textColor2 }]} colors={[appTheme.backgroundColor2, appTheme.backgroundColor2]}>

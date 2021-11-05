@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: SIZES.width * 0.95,
+        width: SIZES.width * 0.9,
         height: 63
     },
     topMoversContainer2: {
@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
         fontWeight: '100',
     },
     seeAll: {
-        fontSize: SIZES.font4,
-        fontWeight: 'normal',
+        fontSize: SIZES.font3,
+        fontWeight: 'bold',
+
     },
     coinCard: {
         height: 130,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: SIZES.width * 0.9,
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 8,
         elevation: 3,
         shadowOpacity: 0.1,
         shadowOffset: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         },
     },
     btnTab: {
-        height: 40,
+        height: SIZES.height * 0.05,
         marginHorizontal: 5,
         marginVertical: 5,
         borderWidth: 0.25,
@@ -89,9 +90,10 @@ const styles = StyleSheet.create({
 
     },
     textTab: {
-        ...FONTS.body5,
+        ...FONTS.body4,
         marginHorizontal: 5,
         color: COLORS.grey,
+        letterSpacing: 1
     },
     btnTabActive: {
         backgroundColor: COLORS.primary,

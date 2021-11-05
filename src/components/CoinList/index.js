@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Image, Text, View, TouchableOpacity, Pressable } from 'react-native'
 import { LineChart } from 'react-native-chart-kit'
 import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
@@ -26,7 +26,7 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
 
             {/* CoinName Logo Symbol */}
             <View style={styles.nameLogoSymbol}>
-                <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }} resizeMode='contain' />
+                <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }} resizeMode='cover' />
                 <View style={styles.nameSymbolContainer}>
                     <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
                     <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{symbol}</Text>
@@ -57,11 +57,11 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
                         backgroundGradientTo: appTheme.backgroundColor,
                         strokeWidth: 1,
                         fillShadowGradient: COLORS.primary,
-                        fillShadowGradientOpacity: 0.2
+                        fillShadowGradientOpacity: 0.4
                     }}
                     style={{
                         paddingRight: 0,
-
+                        paddingLeft: 0
                     }}
                 />
             </View>
