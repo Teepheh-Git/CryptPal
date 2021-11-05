@@ -168,6 +168,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={20}
                 getItemLayout={getItemLayout}
+                removeClippedSubviews={true}
                 // maxToRenderPerBatch={3}
                 renderItem={CoinListRenderItem}
                 // scrollEventThrottle={16}
@@ -196,6 +197,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                                 data={coinCard?.sort(TopMoverCoins)?.slice(0, 7)}
                                 keyExtractor={(_, index) => index.toString()}
                                 horizontal
+                                removeClippedSubviews={true}
                                 showsHorizontalScrollIndicator={false}
                                 initialNumToRender={10}
                                 maxToRenderPerBatch={2}

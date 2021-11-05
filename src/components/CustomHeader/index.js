@@ -6,7 +6,7 @@ import { COLORS, FONTS, icons, SIZES } from '../../constants'
 
 const CustomHeader = ({ appTheme, title, onPress, image }) => {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
             <TouchableOpacity activeOpacity={0.6} style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]} onPress={onPress}>
                 <Image style={styles.backArrow} source={icons.backArrow} />
@@ -29,16 +29,18 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: SIZES.width * 0.9,
+        width: SIZES.width,
         height: SIZES.height * 0.08,
         alignItems: 'center',
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5,
         justifyContent: 'space-between',
         flexDirection: 'row',
-        padding: 10,
+        padding: 20,
         elevation: 4,
         shadowOpacity: 0.1,
         shadowOffset: {
-            width: 5,
+            width: 2,
             height: 3,
         },
 

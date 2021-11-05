@@ -10,7 +10,6 @@ import Chart from '../../components/Chart'
 import { getCoinMarket } from '../../stores/market/marketActions'
 import CoinDetailsInfo from '../../components/CoinDetailsInfo'
 import moment from 'moment'
-import CustomButton from '../../components/CustomButton'
 import LinearGradient from 'react-native-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -95,7 +94,11 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
         <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]} >
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
+
                 <CustomHeader title='Overview' image={icons.overviewGraph} onPress={() => navigation.goBack()} />
+
+
+
 
                 <ScrollView showsVerticalScrollIndicator={false} >
 
@@ -109,23 +112,15 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
                             priceChangePercentage24h={dataFromHome?.price_change_percentage_24h}
                         />
 
-
                         <Chart
-                            chartPrices={
-                                dataFromHome?.sparkline_in_7d?.price
-                            }
+                            chartPrices={dataFromHome?.sparkline_in_7d?.price}
                             containerStyle={{
                                 marginTop: SIZES.padding,
                                 marginHorizontal: 15,
                                 flexDirection: "row",
                             }} />
 
-
-
-
-
                         <Text style={{ color: appTheme.textColor2, alignSelf: 'flex-end', margin: 15 }}>Updated: {moment(dataFromHome.last_updated).fromNow()}</Text>
-
 
                         <View style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
 
@@ -173,7 +168,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
                             </View>
 
 
-                            <View style={{ backgroundColor: appTheme.backgroundColor4, height: SIZES.height * 0.13, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginVertical: 15 }}>
+                            <View style={{ backgroundColor: appTheme.backgroundColor3, height: SIZES.height * 0.13, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginVertical: 15 }}>
                                 <Text style={{ color: appTheme.textColor, ...FONTS.h1 }}>{swap ? appCurrency.symbol + ' ' + fiatValue?.toLocaleString("en-US") : tokenValue?.toLocaleString("en-US")}</Text>
                                 <Text style={{ color: appTheme.textColor, ...FONTS.body4 }}>{swap ? appCurrency.ticker : dataFromHome.symbol.toUpperCase()}</Text>
                             </View>
