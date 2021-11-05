@@ -22,11 +22,23 @@ import styles from './styles'
 
 
 
-
 const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
+
+    const ITEM_HEIGHT = 75
+
+    const getItemLayout = useCallback((data, index) => ({
+
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index
+
+
+    }), [])
 
 
     const navigation = useNavigation()
+
+
 
     //  SORT COIN CARD FUNCTION
     function TopMoverCoins(a, b) {
@@ -72,7 +84,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     }
 
     // COIN CARD COMPONENT RENDER ITEM
-    CoinCardRenderItem = ({ item }) =>
+    const CoinCardRenderItem = ({ item }) =>
         <CoinCard
             name={item.name}
             logoUrl={item.image}
@@ -81,8 +93,9 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
             onPress={() => { navigation.navigate('CoinDetails', { ...item }) }}
         />
 
+
     // COIN LIST COMPONENT RENDER ITEM
-    CoinListRenderItem = ({ item }) =>
+    const CoinListRenderItem = ({ item }) =>
         <CoinList
             name={item?.name}
             logoUrl={item?.image}
@@ -154,6 +167,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={20}
+                getItemLayout={getItemLayout}
                 // maxToRenderPerBatch={3}
                 renderItem={CoinListRenderItem}
                 // scrollEventThrottle={16}

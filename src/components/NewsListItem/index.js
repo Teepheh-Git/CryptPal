@@ -7,10 +7,8 @@ import { FONTS, SIZES } from '../../constants'
 const NewsListItem = ({ appTheme, title, time, link, onPress }) => {
     return (
         <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-            {/* <View> */}
 
             <Text numberOfLines={1} ellipsizeMode={'tail'} style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
-            {/* </View> */}
             <View style={styles.timeLinkContainer}>
                 <Text style={[styles.time, { color: appTheme.textColor3 }]}>{time}</Text>
 
@@ -37,8 +35,6 @@ const styles = StyleSheet.create({
     },
     title: {
         ...FONTS.body2,
-        // width: SIZES.width * 0.9,
-
     },
 
     timeLinkContainer: {

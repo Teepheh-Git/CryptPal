@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, Image, TextInput, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import CoinList from '../../components/CoinList'
@@ -10,6 +10,19 @@ import { getCoinMarket, getSearchMarket, getSearchMarket2 } from '../../stores/m
 
 
 const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinSearch, coinSearch2, getSearchMarket, getSearchMarket2 }) => {
+
+
+    const ITEM_HEIGHT = 75
+
+    const getItemLayout = useCallback((data, index) => ({
+
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index
+
+
+    }), [])
+
 
     const [searchCoin, setSearchCoin] = useState('')
     const [masterData, setMasterData] = useState([])
@@ -135,9 +148,8 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
                 data={FilteredDataCondition()}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={6}
-                maxToRenderPerBatch={1}
-                windowSize={3}
+                initialNumToRender={30}
+                getItemLayout={getItemLayout}
                 renderItem={CoinListRenderItem}
                 ListHeaderComponent={
                     searchCoin !== '' && FilteredDataCondition().length === 0 && Notfound()

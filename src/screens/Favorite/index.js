@@ -1,13 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/core'
 import React, { useState, useCallback } from 'react'
-import {
-    FlatList, Image
-    , StyleSheet, Text, View
-} from 'react-native'
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { SAMPLE_DATA } from '../../assets/data/sampleData'
 import CoinList from '../../components/CoinList'
 import { FONTS, SIZES } from '../../constants'
 const Favorite = ({ appTheme, navigation }) => {

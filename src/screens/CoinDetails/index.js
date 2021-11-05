@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import CoinDetailsTitle from '../../components/CoinDetailsTitle'
-import CoinList from '../../components/CoinList'
 import CustomHeader from '../../components/CustomHeader'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
 import { useNavigation } from '@react-navigation/native';
@@ -14,9 +13,8 @@ import moment from 'moment'
 import CustomButton from '../../components/CustomButton'
 import LinearGradient from 'react-native-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useFocusEffect } from '@react-navigation/core'
 
-const CoinDetails = ({ appTheme, appCurrency, route, coins }) => {
+const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
 
@@ -112,19 +110,17 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins }) => {
                         />
 
 
-                        <View>
-                            <Chart
-                                chartPrices={
-                                    dataFromHome?.sparkline_in_7d?.price
-                                }
-                                containerStyle={{
-                                    marginTop: SIZES.padding,
-                                    marginHorizontal: 15,
-                                    flexDirection: "row",
-                                }} />
+                        <Chart
+                            chartPrices={
+                                dataFromHome?.sparkline_in_7d?.price
+                            }
+                            containerStyle={{
+                                marginTop: SIZES.padding,
+                                marginHorizontal: 15,
+                                flexDirection: "row",
+                            }} />
 
 
-                        </View>
 
 
 
@@ -166,8 +162,6 @@ const CoinDetails = ({ appTheme, appCurrency, route, coins }) => {
                                 <TouchableOpacity onPress={toggleSwapButton}
                                     style={{ width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 44, backgroundColor: appTheme.backgroundColor4 }}>
                                     <Image source={icons.swapIcon} style={{ width: 22, height: 22, }} />
-
-
                                 </TouchableOpacity>
 
                                 <View style={{ width: SIZES.width * 0.35, height: SIZES.height * 0.07, borderWidth: 1, flexDirection: 'row', borderColor: appTheme.textColor3, borderRadius: 10, justifyContent: 'space-evenly', alignItems: 'center' }}>

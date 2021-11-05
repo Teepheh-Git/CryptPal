@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Text, FlatList, View, TouchableOpacity, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
@@ -12,6 +12,19 @@ import styles from './styles'
 
 
 const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation }) => {
+
+
+    const ITEM_HEIGHT = 75
+
+    const getItemLayout = useCallback((data, index) => ({
+
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index
+
+
+    }), [])
+
 
     const [marketPageLoading, setMarketPageLoading] = useState(true)
     const [tabStatus, setTabStatus] = useState('Popular')
@@ -120,6 +133,7 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
                 renderItem={CoinListRenderItem}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={30}
+                getItemLayout={getItemLayout}
                 // maxToRenderPerBatch={3}
                 ListFooterComponent={
                     <View style={{ marginBottom: 50 }} />

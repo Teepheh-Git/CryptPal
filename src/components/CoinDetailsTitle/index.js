@@ -2,6 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
+import FastImage from 'react-native-fast-image'
+
 
 
 const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, logoUrl, name, symbol, currentPrice }) => {
@@ -17,7 +19,15 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
 
             {/* CoinName Logo Symbol */}
             <View style={styles.nameLogoSymbol}>
-                <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }} resizeMode='contain' />
+                <FastImage
+                    resizeMode={FastImage.resizeMode.contain}
+                    source={{
+                        uri: logoUrl,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.immutable
+                    }}
+                    style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }}
+                />
                 <View style={styles.nameSymbolContainer}>
                     <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
                     <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{symbol}</Text>

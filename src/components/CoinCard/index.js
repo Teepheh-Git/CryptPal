@@ -2,6 +2,8 @@ import React from 'react'
 import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { COLORS, icons, SIZES } from '../../constants'
+import FastImage from 'react-native-fast-image'
+
 
 
 
@@ -12,7 +14,15 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
 
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
-            <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }} resizeMode='contain' />
+            <FastImage
+                resizeMode={FastImage.resizeMode.contain}
+                source={{
+                    uri: logoUrl,
+                    priority: FastImage.priority.normal,
+                    cache: FastImage.cacheControl.immutable
+                }}
+                style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }}
+                resizeMode='contain' />
             <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
             <Text numberOfLines={1} style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ''} {currentPrice.toLocaleString('en-US')}</Text>
             <View style={styles.coinPercentage}>

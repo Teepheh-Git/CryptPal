@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, Image, Text, View, TouchableOpacity, Pressable } from 'react-native'
+import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native'
 import { LineChart } from 'react-native-chart-kit'
 import { connect } from 'react-redux'
 import { COLORS, FONTS, icons, SIZES } from '../../constants'
+import FastImage from 'react-native-fast-image'
 
 const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChangePercentageInCurrency, logoUrl, name, symbol, currentPrice, chartData, onPress }) => {
 
@@ -26,7 +27,19 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
 
             {/* CoinName Logo Symbol */}
             <View style={styles.nameLogoSymbol}>
-                <Image source={{ uri: logoUrl }} style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }} resizeMode='cover' />
+                <FastImage
+                    resizeMode={FastImage.resizeMode.contain}
+                    source={{
+                        uri: logoUrl,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.immutable
+                    }}
+                    style={{
+                        width: 24,
+                        height: 24,
+                        borderRadius: 30,
+                        marginRight: 5
+                    }} />
                 <View style={styles.nameSymbolContainer}>
                     <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
                     <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{symbol}</Text>
@@ -36,35 +49,33 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
 
 
             {/* Coin Chart */}
-            <View>
-                <LineChart
-                    withVerticalLabels={false}
-                    withHorizontalLabels={false}
-                    withDots={false}
-                    withInnerLines={false}
-                    withVerticalLines={false}
-                    withOuterLines={false}
-                    bezier
-                    data={{
-                        datasets: [{ data: chartData }]
-                    }}
-                    width={80}
-                    height={73}
-                    chartConfig={{
-                        color: () => priceChangeColorForChart,
-                        backgroundColor: "#ffffff",
-                        backgroundGradientFrom: appTheme.backgroundColor,
-                        backgroundGradientTo: appTheme.backgroundColor,
-                        strokeWidth: 1,
-                        fillShadowGradient: COLORS.primary,
-                        fillShadowGradientOpacity: 0.4
-                    }}
-                    style={{
-                        paddingRight: 0,
-                        paddingLeft: 0
-                    }}
-                />
-            </View>
+            <LineChart
+                withVerticalLabels={false}
+                withHorizontalLabels={false}
+                withDots={false}
+                withInnerLines={false}
+                withVerticalLines={false}
+                withOuterLines={false}
+                bezier
+                data={{
+                    datasets: [{ data: chartData }]
+                }}
+                width={80}
+                height={73}
+                chartConfig={{
+                    color: () => priceChangeColorForChart,
+                    backgroundColor: "#ffffff",
+                    backgroundGradientFrom: appTheme.backgroundColor,
+                    backgroundGradientTo: appTheme.backgroundColor,
+                    strokeWidth: 1,
+                    fillShadowGradient: COLORS.primary,
+                    fillShadowGradientOpacity: 0.4
+                }}
+                style={{
+                    paddingRight: 0,
+                    paddingLeft: 0
+                }}
+            />
 
             {/* Price and percentage price change */}
 
