@@ -1,4 +1,4 @@
-import React, { useCallback, useState, } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import {
     Image,
     Text,
@@ -21,24 +21,19 @@ import styles from './styles'
 
 
 
-
 const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
 
     const ITEM_HEIGHT = 75
 
     const getItemLayout = useCallback((data, index) => ({
-
         length: ITEM_HEIGHT,
         offset: ITEM_HEIGHT * index,
         index
-
 
     }), [])
 
 
     const navigation = useNavigation()
-
-
 
     //  SORT COIN CARD FUNCTION
     function TopMoverCoins(a, b) {
@@ -64,12 +59,25 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     }
 
 
-    useFocusEffect(
-        useCallback(() => {
-            getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin)
-            getCardMarket(currency = appCurrency.ticker)
-        }, [appCurrency, orderByCoin, retry])
-    )
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin)
+    //         // getCardMarket(currency = appCurrency.ticker)
+    //     }, [appCurrency, orderByCoin, retry])
+    // )
+
+    useEffect(() => {
+        getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin)
+        getCardMarket(currency = appCurrency.ticker)
+    }, [appCurrency, orderByCoin, retry])
+
+
+    useEffect(() => {
+        getCardMarket(currency = appCurrency.ticker)
+    }, [appCurrency])
+
+
+
 
     // HOME PAGE LOADING FUNCTION
     if (homePageLoading) {
@@ -169,9 +177,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                 initialNumToRender={20}
                 getItemLayout={getItemLayout}
                 removeClippedSubviews={true}
-                // maxToRenderPerBatch={3}
                 renderItem={CoinListRenderItem}
-                // scrollEventThrottle={16}
                 ListFooterComponent={
                     <TouchableOpacity style={styles.listSeeAllContainer} onPress={() => navigation.navigate('MarketTrends')}>
                         <Text style={[styles.listSeeAll, { color: appTheme.textColor2 }]}>See all </Text>
@@ -200,7 +206,6 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                                 removeClippedSubviews={true}
                                 showsHorizontalScrollIndicator={false}
                                 initialNumToRender={10}
-                                maxToRenderPerBatch={2}
                                 renderItem={CoinCardRenderItem} />
                         </View>
 
@@ -242,7 +247,7 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 21, page))
+            return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 20, page))
         },
         getCardMarket: (currency, orderBy, priceChangePerc, perPage, page) => {
             return dispatch(getCardMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))

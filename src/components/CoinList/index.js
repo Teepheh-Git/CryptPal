@@ -21,7 +21,7 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
 
 
     return (
-        <TouchableOpacity activeOpacity={0.5} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]} onPress={onPress}>
+        <TouchableOpacity activeOpacity={0.8} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]} onPress={onPress}>
 
 
 
@@ -78,7 +78,6 @@ const CoinList = ({ appTheme, appCurrency, priceChangePercentage24h, priceChange
             />
 
             {/* Price and percentage price change */}
-
             <View style={styles.pricePercContainer}>
                 <Text style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ' '}{currentPrice?.toLocaleString('en-US')}</Text>
 

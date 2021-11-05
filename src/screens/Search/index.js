@@ -28,7 +28,7 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
     const [masterData, setMasterData] = useState([])
     const [filteredData, setFilteredData] = useState([])
 
-    let combinedSearchResult = [...coins, ...coinSearch, ...coinSearch2]
+    // let combinedSearchResult = [...coins, ...coinSearch, ...coinSearch2]
 
 
     const SearchFilter = (text) => {
@@ -41,7 +41,7 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
             setFilteredData(newData)
             setSearchCoin(text)
         } else {
-            setFilteredData(combinedSearchResult)
+            setFilteredData(coins)
             setSearchCoin(text)
         }
     }
@@ -50,12 +50,12 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
     useEffect(() => {
         getCoinMarket(currency = appCurrency.ticker)
 
-        getSearchMarket(currency = appCurrency.ticker)
-        getSearchMarket2(currency = appCurrency.ticker)
+        // getSearchMarket(currency = appCurrency.ticker)
+        // getSearchMarket2(currency = appCurrency.ticker)
 
 
-        setFilteredData(combinedSearchResult)
-        setMasterData(combinedSearchResult)
+        setFilteredData(coins)
+        setMasterData(coins)
     }, [appCurrency])
 
     const FilteredDataCondition = () => {
@@ -149,6 +149,7 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={30}
+                removeClippedSubviews={true}
                 getItemLayout={getItemLayout}
                 renderItem={CoinListRenderItem}
                 ListHeaderComponent={
@@ -172,8 +173,8 @@ const styles = StyleSheet.create({
 export function mapStateToProps(state) {
     return {
         coins: state.marketReducer.coins,
-        coinSearch: state.marketReducer.coinSearch,
-        coinSearch2: state.marketReducer.coinSearch2,
+        // coinSearch: state.marketReducer.coinSearch,
+        // coinSearch2: state.marketReducer.coinSearch2,
         appTheme: state.themeReducer.appTheme,
         error: state.themeReducer.error,
         appCurrency: state.currencyReducer.appCurrency,
@@ -186,12 +187,12 @@ const mapDispatchToProps = (dispatch) => {
         getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
             return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 250, page))
         },
-        getSearchMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getSearchMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
-        },
-        getSearchMarket2: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getSearchMarket2(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
-        },
+        // getSearchMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+        //     return dispatch(getSearchMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+        // },
+        // getSearchMarket2: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+        //     return dispatch(getSearchMarket2(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
+        // },
 
     };
 }
