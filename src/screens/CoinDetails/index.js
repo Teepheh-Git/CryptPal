@@ -169,7 +169,14 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
                             <View style={{ backgroundColor: appTheme.backgroundColor3, height: SIZES.height * 0.13, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginVertical: 15 }}>
+
+
+
                                 <Text style={{ color: appTheme.textColor, ...FONTS.h1 }}>{swap ? appCurrency.symbol + ' ' + fiatValue?.toLocaleString("en-US") : tokenValue?.toLocaleString("en-US")}</Text>
+
+
+
+
                                 <Text style={{ color: appTheme.textColor, ...FONTS.body4 }}>{swap ? appCurrency.ticker : dataFromHome.symbol.toUpperCase()}</Text>
                             </View>
 
@@ -285,9 +292,7 @@ export function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCoinMarket: (currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page) => {
-            return dispatch(getCoinMarket(currency, coinList, orderBy, sparkline, priceChangePerc, perPage, page))
-        }
+
     };
 }
 

@@ -95,7 +95,12 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
             <View style={{ width: SIZES.width * 0.7, alignItems: 'center', justifyContent: 'center', marginVertical: 30 }}>
                 <Image style={{}} source={require('../../assets/images/Thinking.png')} />
                 <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
-                <Text style={{ ...FONTS.body4, textAlign: 'center', color: appTheme.textColor3 }}>Sorry, you'll have to make a search to get any result here.</Text>
+                <Text style={{
+                    ...FONTS.body4,
+                    textAlign: 'center',
+                    color: appTheme.textColor3
+                }}>
+                    Sorry, you'll have to make a search to get any result here.</Text>
             </View>
 
         )
@@ -118,9 +123,10 @@ const Search = ({ appTheme, navigation, getCoinMarket, coins, appCurrency, coinS
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+
             <CustomHeader title='Search' image={icons.search} onPress={() => navigation.goBack()} />
             <View style={{ flexDirection: 'row', width: SIZES.width * 0.9, height: 55, alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
-
                 <TextInput
                     placeholder={"Search any crypto coin..."}
                     value={searchCoin}

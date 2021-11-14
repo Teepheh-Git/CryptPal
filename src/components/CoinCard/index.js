@@ -1,97 +1,102 @@
-import React from 'react'
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native'
-import { connect } from 'react-redux'
-import { COLORS, icons, SIZES } from '../../constants'
-import FastImage from 'react-native-fast-image'
-
-
+import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
+import { icons, SIZES } from "../../constants";
+import FastImage from "react-native-fast-image";
 
 
 const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress }) => {
 
 
-    const priceChangeColor = priceChangePercentage24h > 0 ? '#34C759' : '#EB0000';
+  const priceChangeColor = priceChangePercentage24h > 0 ? "#34C759" : "#EB0000";
 
-    return (
-        <TouchableOpacity activeOpacity={0.6} onPress={onPress} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
-            <FastImage
-                resizeMode={FastImage.resizeMode.contain}
-                source={{
-                    uri: logoUrl,
-                    priority: FastImage.priority.normal,
-                    cache: FastImage.cacheControl.immutable
-                }}
-                style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }}
-                resizeMode='contain' />
-            <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
-            <Text numberOfLines={1} style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ''} {currentPrice.toLocaleString('en-US')}</Text>
-            <View style={styles.coinPercentage}>
-                {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
-                    style={{ width: 13, height: 13, tintColor: priceChangeColor, transform: priceChangePercentage24h > 0 ? [{ rotate: '0deg' }] : [{ rotate: '180deg' }] }} />}
+  return (
+    <TouchableOpacity activeOpacity={0.6} onPress={onPress}
+                      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+      <FastImage
+        resizeMode={FastImage.resizeMode.contain}
+        source={{
+          uri: logoUrl,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.immutable,
+        }}
+        style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }}
+        resizeMode="contain" />
+      <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
+      <Text numberOfLines={1}
+            style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ""} {currentPrice.toLocaleString("en-US")}</Text>
+      <View style={styles.coinPercentage}>
+        {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
+                                                 style={{
+                                                   width: 13,
+                                                   height: 13,
+                                                   tintColor: priceChangeColor,
+                                                   transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                 }} />}
 
-                <Text style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h.toLocaleString('en-US')}%</Text>
-            </View>
+        <Text
+          style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h.toLocaleString("en-US")}%</Text>
+      </View>
 
-        </TouchableOpacity >
+    </TouchableOpacity>
 
-    )
-}
+  );
+};
 
 
 const styles = StyleSheet.create({
-    container: {
-        width: SIZES.width * 0.35,
-        height: SIZES.height * 0.14,
-        borderRadius: 8,
-        padding: 15,
-        justifyContent: 'space-between',
-        // marginVertical: 5,
-        marginHorizontal: 8,
-        elevation: 5,
-        shadowOpacity: 0.1,
-        shadowOffset: {
-            width: 5,
-            height: 3,
-        },
+  container: {
+    width: SIZES.width * 0.35,
+    height: SIZES.height * 0.14,
+    borderRadius: 8,
+    padding: 15,
+    justifyContent: "space-between",
+    // marginVertical: 5,
+    marginHorizontal: 8,
+    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      width: 5,
+      height: 3,
     },
-    coinName: {
-        fontSize: SIZES.font5,
-        fontWeight: 'normal',
-        bottom: 5
-    },
-    coinPrice: {
-        fontSize: SIZES.font2,
-        fontWeight: 'bold',
+  },
+  coinName: {
+    fontSize: SIZES.font5,
+    fontWeight: "normal",
+    bottom: 5,
+  },
+  coinPrice: {
+    fontSize: SIZES.font2,
+    fontWeight: "bold",
 
-    },
-    priceChange: {
-        fontSize: SIZES.font5
+  },
+  priceChange: {
+    fontSize: SIZES.font5,
 
-    },
-    coinPercentage: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    }
+  },
+  coinPercentage: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 
-})
-
+});
 
 
 export function mapStateToProps(state) {
-    return {
-        appTheme: state.themeReducer.appTheme,
-        error: state.themeReducer.error,
-        appCurrency: state.currencyReducer.appCurrency,
-        error: state.currencyReducer.error
-    };
+  return {
+    appTheme: state.themeReducer.appTheme,
+    error: state.themeReducer.error,
+    appCurrency: state.currencyReducer.appCurrency,
+    error: state.currencyReducer.error,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        toggleTheme: themeType => {
-            return dispatch(toggleTheme(themeType));
-        },
-    };
+  return {
+    toggleTheme: themeType => {
+      return dispatch(toggleTheme(themeType));
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinCard);

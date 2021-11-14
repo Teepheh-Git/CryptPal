@@ -1,70 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
-import SplashScreen from 'react-native-splash-screen';
-import AppRoute from './router/AppRoute';
-import OnBoardingRoute from './router/OnBoardingRoute';
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
-import { enableScreens } from 'react-native-screens';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import rootReducer from './src/stores/rootReducer';
-import { persistStore, persistReducer } from 'redux-persist'
-import { PersistGate } from 'redux-persist/integration/react'
+import React, { useEffect, useState } from "react";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import SplashScreen from "react-native-splash-screen";
+import AppRoute from "./router/AppRoute";
+import OnBoardingRoute from "./router/OnBoardingRoute";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { enableScreens } from "react-native-screens";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import rootReducer from "./src/stores/rootReducer";
+import { persistReducer, persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
-enableScreens(true)
+enableScreens(true);
 
 const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage
-}
+  key: "root",
+  storage: AsyncStorage,
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(
   persistedReducer,
-  applyMiddleware(thunk)
-)
+  applyMiddleware(thunk),
+);
 
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 
 const Loading = () => {
   return (
-    <View >
-      <ActivityIndicator size={'large'} />
-    </View >
-  )
+    <View>
+      <ActivityIndicator size={"large"} />
+    </View>
+  );
 
-}
+};
 
 const App = () => {
-  const [viewedOnboarding, setViewedOnboarding] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [viewedOnboarding, setViewedOnboarding] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     SplashScreen.hide();
     CheckOnboarding();
-  }, [])
+  }, []);
 
 
   const CheckOnboarding = async () => {
     try {
-      const value = await AsyncStorage.getItem('@viewedOnboarding')
+      const value = await AsyncStorage.getItem("@viewedOnboarding");
       if (value !== null) {
-        setViewedOnboarding(true)
+        setViewedOnboarding(true);
       }
 
     } catch (error) {
-      console.log('Error @CheckOnboarding: ', error)
+      console.log("Error @CheckOnboarding: ", error);
 
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
+  };
 
 
   return (
