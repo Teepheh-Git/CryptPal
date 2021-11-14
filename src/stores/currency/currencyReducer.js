@@ -1,34 +1,34 @@
-import { selectedCurrency } from "../../constants"
-import * as currencyActionTypes from './currencyActions'
+import { selectedCurrency } from "../../constants";
+import * as currencyActionTypes from "./currencyActions";
 
 
 const initialState = {
-    appCurrency: selectedCurrency,
-    error: null,
-}
+  appCurrency: selectedCurrency,
+  error: null,
+};
 
 
 const currencyReducer = (state = initialState, action) => {
 
-    switch (action.type) {
-        case currencyActionTypes.TOGGLE_CURRENCY_BEGIN:
-            return {
-                ...state,
-                error: null,
-            };
-        case currencyActionTypes.TOGGLE_CURRENCY_SUCCESS:
-            return {
-                ...state,
-                appCurrency: action.payload.selectedCurrency
-            };
-        case currencyActionTypes.TOGGLE_CURRENCY_FAILURE:
-            return {
-                ...state,
-                error: action.payload.error,
-            };
-        default:
-            return state
-    }
+  switch (action.type) {
+    case currencyActionTypes.TOGGLE_CURRENCY_BEGIN:
+      return {
+        ...state,
+        error: null,
+      };
+    case currencyActionTypes.TOGGLE_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        appCurrency: action.payload.selectedCurrency,
+      };
+    case currencyActionTypes.TOGGLE_CURRENCY_FAILURE:
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    default:
+      return state;
+  }
 };
 
 

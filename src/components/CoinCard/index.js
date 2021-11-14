@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
+import { toggleTheme } from "../../stores/theme/themeActions";
 
 
 const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress }) => {
@@ -21,13 +22,13 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
           cache: FastImage.cacheControl.immutable,
         }}
         style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }}
-        resizeMode="contain" />
+      />
       <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
       <Text numberOfLines={1}
             style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ""} {currentPrice.toLocaleString("en-US")}</Text>
       <View style={styles.coinPercentage}>
-        {priceChangePercentage24h != 0 && <Image source={icons.arrowUp}
-                                                 style={{
+        {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
+                                                  style={{
                                                    width: 13,
                                                    height: 13,
                                                    tintColor: priceChangeColor,
@@ -87,7 +88,7 @@ export function mapStateToProps(state) {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,
-    error: state.currencyReducer.error,
+    // error: state.currencyReducer.error,
   };
 }
 

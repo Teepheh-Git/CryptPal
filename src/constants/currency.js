@@ -1,53 +1,45 @@
-import React from 'react';
-import { Image } from 'react-native'
-import { icons } from '../constants/'
-
-
-
+import React from "react";
+import { icons } from "../constants/";
 
 
 export const usd = {
-    name: 'dollar',
-    symbol: '$',
-    ticker: 'USD',
-    image: icons.usdImage
-}
+  name: "dollar",
+  symbol: "$",
+  ticker: "USD",
+  image: icons.usdImage,
+};
 export const ngn = {
-    name: 'naira',
-    symbol: '₦',
-    ticker: 'NGN',
-    image: icons.ngnImage
+  name: "naira",
+  symbol: "₦",
+  ticker: "NGN",
+  image: icons.ngnImage,
 
-}
+};
 export const eur = {
-    name: 'euro',
-    symbol: '€',
-    ticker: 'EUR',
-    image: icons.eurImage,
+  name: "euro",
+  symbol: "€",
+  ticker: "EUR",
+  image: icons.eurImage,
 
-}
+};
 export const jpy = {
-    name: 'yen',
-    symbol: '¥',
-    ticker: 'JPY',
-    image: icons.yenImage
+  name: "yen",
+  symbol: "¥",
+  ticker: "JPY",
+  image: icons.yenImage,
 
-}
-
-
+};
 
 
-
-
-export const selectedCurrency = usd
+export const selectedCurrency = usd;
 
 const appCurrency = {
-    usd,
-    ngn,
-    eur,
-    jpy,
+  usd,
+  ngn,
+  eur,
+  jpy,
 
-}
+};
 
 
 export default appCurrency;
