@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    elevation: 3,
+    // elevation: 3,
     shadowOpacity: 0.1,
     shadowOffset: {
       width: 5,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   topMovers: {
     fontSize: SIZES.font2,
     fontWeight: "bold",
-    lineHeight: 24,
+    // lineHeight: 24,
   },
   last24: {
     fontSize: SIZES.font4,
@@ -52,26 +52,29 @@ const styles = StyleSheet.create({
 
   },
   coinCard: {
-    height: 130,
-    marginBottom: 5,
-    marginLeft: 10,
+    height: 150,
+    marginBottom: 35,
+    marginLeft: 25,
   },
   marketTrendsContainer: {
     width: SIZES.width * 0.9,
     marginVertical: 5,
+    flexDirection:"row",
+    alignItems: "center",
   },
   marketTrends: {
     fontSize: SIZES.font2,
     fontWeight: "bold",
-    lineHeight: 24,
+    // lineHeight: 24,
   },
   listTab: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    alignItems: "center",
-    marginBottom: 8,
-    elevation: 3,
+    // alignItems: "flex-end",
+    // backgroundColor:'red',
+    marginBottom: 10,
+    elevation: 0.3,
     shadowOpacity: 0.1,
     shadowOffset: {
       width: 5,
@@ -80,7 +83,8 @@ const styles = StyleSheet.create({
   },
   btnTab: {
     height: SIZES.height * 0.05,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
+    marginRight:10,
     marginVertical: 5,
     borderWidth: 0.25,
     alignItems: "center",
@@ -91,7 +95,7 @@ const styles = StyleSheet.create({
   },
   textTab: {
     ...FONTS.body4,
-    marginHorizontal: 5,
+    marginHorizontal: 15,
     color: COLORS.grey,
     letterSpacing: 1,
   },

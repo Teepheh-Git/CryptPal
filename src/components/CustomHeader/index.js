@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     padding: 20,
-    elevation: 4,
+    // elevation: 4,
     shadowOpacity: 0.1,
     shadowOffset: {
       width: 2,

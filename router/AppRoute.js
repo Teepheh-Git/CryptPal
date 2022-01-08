@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import BottomTabs from "../src/navigation";
-import { createStackNavigator } from "@react-navigation/stack";
 import CoinDetails from "../src/screens/CoinDetails";
 import Search from "../src/screens/Search";
 import TopMovers from "../src/screens/TopMovers";
 import NewsWebPage from "../src/screens/NewsWebPage";
 import MarketTrends from "../src/screens/MarketTrends";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const AppRoute = () => {
   return (

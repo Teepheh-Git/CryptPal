@@ -7,8 +7,12 @@ import Search from "../src/screens/Search";
 import TopMovers from "../src/screens/TopMovers";
 import NewsWebPage from "../src/screens/NewsWebPage";
 import MarketTrends from "../src/screens/MarketTrends";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+
+const Stack = createNativeStackNavigator();
+
 
 const OnBoardingRoute = () => {
   return (

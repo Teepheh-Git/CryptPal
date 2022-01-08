@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Animated, FlatList, Image, ImageBackground, View } from "react-native";
+import { ActivityIndicator, Animated, FlatList, Image, ImageBackground, View,StatusBar } from "react-native";
 import { constants } from "../../constants";
 import CustomButton from "../../components/CustomButton";
 import { SIZES } from "../../constants/theme";
@@ -94,6 +94,8 @@ const OnBoarding = ({ appTheme }) => {
   return (
     <ImageBackground source={require("../../assets/images/bg_gradient.png")}
                      style={[styles.root, { backgroundColor: appTheme.backgroundColor }]}>
+
+      <StatusBar translucent={true} backgroundColor={"transparent"} />
 
       <View style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
         <Image style={styles.img} source={require("../../assets/images/logo.png")} />

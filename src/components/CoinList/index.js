@@ -28,7 +28,7 @@ const CoinList = ({
 
 
   return (
-    <TouchableOpacity activeOpacity={0.8} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+    <TouchableOpacity activeOpacity={0.9} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                       onPress={onPress}>
 
 
@@ -127,18 +127,19 @@ const styles = StyleSheet.create({
   container: {
     width: SIZES.width * 0.9,
     height: 75,
+    paddingHorizontal:15,
     padding: 5,
     marginVertical: 1,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    borderRadius: 10,
-    elevation: 3,
+    // borderRadius: 10,
+    // elevation: 3,
     shadowOpacity: 0.1,
     shadowOffset: {
-      width: -3,
-      height: -2,
+      width: 0.3,
+      height: 0.3,
     },
 
   },

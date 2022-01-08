@@ -12,6 +12,8 @@ const backArrow = require("../assets/icons/backArrow.png");
 const overviewGraph = require("../assets/icons/overviewGraph.png");
 const filterButton = require("../assets/icons/filterButton.png");
 const FavCheck = require("../assets/icons/FavCheck.png");
+const checkMark =  require("../assets/icons/checkMark.png");
+const moneyBag =  require("../assets/icons/moneyBag.png");
 const swapIcon = require("../assets/icons/swapIcon.png");
 const usdImage = require("../assets/images/usFlag.png");
 const eurImage = require("../assets/images/eurFlag.png");
@@ -30,6 +32,8 @@ export default {
   home,
   star,
   backArrow,
+  checkMark,
+  moneyBag,
   overviewGraph,
   filterButton,
   FavCheck,
