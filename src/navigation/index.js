@@ -59,7 +59,7 @@ const BottomTabs = ({ appTheme, navigation }) => {
           },
           backgroundColor: appTheme.backgroundColor,
           borderTopColor: "transparent",
-          height: Platform.OS === "android" ? 90 : 100,
+          height: Platform.OS === "android" ? 80 : 90,
         },
 
 

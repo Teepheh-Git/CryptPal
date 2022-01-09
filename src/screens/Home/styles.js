@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // elevation: 3,
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 5,
-      height: 3,
-    },
+    // shadowOpacity: 0.1,
+    // shadowOffset: {
+    //   width: 0.5,
+    //   height: 0.3,
+    // },
   },
   imgHeader: {
     width: 85.84,

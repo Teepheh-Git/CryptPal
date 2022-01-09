@@ -33,16 +33,16 @@ const styles = StyleSheet.create({
     width: SIZES.width,
     height: SIZES.height * 0.08,
     alignItems: "center",
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
+    // borderBottomRightRadius: 5,
+    // borderBottomLeftRadius: 5,
     justifyContent: "space-between",
     flexDirection: "row",
     padding: 20,
     // elevation: 4,
-    shadowOpacity: 0.1,
+    // shadowOpacity: 0.1,
     shadowOffset: {
-      width: 2,
-      height: 3,
+      width: 0.3,
+      height: 0.3,
     },
 
 

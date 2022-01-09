@@ -22,6 +22,8 @@ import CoinDetailsInfo from "../../components/CoinDetailsInfo";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LineChart } from "react-native-chart-kit";
+import CoinDetailsChart from "../../components/Chart/CoinDetailsChart";
 
 const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
@@ -92,6 +94,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
       setSwap(true);
     }
   }
+  // const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
 
 
   return (
@@ -114,13 +117,27 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
               priceChangePercentage24h={dataFromHome?.price_change_percentage_24h}
             />
 
-            <Chart
-              chartPrices={dataFromHome?.sparkline_in_7d?.price}
+
+            {/*{console.log(dataFromHome?.sparkline_in_7d?.price,"DARAAA")}*/}
+            {/*<Chart*/}
+            {/*  chartPrices={dataFromHome?.sparkline_in_7d?.price}*/}
+            {/*  containerStyle={{*/}
+            {/*    marginTop: SIZES.padding,*/}
+            {/*    marginHorizontal: 15,*/}
+            {/*    flexDirection: "row",*/}
+            {/*  }} />*/}
+
+           <CoinDetailsChart
+             chartPrices={dataFromHome?.sparkline_in_7d?.price}
               containerStyle={{
-                marginTop: SIZES.padding,
-                marginHorizontal: 15,
-                flexDirection: "row",
-              }} />
+                // marginTop: SIZES.padding,
+                // marginHorizontal: 10,
+                // paddingHorizonta,
+
+                flexDirection: "row"}}
+
+           />
+
 
             <Text style={{
               color: appTheme.textColor2,

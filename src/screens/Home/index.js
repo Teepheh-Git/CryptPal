@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View,ScrollView } from "react-native";
+import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CoinCard from "../../components/CoinCard";
 import CoinList from "../../components/CoinList";
@@ -84,33 +84,40 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   }
 
   // COIN CARD COMPONENT RENDER ITEM
-  const CoinCardRenderItem = ({ item }) =>
-    <CoinCard
-      name={item.name}
-      logoUrl={item.image}
-      currentPrice={item?.current_price.toLocaleString("en-US")}
-      priceChangePercentage24h={item?.price_change_percentage_24h}
-      onPress={() => {
-        navigation.navigate("CoinDetails", { ...item });
-      }}
-    />;
+  const CoinCardRenderItem = ({ item }) => {
+    return (
+      <CoinCard
+        name={item.name}
+        logoUrl={item.image}
+        currentPrice={item?.current_price.toLocaleString("en-US")}
+        priceChangePercentage24h={item?.price_change_percentage_24h}
+        onPress={() => {
+          navigation.navigate("CoinDetails", { ...item });
+        }}
+      />
+    );
+  };
 
 
   // COIN LIST COMPONENT RENDER ITEM
-  const CoinListRenderItem = ({ item }) =>
-    <CoinList
-      name={item?.name}
-      logoUrl={item?.image}
-      symbol={item?.symbol?.toUpperCase()}
-      currentPrice={item?.current_price?.toLocaleString("en-US")}
-      priceChangePercentage24h={item?.price_change_percentage_24h}
-      chartData={item?.sparkline_in_7d?.price}
-      onPress={() => navigation.navigate("CoinDetails", { ...item })}
-    />;
+  const CoinListRenderItem = ({ item }) => {
+
+    return (
+      <CoinList
+        name={item?.name}
+        logoUrl={item?.image}
+        symbol={item?.symbol?.toUpperCase()}
+        currentPrice={item?.current_price?.toLocaleString("en-US")}
+        priceChangePercentage24h={item?.price_change_percentage_24h}
+        chartData={item?.sparkline_in_7d?.price}
+        onPress={() => navigation.navigate("CoinDetails", { ...item })}
+      />
+    );
+  };
 
 
   // SELECTED TREND TABS
-  const setTabStatusFilter = tabStatus => {
+  const setTabStatusFilter = (tabStatus) => {
     setTabStatus(tabStatus);
     if (tabStatus === "Popular") {
       setOrderByCoin("market_cap_desc");
@@ -159,7 +166,6 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
 
-
       {/* HEADER SECTION */}
       <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
         <Image resizeMode="cover" style={[styles.imgHeader, { tintColor: appTheme.tintColor }]}
@@ -187,7 +193,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
             <View style={styles.topMoversContainer}>
               <View style={styles.topMoversContainer2}>
                 <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers{" "}
-                  <Image resizeMode="cover" style={{width:20, height:20}}
+                  <Image resizeMode="cover" style={{ width: 20, height: 20 }}
                          source={require("../../assets/icons/checkMark.png")} />
                 </Text>
                 <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
@@ -212,7 +218,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
             {/* MARKET TRENDS  */}
             <View style={styles.marketTrendsContainer}>
               <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends </Text>
-              <Image resizeMode="cover" style={{width:20, height:20}}
+              <Image resizeMode="cover" style={{ width: 20, height: 20 }}
                      source={require("../../assets/icons/moneyBag.png")} />
 
             </View>
@@ -255,7 +261,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 20, page));
     },
     getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline) => {
-      return dispatch(getCardMarket(currency, orderBy, sparkline , priceChangePerc, perPage, page));
+      return dispatch(getCardMarket(currency, orderBy, sparkline, priceChangePerc, perPage, page));
     },
   };
 };
