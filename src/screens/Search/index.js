@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, icons, SIZES } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getCoinMarket, getSearchMarket } from "../../stores/market/marketActions";
 import axios from "axios";
 import FastImage from "react-native-fast-image";
 
@@ -43,6 +42,7 @@ const Search = ({
   const [coinSearch, setCoinSearch] = useState("");
   const [coinResult, setCoinResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
 
   // const SearchFilter = (text) => {
@@ -242,11 +242,14 @@ const Search = ({
           // onChangeText={(text) => SearchFilter(text)}
           onChangeText={value => setCoinSearch(value)}
           placeholderTextColor={appTheme.textColor3}
+          onFocus={() => setIsFocused(true)}
           multiline={false}
           style={{
             width: SIZES.width * 0.9,
             height: 55, backgroundColor: appTheme.backgroundColor,
             borderRadius: 8,
+            borderWidth: isFocused ? 1 : null,
+            borderColor: isFocused ? appTheme.textColor2 : null,
             paddingHorizontal: 15,
             left: 10,
             paddingRight: 30,
@@ -346,9 +349,7 @@ export function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

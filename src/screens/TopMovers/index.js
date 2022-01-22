@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CoinList from "../../components/CoinList";
 import { getCardMarket } from "../../stores/market/marketActions";
 import LottieView from "lottie-react-native";
-import axios from "axios";
 import constants from "../../constants/constants";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -55,15 +54,15 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
     }, 3000);
   }
 
-  const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
-    try {
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
-      const data = response.data;
-      return data;
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+  // const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
+  //   try {
+  //     const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
+  //     const data = response.data;
+  //     return data;
+  //   } catch (e) {
+  //     console.log(e.message);
+  //   }
+  // };
 
   useEffect((currency, priceChangePerc) => {
     // const FetchMarketData = async () => {
@@ -254,7 +253,7 @@ const styles = StyleSheet.create({
 
 export function mapStateToProps(state) {
   return {
-    coins: state.marketReducer.coins,
+    // coins: state.marketReducer.coins,
     coinCard: state.marketReducer.coinCard,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
@@ -265,7 +264,7 @@ export function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline = null) => {
+    getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline ) => {
       return dispatch(getCardMarket(currency, priceChangePerc, orderBy, sparkline, perPage, page));
     },
   };

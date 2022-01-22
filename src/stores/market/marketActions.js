@@ -155,7 +155,7 @@ export const getCoinMarketTrend = (currency = "usd", orderBy = orderBy, sparklin
 //
 // };
 
-export const getCardMarket = (currency = "usd", priceChangePerc = "24h", orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
+export const getCardMarket = (currency = "usd", priceChangePerc = "24h", orderBy = "market_cap_desc", sparkline = true, perPage = 50, page = 1) => {
   return async dispatch => {
     try {
       const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);

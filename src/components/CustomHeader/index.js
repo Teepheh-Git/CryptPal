@@ -31,7 +31,7 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
 const styles = StyleSheet.create({
   container: {
     width: SIZES.width,
-    height: SIZES.height * 0.08,
+    height: SIZES.height * 0.07,
     alignItems: "center",
     // borderBottomRightRadius: 5,
     // borderBottomLeftRadius: 5,
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     padding: 20,
     // elevation: 4,
     // shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 0.3,
-      height: 0.3,
-    },
+    // shadowOffset: {
+    //   width: 0.3,
+    //   height: 0.3,
+    // },
 
 
   },
@@ -53,12 +53,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    borderWidth: 0.6,
+    // borderWidth: 0.6,
     borderColor: COLORS.grey,
 
   },
   backArrow: {
-
     width: 24,
     height: 24,
 
