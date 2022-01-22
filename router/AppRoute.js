@@ -7,6 +7,7 @@ import TopMovers from "../src/screens/TopMovers";
 import NewsWebPage from "../src/screens/NewsWebPage";
 import MarketTrends from "../src/screens/MarketTrends";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SearchCoinDetails from "../src/screens/SearchCoinDetails";
 
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ const AppRoute = () => {
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
       <Stack.Screen name="CoinDetails" component={CoinDetails} />
       <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="SearchCoinDetails" component={SearchCoinDetails} />
       <Stack.Screen name="TopMovers" component={TopMovers} />
       <Stack.Screen name="NewsWebPage" component={NewsWebPage} />
       <Stack.Screen name="MarketTrends" component={MarketTrends} />

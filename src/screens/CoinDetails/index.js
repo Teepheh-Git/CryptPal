@@ -16,14 +16,13 @@ import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Chart from "../../components/Chart";
 import { getCoinMarket } from "../../stores/market/marketActions";
 import CoinDetailsInfo from "../../components/CoinDetailsInfo";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LineChart } from "react-native-chart-kit";
 import CoinDetailsChart from "../../components/Chart/CoinDetailsChart";
+import axios from "axios";
 
 const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
@@ -31,15 +30,20 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   const navigation = useNavigation();
   const dataFromHome = route.params;
 
+  // console.log(dataFromHome.id);
+
 
   const [favAdded, setFavAdded] = useState(false);
   const [textUnit, setTextUnit] = useState("0");
   const [fiatValue, setFiatValue] = useState("0.00");
   const [tokenValue, setTokenValue] = useState("0.00");
   const [swap, setSwap] = useState(true);
+  const [currencyRate, setCurrencyRate] = useState(1);
 
 
   useEffect(() => {
+
+
     getCoinMarket();
     const amount = parseFloat(textUnit);
 
@@ -57,11 +61,22 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   }, [textUnit]);
 
 
+  // const SaveToFavorites = () => {
+  //   AsyncStorage.getItem("FavoriteCoin")
+  //     .then(fav => {
+  //       favCoin = fav == null ? [] : JSON.parse(fav);
+  //       favCoin.push(dataFromHome);
+  //       setFavAdded(true);
+  //       return AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
+  //     });
+  // };
+
+
   const SaveToFavorites = () => {
     AsyncStorage.getItem("FavoriteCoin")
       .then(fav => {
         favCoin = fav == null ? [] : JSON.parse(fav);
-        favCoin.push(dataFromHome);
+        favCoin.push(dataFromHome.id);
         setFavAdded(true);
         return AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
       });
@@ -87,6 +102,38 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   }, []);
 
 
+  useEffect(() => {
+    // console.log(appCurrency.ticker);
+
+    const CurrencyRates = async () => {
+
+      try {
+
+
+        const res = await axios.get("https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766");
+
+        if (appCurrency.ticker === "NGN") {
+          setCurrencyRate(res.data.data.NGN);
+        }
+        if (appCurrency.ticker === "JPY") {
+          setCurrencyRate(res.data.data.JPY);
+        }
+        if (appCurrency.ticker === "EUR") {
+          setCurrencyRate(res.data.data.EUR);
+        }
+
+        // console.log(res.data.data.EUR, "currencyvvv");
+      } catch (e) {
+        console.log(e, "Error currency");
+      }
+
+
+    };
+    CurrencyRates();
+
+  }, []);
+
+
   function toggleSwapButton() {
     if (swap) {
       setSwap(false);
@@ -94,6 +141,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
       setSwap(true);
     }
   }
+
   // const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
 
 
@@ -127,16 +175,18 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
             {/*    flexDirection: "row",*/}
             {/*  }} />*/}
 
-           <CoinDetailsChart
-             chartPrices={dataFromHome?.sparkline_in_7d?.price}
+            {/*{console.log(dataFromHome?.sparkline_in_7d?.price)}*/}
+            <CoinDetailsChart
+              chartPrices={(dataFromHome?.sparkline_in_7d?.price)?.map((item, index) => (item * currencyRate))}
               containerStyle={{
                 // marginTop: SIZES.padding,
                 // marginHorizontal: 10,
                 // paddingHorizonta,
 
-                flexDirection: "row"}}
+                flexDirection: "row",
+              }}
 
-           />
+            />
 
 
             <Text style={{

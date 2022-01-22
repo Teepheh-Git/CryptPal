@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { LineChart } from "react-native-chart-kit";
 
 
-const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme }) => {
+const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }) => {
 
   let startUnixTimeStamp = moment().subtract(7, "day").unix();
   let data = chartPrices ? chartPrices?.map((item, index) => {
@@ -17,30 +17,30 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme }) => {
     };
   }) : [];
 
-  let points = monotoneCubicInterpolation({ data, range: 40 });
+  // let points = monotoneCubicInterpolation({ data, range: 40 });
 
-  const formatUSD = value => {
-    "worklet";
-    if (value === "") {
-      return "";
-    }
-    return `$${Number(value).toLocaleString("en-US")}`;
-  };
-  const formatDateTime = (value) => {
-    "worklet";
-    if (value === "") {
-      return "";
-    }
-
-    const selectedDate = new Date(value * 1000);
-
-    const date = `0${selectedDate.getDate()}`.slice(-2);
-    const month = `0${selectedDate.getMonth()}`.slice(-2);
-    const year = `0${selectedDate.getYear()}`.slice(-2);
-
-
-    return `${date}-${month}-${year}`;
-  };
+  // const formatUSD = value => {
+  //   "worklet";
+  //   if (value === "") {
+  //     return "";
+  //   }
+  //   return `$${Number(value).toLocaleString("en-US")}`;
+  // };
+  // const formatDateTime = (value) => {
+  //   "worklet";
+  //   if (value === "") {
+  //     return "";
+  //   }
+  //
+  //   const selectedDate = new Date(value * 1000);
+  //
+  //   const date = `0${selectedDate.getDate()}`.slice(-2);
+  //   const month = `0${selectedDate.getMonth()}`.slice(-2);
+  //   const year = `0${selectedDate.getYear()}`.slice(-2);
+  //
+  //
+  //   return `${date}-${month}-${year}`;
+  // };
 
 
   const formatNumber = (value, roundingPoint) => {
@@ -116,7 +116,7 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme }) => {
                 color: appTheme.textColor3,
                 ...FONTS.body5,
               }}
-            >${item}</Text>
+            >{appCurrency.symbol}{item}</Text>
           );
         })}
 
@@ -169,6 +169,8 @@ export function mapStateToProps(state) {
   return {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
+    appCurrency: state.currencyReducer.appCurrency,
+
   };
 }
 

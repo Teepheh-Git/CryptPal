@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Favorite from "../screens/Favorite";
 import Home from "../screens/Home";

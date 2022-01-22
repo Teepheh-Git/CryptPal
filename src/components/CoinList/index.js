@@ -42,8 +42,8 @@ const CoinList = ({
             cache: FastImage.cacheControl.immutable,
           }}
           style={{
-            width: 24,
-            height: 24,
+            width: 30,
+            height: 30,
             borderRadius: 30,
             marginRight: 5,
           }} />
@@ -129,17 +129,18 @@ const styles = StyleSheet.create({
     height: 75,
     paddingHorizontal:15,
     padding: 5,
-    marginVertical: 1,
+    // marginVertical: 1,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     // borderRadius: 10,
     // elevation: 3,
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.02,
+    shadowColor:'#B0B7C3',
     shadowOffset: {
-      width: 0.3,
-      height: 0.3,
+      width: 0.05,
+      height: 0.05,
     },
 
   },

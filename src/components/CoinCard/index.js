@@ -56,10 +56,11 @@ const styles = StyleSheet.create({
     marginVertical:10,
     marginRight:15,
     elevation: 0.5,
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.02,
+    shadowColor:'#B0B7C3',
     shadowOffset: {
-      width: 0.3,
-      height: 0.3,
+      width: 0.05,
+      height: 0.05,
     },
   },
   coinName: {

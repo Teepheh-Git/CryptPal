@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CoinCard from "../../components/CoinCard";
 import CoinList from "../../components/CoinList";
 import { useNavigation } from "@react-navigation/native";
-import { icons } from "../../constants";
+import { icons, SIZES } from "../../constants";
 import { getCardMarket, getCoinMarket } from "../../stores/market/marketActions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
@@ -161,9 +161,23 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     );
   };
 
+ const renderSeparator = () => (
+    <View
+      style={{
+        backgroundColor: '#EEF1F5',
+        height: 0.5,
+        width: SIZES.width * 0.9,
+        alignSelf:'center',
+
+      }}
+    />
+  );
+
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+      {/*<StatusBar translucent={true} backgroundColor={"transparent"} />*/}
+
 
 
       {/* HEADER SECTION */}
@@ -179,6 +193,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
         showsVerticalScrollIndicator={false}
         initialNumToRender={20}
         getItemLayout={getItemLayout}
+        ItemSeparatorComponent={renderSeparator}
         removeClippedSubviews={true}
         renderItem={CoinListRenderItem}
         ListFooterComponent={
@@ -258,7 +273,7 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 20, page));
+      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 10, page));
     },
     getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline) => {
       return dispatch(getCardMarket(currency, orderBy, sparkline, priceChangePerc, perPage, page));
