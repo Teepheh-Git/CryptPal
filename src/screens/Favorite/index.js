@@ -1,5 +1,4 @@
-import { useFocusEffect } from "@react-navigation/core";
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
@@ -7,86 +6,72 @@ import CoinList from "../../components/CoinList";
 import { FONTS, SIZES } from "../../constants";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from "@react-navigation/native";
 
 
-const Favorite = ({ appTheme, navigation }) => {
+const Favorite = ({ appTheme, navigation, appCurrency }) => {
 
-  const isFocused = useIsFocused();
 
-  const [value, setValue] = useState([]);
+  // const coinGotten = JSON.parse(valueGot);
+
+
   const [favs, setFavs] = useState([]);
   const [loading, setLoading] = useState(false);
 
 
-  let id1 = value[0];
-  let id2 = value[1];
-  let id3 = value[2];
-  let id4 = value[3];
-  let id5 = value[4];
-  let id6 = value[5];
-  let id7 = value[6];
-  let id8 = value[7];
-  let id9 = value[8];
-  let id10 = value[9];
+  // const id1 =  value[0];
+  // const id2 =  value[1];
+  // const id3 =  value[2];
+  // const id4 =  value[3];
+  // const id5 =  value[4];
+  // const id6 =  value[5];
+  // const id7 =  value[6];
+  // const id8 =  value[7];
+  // const id9 =  value[8];
+  // const id10 =  value[9];
 
-  console.log(value);
-  useFocusEffect(
-    useCallback(() => {
-      setLoading(true);
+  // setValue(coinGotten);
 
-      GetCoinId();
-
-      setTimeout(() => {
-        GetCoinFavorite();
-
-      }, 500);
+  // console.log(valueGot);
 
 
-    }, [isFocused]),
-  );
-
-  // useEffect(() => {
+  // console.log(value);
+  // useFocusEffect(
+  //   useCallback(() => {
   //
-  //   GetCoinFavorite();
-  //   GetCoinId();
   //
-  // }, [isFocused]);
+  //   }, []),
+  // );
+
+  useEffect(() => {
 
 
-  const GetCoinId = async () => {
-    await AsyncStorage.getItem("FavoriteCoin")
-      .then((coinGotten) => {
-        if (coinGotten !== null) {
-          setValue(JSON.parse(coinGotten));
+    const GetFavorites = async () => {
+
+      try {
+        const valueGot = await AsyncStorage.getItem("FavoriteCoin");
+        const coinGotten = await JSON.parse(valueGot);
+
+        setLoading(true);
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
+
+        await setFavs(res.data);
+
+        if (res) {
+          setLoading(false);
         }
 
-      }).catch(error => {
-        alert("ERROR: " + error);
-      });
-  };
-
-  const GetCoinFavorite = async () => {
-
-
-    try {
-      setLoading(true);
-
-      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${id1}%2C${id2}%2C${id3}%2C${id4}%2C${id5}%2C${id6}%2C${id7}%2C${id8}%2C${id9}%2C${id10}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
-
-      // console.log(res.data);
-
-      if (res) {
+      } catch (e) {
+        console.log(e);
         setLoading(false);
+
       }
-      setFavs(res.data);
+    };
 
-    } catch (err) {
-      console.log(err, "FAVCOIN ERR");
-      setLoading(false);
 
-    }
-  };
+    GetFavorites();
+
+
+  }, [appCurrency]);
 
 
   const CoinListRenderItem = ({ item }) => {
@@ -104,7 +89,6 @@ const Favorite = ({ appTheme, navigation }) => {
     );
 
   };
-// console.log(value[0])
 
   const EmptyFavorite = () => {
     return (
@@ -184,6 +168,8 @@ export function mapStateToProps(state) {
   return {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
+    appCurrency: state.currencyReducer.appCurrency,
+
   };
 }
 

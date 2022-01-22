@@ -83,8 +83,7 @@ const OnBoarding = ({ appTheme }) => {
 
     setTimeout(() => {
 
-      <ActivityIndicator
-        size="small" color="purple" />;
+      <ActivityIndicator size="small" color={appTheme.textColor2} />;
     }, 5000);
 
 

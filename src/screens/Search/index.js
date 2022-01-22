@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, icons, SIZES } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getCoinMarket } from "../../stores/market/marketActions";
+import { getCoinMarket, getSearchMarket } from "../../stores/market/marketActions";
 import axios from "axios";
 import FastImage from "react-native-fast-image";
 
@@ -12,6 +12,8 @@ import FastImage from "react-native-fast-image";
 const Search = ({
                   appTheme,
                   navigation,
+                  searchC,
+
                   getCoinMarket,
                   coins,
                   appCurrency,
@@ -21,16 +23,16 @@ const Search = ({
                 }) => {
 
 
-  const ITEM_HEIGHT = 75;
+  // const ITEM_HEIGHT = 75;
 
-  const getItemLayout = useCallback((data, index) => ({
-
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT * index,
-    index,
-
-
-  }), []);
+  // const getItemLayout = useCallback((data, index) => ({
+  //
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT * index,
+  //   index,
+  //
+  //
+  // }), []);
 
 
   // const [searchCoin, setSearchCoin] = useState("");
@@ -162,7 +164,7 @@ const Search = ({
             <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{item.symbol}</Text>
           </View>
 
-          <Text style={[styles.rank, { color: appTheme.textColor3 }]}>Market Rank: #{item?.market_cap_rank}</Text>
+          <Text style={[styles.rank, { color: appTheme.textColor3 }]}>Rank: #{item?.market_cap_rank}</Text>
 
         </View>
 
@@ -186,7 +188,7 @@ const Search = ({
     // if (searchCoin !== "" && FilteredDataCondition().length !== 0) {
     if (coinSearch !== "" && coinResult.length !== 0) {
       return (
-        <View style={{ width: SIZES.width * 0.9, marginVertical: 30 }}>
+        <View style={{ width: SIZES.width * 0.9, marginTop: 10 }}>
           <Text style={{ alignSelf: "flex-start", color: appTheme.textColor3, ...FONTS.body4 }}>Top Results</Text>
         </View>
       );
@@ -271,7 +273,7 @@ const Search = ({
             showsVerticalScrollIndicator={false}
             initialNumToRender={10}
             removeClippedSubviews={true}
-            getItemLayout={getItemLayout}
+            // getItemLayout={getItemLayout}
             renderItem={CoinListRenderItem}
             ListHeaderComponent={
               // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
@@ -308,8 +310,8 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 45,
     justifyContent: "space-between",
-    flexDirection:"row",
-    paddingHorizontal:10
+    flexDirection: "row",
+    paddingHorizontal: 10,
 
   },
   name: {
@@ -323,8 +325,9 @@ const styles = StyleSheet.create({
   rank: {
     ...FONTS.body5,
     top: 5,
-    textDecorationLine:"underline",
-  fontStyle:"italic"
+    textDecorationLine: "underline",
+    fontStyle: "italic",
+    alignSelf: "center",
 
   },
 
@@ -333,7 +336,7 @@ const styles = StyleSheet.create({
 export function mapStateToProps(state) {
   return {
     coins: state.marketReducer.coins,
-    // coinSearch: state.marketReducer.coinSearch,
+    // searchCoin: state.marketReducer.searchCoin,
     // coinSearch2: state.marketReducer.coinSearch2,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
@@ -344,15 +347,6 @@ export function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage = 250, page));
-    },
-    // getSearchMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-    //     return dispatch(getSearchMarket(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
-    // },
-    // getSearchMarket2: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-    //     return dispatch(getSearchMarket2(currency, orderBy, sparkline = true, priceChangePerc, perPage, page))
-    // },
 
   };
 };

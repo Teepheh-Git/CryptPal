@@ -9,15 +9,39 @@ const styles = StyleSheet.create({
     width: SIZES.width,
   },
   listTab: {
+    // flexDirection: "row",
+    // justifyContent: "flex-start",
+    // width: SIZES.width * 0.9,
+    // alignItems: "center",
+    height: SIZES.height * 0.09,
+
     flexDirection: "row",
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    alignItems: "center",
+    // alignItems: "flex-end",
+    // backgroundColor:'red',
+    // marginBottom: 10,
+    // elevation: 0.3,
+    // shadowOpacity: 0.1,
+    // shadowOffset: {
+    //   width: 5,
+    //   height: 3,
+    // },
 
   },
   btnTab: {
-    height: 40,
-    marginHorizontal: 5,
+    // height: 40,
+    // marginHorizontal: 5,
+    // marginVertical: 5,
+    // borderWidth: 0.25,
+    // alignItems: "center",
+    // borderColor: COLORS.grey,
+    // borderRadius: 5,
+    // justifyContent: "center",
+
+    height: SIZES.height * 0.05,
+    // marginHorizontal: 5,
+    marginRight:10,
     marginVertical: 5,
     borderWidth: 0.25,
     alignItems: "center",
@@ -25,11 +49,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
 
+
   },
   textTab: {
-    ...FONTS.body5,
-    marginHorizontal: 5,
+    // ...FONTS.body5,
+    // marginHorizontal: 5,
+    // color: COLORS.grey,
+
+    ...FONTS.body4,
+    marginHorizontal: 10,
     color: COLORS.grey,
+    letterSpacing: 1,
   },
   btnTabActive: {
     backgroundColor: COLORS.primary,

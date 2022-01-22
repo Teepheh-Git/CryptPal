@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
     // alignItems: "flex-end",
     // backgroundColor:'red',
     marginBottom: 10,
-    elevation: 0.3,
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 5,
-      height: 3,
-    },
+    // elevation: 0.3,
+    // shadowOpacity: 0.1,
+    // shadowOffset: {
+    //   width: 5,
+    //   height: 3,
+    // },
   },
   btnTab: {
     height: SIZES.height * 0.05,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   textTab: {
     ...FONTS.body4,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     color: COLORS.grey,
     letterSpacing: 1,
   },

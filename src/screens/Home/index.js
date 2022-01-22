@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CoinCard from "../../components/CoinCard";
 import CoinList from "../../components/CoinList";
@@ -15,14 +15,14 @@ import styles from "./styles";
 
 const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
 
-  const ITEM_HEIGHT = 75;
-
-  const getItemLayout = useCallback((data, index) => ({
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT * index,
-    index,
-
-  }), []);
+  // const ITEM_HEIGHT = 75;
+  //
+  // const getItemLayout = useCallback((data, index) => ({
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT * index,
+  //   index,
+  //
+  // }), []);
 
 
   const navigation = useNavigation();
@@ -33,6 +33,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   }
 
   const [homePageLoading, setHomePageLoading] = useState(true);
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [tabStatus, setTabStatus] = useState("Popular");
   const [orderByCoin, setOrderByCoin] = useState("market_cap_desc");
   const [retry, setRetry] = useState("");
@@ -41,6 +42,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   if (coins?.length > 0 && coinCard?.length > 0) {
     setTimeout(() => {
       setHomePageLoading(false);
+      setCategoryLoading(false)
+
     }, 1000);
   }
 
@@ -60,7 +63,28 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
 
   useEffect((currency, orderBy) => {
 
-    getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+
+
+    if (orderByCoin === "market_cap_desc") {
+      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "volume_desc") {
+      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "volume_asc") {
+      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "id_asc") {
+      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "id_desc") {
+      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
     getCardMarket(currency = appCurrency.ticker);
   }, [appCurrency, orderByCoin, retry]);
 
@@ -119,6 +143,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   // SELECTED TREND TABS
   const setTabStatusFilter = (tabStatus) => {
     setTabStatus(tabStatus);
+    setCategoryLoading(true)
     if (tabStatus === "Popular") {
       setOrderByCoin("market_cap_desc");
     }
@@ -161,13 +186,13 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     );
   };
 
- const renderSeparator = () => (
+  const renderSeparator = () => (
     <View
       style={{
-        backgroundColor: '#EEF1F5',
+        backgroundColor: "#EEF1F5",
         height: 0.5,
         width: SIZES.width * 0.9,
-        alignSelf:'center',
+        alignSelf: "center",
 
       }}
     />
@@ -179,7 +204,6 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
       {/*<StatusBar translucent={true} backgroundColor={"transparent"} />*/}
 
 
-
       {/* HEADER SECTION */}
       <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
         <Image resizeMode="cover" style={[styles.imgHeader, { tintColor: appTheme.tintColor }]}
@@ -187,12 +211,14 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
       </View>
 
       {/* MARKET COIN LIST */}
-      {coins == null || coinCard == null ? NetworkError() : <FlatList
+      {coins == null || coinCard == null ? NetworkError() :
+
+        <FlatList
         data={coins}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         initialNumToRender={20}
-        getItemLayout={getItemLayout}
+        // getItemLayout={getItemLayout}
         ItemSeparatorComponent={renderSeparator}
         removeClippedSubviews={true}
         renderItem={CoinListRenderItem}
@@ -241,7 +267,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
             {/* MARKET TREND TABS */}
             <ScrollView
               showsHorizontalScrollIndicator={false}
-              horizontal style={styles.listTab}>
+              horizontal
+              style={styles.listTab}>
               {constants.listTab.map((buttonLabel, index) => (
                 <TouchableOpacity
                   key={index}
@@ -252,6 +279,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                 </TouchableOpacity>
               ))}
             </ScrollView>
+            {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+
           </View>}
       />}
     </SafeAreaView>

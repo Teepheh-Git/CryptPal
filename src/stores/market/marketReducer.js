@@ -4,8 +4,9 @@ import * as marketActions from "./marketActions";
 const initialState = {
   coins: [],
   coinCard: [],
-  coinSearch: [],
-  coinSearch2: [],
+  coinTrend:[],
+  // searchCoin: [],
+  // coinSearch2: [],
   error: null,
   loading: false,
 };
@@ -52,44 +53,44 @@ const marketReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     }
-    case marketActions.GET_SEARCH_MARKET_BEGIN:
+    case marketActions.GET_COIN_MARKET_TREND_BEGIN:
       return {
         ...state,
         loading: true,
       };
 
-    case marketActions.GET_SEARCH_MARKET_SUCCESS: {
+    case marketActions.GET_COIN_MARKET_TREND_SUCCESS: {
       return {
         ...state,
-        coinSearch: action.payload.coinSearch,
+        coinTrend: action.payload.coinTrend,
       };
     }
 
-    case marketActions.GET_SEARCH_MARKET_FAILURE: {
+    case marketActions.GET_COIN_MARKET_TREND_FAILURE: {
       return {
         ...state,
         error: action.payload.error,
       };
     }
-    case marketActions.GET_SEARCH_MARKET_BEGIN2:
-      return {
-        ...state,
-        loading: true,
-      };
-
-    case marketActions.GET_SEARCH_MARKET_SUCCESS2: {
-      return {
-        ...state,
-        coinSearch2: action.payload.coinSearch2,
-      };
-    }
-
-    case marketActions.GET_SEARCH_MARKET_FAILURE2: {
-      return {
-        ...state,
-        error: action.payload.error,
-      };
-    }
+    // case marketActions.GET_SEARCH_MARKET_BEGIN2:
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //   };
+    //
+    // case marketActions.GET_SEARCH_MARKET_SUCCESS2: {
+    //   return {
+    //     ...state,
+    //     coinSearch2: action.payload.coinSearch2,
+    //   };
+    // }
+    //
+    // case marketActions.GET_SEARCH_MARKET_FAILURE2: {
+    //   return {
+    //     ...state,
+    //     error: action.payload.error,
+    //   };
+    // }
 
     default:
       return state;

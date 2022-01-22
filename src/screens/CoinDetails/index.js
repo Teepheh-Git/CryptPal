@@ -34,6 +34,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
   const [favAdded, setFavAdded] = useState(false);
+  const [savedCoins, setSavedCoins] = useState([]);
   const [textUnit, setTextUnit] = useState("0");
   const [fiatValue, setFiatValue] = useState("0.00");
   const [tokenValue, setTokenValue] = useState("0.00");
@@ -43,8 +44,35 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
   useEffect(() => {
 
+    const CoinCheck = async () => {
+      try {
+        const fav = await AsyncStorage.getItem("FavoriteCoin");
 
-    getCoinMarket();
+        const savedCoin = fav == null ? [] : JSON.parse(fav);
+
+        function findSaved(item) {
+          return item === dataFromHome.id;
+        }
+
+        const CoinStoredCheck = savedCoin.find(findSaved);
+
+        if (CoinStoredCheck !== undefined) {
+          setFavAdded(true);
+        }
+      } catch (e) {
+        console.log(e, "CheckCoin");
+      }
+
+    };
+
+    CoinCheck();
+
+  }, []);
+
+
+  useEffect(() => {
+
+    // getCoinMarket();
     const amount = parseFloat(textUnit);
 
     if (!amount && amount !== 0) {
@@ -57,58 +85,31 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
     setFiatValue((amount * dataFromHome?.current_price));
     setTokenValue((amount / dataFromHome?.current_price));
 
-
   }, [textUnit]);
 
 
-  // const SaveToFavorites = () => {
-  //   AsyncStorage.getItem("FavoriteCoin")
-  //     .then(fav => {
-  //       favCoin = fav == null ? [] : JSON.parse(fav);
-  //       favCoin.push(dataFromHome);
-  //       setFavAdded(true);
-  //       return AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
-  //     });
-  // };
+  const SaveToFavorites = async () => {
+    try {
+      const fav = await AsyncStorage.getItem("FavoriteCoin");
+      const favCoin = await fav == null ? [] : JSON.parse(fav);
+      favCoin.push(dataFromHome.id);
+      setFavAdded(true);
+      AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
+    } catch (err) {
+      console.log(err, "@SaveCoinErr");
+    }
+  };
 
+  const RemoveFromFavorites = async () => {
 
-  const SaveToFavorites = () => {
-    AsyncStorage.getItem("FavoriteCoin")
-      .then(fav => {
-        favCoin = fav == null ? [] : JSON.parse(fav);
-        favCoin.push(dataFromHome.id);
-        setFavAdded(true);
-        return AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
-      });
   };
 
 
   useEffect(() => {
-    AsyncStorage.getItem("FavoriteCoin")
-      .then(fav => {
-        savedCoins = fav == null ? [] : JSON.parse(fav);
-
-        function findSaved(savedCoins) {
-          return savedCoins.id === dataFromHome.id;
-        }
-
-        const CoinStoredCheck = savedCoins.find(findSaved);
-        if (CoinStoredCheck !== undefined) {
-          setFavAdded(true);
-        }
-        return savedCoins;
-      });
-
-  }, []);
-
-
-  useEffect(() => {
-    // console.log(appCurrency.ticker);
 
     const CurrencyRates = async () => {
 
       try {
-
 
         const res = await axios.get("https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766");
 
@@ -122,7 +123,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
           setCurrencyRate(res.data.data.EUR);
         }
 
-        // console.log(res.data.data.EUR, "currencyvvv");
       } catch (e) {
         console.log(e, "Error currency");
       }
@@ -141,8 +141,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
       setSwap(true);
     }
   }
-
-  // const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
 
 
   return (
@@ -179,10 +177,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
             <CoinDetailsChart
               chartPrices={(dataFromHome?.sparkline_in_7d?.price)?.map((item, index) => (item * currencyRate))}
               containerStyle={{
-                // marginTop: SIZES.padding,
-                // marginHorizontal: 10,
-                // paddingHorizonta,
-
                 flexDirection: "row",
               }}
 
@@ -324,7 +318,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
             </View>
 
-            <TouchableOpacity activeOpacity={0.6} onPress={SaveToFavorites}>
+            <TouchableOpacity activeOpacity={0.6} onPress={favAdded ? RemoveFromFavorites : SaveToFavorites}>
               {favAdded ? <LinearGradient style={[styles.root2, { borderColor: appTheme.textColor2 }]}
                                           colors={[appTheme.backgroundColor2, appTheme.backgroundColor2]}>
                   <Image style={{ width: 18, height: 18, tintColor: appTheme.textColor2, marginHorizontal: 10 }}
@@ -412,7 +406,7 @@ const styles = StyleSheet.create({
 
 export function mapStateToProps(state) {
   return {
-    coins: state.marketReducer.coins,
+    // coins: state.marketReducer.coins,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,

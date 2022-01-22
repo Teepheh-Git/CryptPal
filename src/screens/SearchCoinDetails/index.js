@@ -15,7 +15,6 @@ import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getCoinMarket } from "../../stores/market/marketActions";
 import CoinDetailsInfo from "../../components/CoinDetailsInfo";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -28,6 +27,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
 
   const coinId = route.params;
+  // console.log(coinId);
 
 
   const [favAdded, setFavAdded] = useState(false);
@@ -42,25 +42,50 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
   useEffect(() => {
 
-    const getDetails = async () => {
 
+    // getCoinMarket();
+
+
+    const CoinCheck = async () => {
+      try {
+        const fav = await AsyncStorage.getItem("FavoriteCoin");
+
+        const savedCoin = fav == null ? [] : JSON.parse(fav);
+
+
+        // console.log(fullDetails.id,"FDD");
+        function findSaved(item) {
+          return item === coinId;
+        }
+
+        const CoinStoredCheck = savedCoin.find(findSaved);
+
+        if (CoinStoredCheck !== undefined) {
+          setFavAdded(true);
+        }
+      } catch (e) {
+        console.log(e, "CheckCoin");
+      }
+
+    };
+
+    CoinCheck();
+
+  }, []);
+
+
+  useEffect(() => {
+    const getDetails = async () => {
       try {
         setLoading(true);
-
         const result = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinId}&order=market_cap_desc&per_page=1&page=1&sparkline=true&price_change_percentage=24h`);
-
         setFullDetails(result.data[0]);
-
         if (result) {
           setLoading(false);
         }
-
-
-        // console.log(result.data, "REZZ");
       } catch (e) {
         console.log(e, "getDetailsError");
         setLoading(false);
-
       }
 
     };
@@ -73,7 +98,6 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
 
   useEffect(() => {
-    getCoinMarket();
     const amount = parseFloat(textUnit);
 
     if (!amount && amount !== 0) {
@@ -93,36 +117,22 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
   }, [textUnit]);
 
 
-  const SaveToFavorites = () => {
-    AsyncStorage.getItem("FavoriteCoin")
-      .then(fav => {
-        favCoin = fav == null ? [] : JSON.parse(fav);
-        // favCoin.push(dataFromHome);
-        favCoin.push(fullDetails);
-        setFavAdded(true);
-        return AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
-      });
+  const SaveToFavorites = async () => {
+    try {
+      const fav = await AsyncStorage.getItem("FavoriteCoin");
+      const favCoin = await fav == null ? [] : JSON.parse(fav);
+      favCoin.push(fullDetails.id);
+      setFavAdded(true);
+      AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
+    } catch (err) {
+      console.log(err, "@SaveCoinErr");
+    }
   };
 
+  const RemoveFromFavorites = async () => {
 
-  useEffect(() => {
-    AsyncStorage.getItem("FavoriteCoin")
-      .then(fav => {
-        savedCoins = fav == null ? [] : JSON.parse(fav);
+  };
 
-        function findSaved(savedCoins) {
-          // return savedCoins.id === dataFromHome.id;
-          return savedCoins.id === fullDetails.id;
-        }
-
-        const CoinStoredCheck = savedCoins.find(findSaved);
-        if (CoinStoredCheck !== undefined) {
-          setFavAdded(true);
-        }
-        return savedCoins;
-      });
-
-  }, []);
 
   const CurrencyRates = async () => {
 
@@ -358,7 +368,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
               </View>
 
-              <TouchableOpacity activeOpacity={0.6} onPress={SaveToFavorites}>
+              <TouchableOpacity activeOpacity={0.6} onPress={favAdded ? RemoveFromFavorites : SaveToFavorites}>
                 {favAdded ? <LinearGradient style={[styles.root2, { borderColor: appTheme.textColor2 }]}
                                             colors={[appTheme.backgroundColor2, appTheme.backgroundColor2]}>
                     <Image style={{ width: 18, height: 18, tintColor: appTheme.textColor2, marginHorizontal: 10 }}
@@ -446,7 +456,7 @@ const styles = StyleSheet.create({
 
 export function mapStateToProps(state) {
   return {
-    coins: state.marketReducer.coins,
+    // coins: state.marketReducer.coins,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,

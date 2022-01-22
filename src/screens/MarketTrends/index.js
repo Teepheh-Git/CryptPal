@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
@@ -7,38 +7,41 @@ import CoinList from "../../components/CoinList";
 import constants from "../../constants/constants";
 import LottieView from "lottie-react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { getCoinMarket } from "../../stores/market/marketActions";
+import { getCoinMarket, getCoinMarketTrend } from "../../stores/market/marketActions";
 import styles from "./styles";
 
 
-const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation }) => {
+const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, navigation,coinTrend }) => {
 
 
-  const ITEM_HEIGHT = 75;
-
-  const getItemLayout = useCallback((data, index) => ({
-
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT * index,
-    index,
-
-
-  }), []);
+  // const ITEM_HEIGHT = 75;
+  //
+  // const getItemLayout = useCallback((data, index) => ({
+  //
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT * index,
+  //   index,
+  //
+  //
+  // }), []);
 
 
   const [marketPageLoading, setMarketPageLoading] = useState(true);
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [tabStatus, setTabStatus] = useState("Popular");
   const [orderByCoin, setOrderByCoin] = useState("market_cap_desc");
   const [retry, setRetry] = useState("");
 
 
-  if (coins?.length > 0) {
+  if (coinTrend?.length > 0) {
     setTimeout(() => {
       setMarketPageLoading(false);
+      setCategoryLoading(false);
+
     }, 200);
   }
 
-  if (coins == null) {
+  if (coinTrend == null) {
     setTimeout(() => {
       setMarketPageLoading(false);
     }, 5000);
@@ -46,7 +49,31 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
 
 
   useEffect((currency, orderBy) => {
-    getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+
+
+    if (orderByCoin === "market_cap_desc") {
+      getCoinMarketTrend(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "volume_desc") {
+      getCoinMarketTrend(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "volume_asc") {
+      getCoinMarketTrend(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "id_asc") {
+      getCoinMarketTrend(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    if (orderByCoin === "id_desc") {
+      getCoinMarketTrend(currency = appCurrency.ticker, orderBy = orderByCoin);
+    }
+
+    // getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+
+
   }, [orderByCoin, retry]);
 
 
@@ -64,6 +91,8 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
   // SELECTED TREND TABS
   const setTabStatusFilter = tabStatus => {
     setTabStatus(tabStatus);
+    setCategoryLoading(true);
+
     if (tabStatus === "Popular") {
       setOrderByCoin("market_cap_desc");
     }
@@ -120,7 +149,10 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
   return (
     <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
       <CustomHeader title="Market Trends 💰" onPress={() => navigation.goBack()} />
-      <View style={styles.listTab}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={styles.listTab}>
         {constants.listTab.map((buttonLabel, index) => (
           <TouchableOpacity
             key={index}
@@ -131,16 +163,17 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
           </TouchableOpacity>
         ))
         }
-      </View>
+      </ScrollView>
+      {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
 
 
-      {coins == null ? NetworkErrorPage() : <FlatList
-        data={coins}
+      {coinTrend == null ? NetworkErrorPage() : <FlatList
+        data={coinTrend}
         keyExtractor={(item) => item.id}
         renderItem={CoinListRenderItem}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={30}
-        getItemLayout={getItemLayout}
+        // initialNumToRender={20}
+        // getItemLayout={getItemLayout}
         // maxToRenderPerBatch={3}
         ListFooterComponent={
           <View style={{ marginBottom: 50 }} />
@@ -153,7 +186,8 @@ const MarketTrends = ({ appTheme, getCoinMarket, coins, appCurrency, navigation 
 
 export function mapStateToProps(state) {
   return {
-    coins: state.marketReducer.coins,
+    // coins: state.marketReducer.coins,
+    coinTrend: state.marketReducer.coinTrend,
     coinCard: state.marketReducer.coinCard,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
@@ -164,8 +198,8 @@ export function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 30, page));
+    getCoinMarketTrend: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
+      return dispatch(getCoinMarketTrend(currency, orderBy, sparkline, priceChangePerc, perPage = 30, page));
     },
 
   };
