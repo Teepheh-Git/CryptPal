@@ -26,16 +26,16 @@ function TopMoverCoins(a, b) {
 
 const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard, route }) => {
 
-  const ITEM_HEIGHT = 75;
-
-  const getItemLayout = useCallback((data, index) => ({
-
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT * index,
-    index,
-
-
-  }), []);
+  // const ITEM_HEIGHT = 75;
+  //
+  // const getItemLayout = useCallback((data, index) => ({
+  //
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT * index,
+  //   index,
+  //
+  //
+  // }), []);
 
 
   const [tabStatus, setTabStatus] = useState("24H");
@@ -183,12 +183,13 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
         {coinCard == null ? NetworkErrorPage() :
           <FlatList
-            data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
+            // data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
+            data={coinCard}
             keyExtractor={(item) => item.id}
             renderItem={CoinListRenderItem}
             showsVerticalScrollIndicator={false}
             initialNumToRender={20}
-            getItemLayout={getItemLayout}
+            // getItemLayout={getItemLayout}
             ListFooterComponent={
               <View style={{ marginBottom: 50 }} />
             }

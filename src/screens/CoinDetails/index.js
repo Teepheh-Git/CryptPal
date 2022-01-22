@@ -16,7 +16,6 @@ import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getCoinMarket } from "../../stores/market/marketActions";
 import CoinDetailsInfo from "../../components/CoinDetailsInfo";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
@@ -30,11 +29,8 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   const navigation = useNavigation();
   const dataFromHome = route.params;
 
-  // console.log(dataFromHome.id);
-
 
   const [favAdded, setFavAdded] = useState(false);
-  const [savedCoins, setSavedCoins] = useState([]);
   const [textUnit, setTextUnit] = useState("0");
   const [fiatValue, setFiatValue] = useState("0.00");
   const [tokenValue, setTokenValue] = useState("0.00");
@@ -47,15 +43,11 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
     const CoinCheck = async () => {
       try {
         const fav = await AsyncStorage.getItem("FavoriteCoin");
-
         const savedCoin = fav == null ? [] : JSON.parse(fav);
-
         function findSaved(item) {
           return item === dataFromHome.id;
         }
-
         const CoinStoredCheck = savedCoin.find(findSaved);
-
         if (CoinStoredCheck !== undefined) {
           setFavAdded(true);
         }
@@ -72,7 +64,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
   useEffect(() => {
 
-    // getCoinMarket();
     const amount = parseFloat(textUnit);
 
     if (!amount && amount !== 0) {
@@ -87,7 +78,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
   }, [textUnit]);
 
-
   const SaveToFavorites = async () => {
     try {
       const fav = await AsyncStorage.getItem("FavoriteCoin");
@@ -101,6 +91,20 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   };
 
   const RemoveFromFavorites = async () => {
+
+    try {
+      const fav = await AsyncStorage.getItem("FavoriteCoin");
+      const favCoin = JSON.parse(fav);
+      const filterFav = favCoin.filter(item => item !== dataFromHome.id);
+
+      AsyncStorage.removeItem("FavoriteCoin");
+      AsyncStorage.setItem("FavoriteCoin", JSON.stringify(filterFav));
+      setFavAdded(false);
+
+
+    } catch (e) {
+      console.log(e);
+    }
 
   };
 

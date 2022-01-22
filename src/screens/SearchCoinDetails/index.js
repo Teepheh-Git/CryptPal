@@ -131,14 +131,28 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
   const RemoveFromFavorites = async () => {
 
+    try {
+      const fav = await AsyncStorage.getItem("FavoriteCoin");
+      const favCoin = JSON.parse(fav);
+      const filterFav = favCoin.filter(item => item !== fullDetails.id);
+
+      console.log(filterFav);
+      AsyncStorage.removeItem("FavoriteCoin");
+      AsyncStorage.setItem("FavoriteCoin", JSON.stringify(filterFav));
+      setFavAdded(false);
+
+
+    } catch (e) {
+      console.log(e);
+    }
+
+
   };
 
 
   const CurrencyRates = async () => {
 
     try {
-
-
       const res = await axios.get("https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766");
 
       if (appCurrency.ticker === "NGN") {
