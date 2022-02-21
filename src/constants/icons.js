@@ -19,6 +19,7 @@ const usdImage = require("../assets/images/usFlag.png");
 const eurImage = require("../assets/images/eurFlag.png");
 const ngnImage = require("../assets/images/ngnFlag.png");
 const yenImage = require("../assets/images/yenFlag.png");
+const imgPlacehholder = require("../assets/images/imgPlacehholder.jpg");
 
 export default {
   settings,
@@ -42,4 +43,5 @@ export default {
   eurImage,
   yenImage,
   ngnImage,
+  imgPlacehholder
 };

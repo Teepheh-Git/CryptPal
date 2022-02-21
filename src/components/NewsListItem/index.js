@@ -1,23 +1,33 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
-import { FONTS, SIZES } from "../../constants";
+import { FONTS, icons, SIZES } from "../../constants";
 
 
-const NewsListItem = ({ appTheme, title, time, link, onPress }) => {
+const NewsListItem = ({ appTheme, title, time, link, onPress, image,source }) => {
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <View style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+      <Image style={styles.img} resizeMode={"cover"} source={image !==null ? { uri: image } : icons.imgPlacehholder} />
+      {/*<Image style={styles.img} resizeMode={"cover"} source={icons.imgPlacehholder} />*/}
 
-      <Text numberOfLines={1} ellipsizeMode={"tail"}
-            style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
-      <View style={styles.timeLinkContainer}>
-        <Text style={[styles.time, { color: appTheme.textColor3 }]}>{time}</Text>
+      <View style={styles.titleBox}>
 
-        <TouchableOpacity onPress={onPress}>
-          <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
-        </TouchableOpacity>
+        <Text numberOfLines={2} ellipsizeMode={"tail"}
+              style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
+
+
+        <View style={styles.timeLinkContainer}>
+          <Text numberOfLines={1} style={[styles.time, { color: appTheme.textColor3 }]}> <Text style={[styles.time, { color: appTheme.textColor3 }]}>{source} - </Text>{time}</Text>
+
+          <TouchableOpacity onPress={onPress}>
+            <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
+          </TouchableOpacity>
+
+        </View>
+
 
       </View>
+
 
     </View>
   );
@@ -28,13 +38,33 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     width: SIZES.width * 0.9,
-    height: 75,
+    height: SIZES.width * 0.25,
+    alignSelf:"center",
     justifyContent: "space-around",
     paddingVertical: 10,
+    flexDirection: "row",
+    marginVertical:2
+
+  },
+  img: {
+    width: SIZES.width * 0.2,
+    height: SIZES.width * 0.2,
+    borderRadius: 10,
+
+
+  },
+  titleBox: {
+    width: SIZES.width * 0.7,
+    height: SIZES.width * 0.2,
+    justifyContent: "space-between",
+    padding: 10,
+
 
   },
   title: {
-    ...FONTS.body2,
+    ...FONTS.body3,
+    width: SIZES.width * 0.7,
+
   },
 
   timeLinkContainer: {
@@ -44,6 +74,7 @@ const styles = StyleSheet.create({
   },
   time: {
     ...FONTS.body5,
+    width:SIZES.width*0.5
   },
   readMore: {
     ...FONTS.h4,

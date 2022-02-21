@@ -1,13 +1,16 @@
 import moment from "moment";
-import React from "react";
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
-import { NewsData } from "../../assets/data/newsData";
 import NewsListItem from "../../components/NewsListItem";
 import { FONTS, icons, SIZES } from "../../constants";
+import axios from "axios";
 
 const News = ({ appTheme, navigation }) => {
+
+
+  const [news, setNews] = useState([]);
 
   const Separator = () => {
     return (
@@ -18,6 +21,33 @@ const News = ({ appTheme, navigation }) => {
   };
 
 
+  useEffect(() => {
+    GetNews();
+
+
+  }, []);
+
+
+  const GetNews = async () => {
+
+
+    try {
+
+      // const newsRes = await axios.get("https://newsapi.org/v2/top-headlines?q=blockchain&apiKey=72d2a0865ac740eb860785c920c9f54e");
+      const newsRes = await axios.get("https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&pageSize=10&apiKey=72d2a0865ac740eb860785c920c9f54e");
+
+      await setNews(newsRes.data.articles);
+      console.log(newsRes.data.articles);
+
+    } catch (e) {
+      console.log(e, "GetNewsErr");
+    }
+
+
+  };
+
+
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
@@ -25,21 +55,53 @@ const News = ({ appTheme, navigation }) => {
         <View style={styles.titleContainer}>
           <Text style={[styles.title, { color: appTheme.textColor }]}>News 📄</Text>
         </View>
-        <TouchableOpacity style={styles.filterButtonContainer}>
-          <Image style={styles.filterButton} source={icons.filterButton} />
-        </TouchableOpacity>
+        {/*<TouchableOpacity style={styles.filterButtonContainer}>*/}
+        {/*  <Image style={styles.filterButton} source={icons.filterButton} />*/}
+        {/*</TouchableOpacity>*/}
 
       </View>
 
+      <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>
+
 
       <FlatList
-        data={NewsData.results}
+        data={news}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={Separator}
+        ListHeaderComponent={
+        <FlatList
+          data={news}
+          horizontal
+          snapToAlignment={"start"}
+          snapToStart={true}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index})=>(
+
+            // <View style={styles.imgBox}>
+              <ImageBackground  imageStyle={{ borderRadius: 20}} resizeMode={"cover"} style={styles.imgBg} source={ item.urlToImage!==undefined?{uri:item.urlToImage } : icons.imgPlacehholder}>
+
+
+
+              </ImageBackground>
+
+            // </View>
+
+
+
+
+
+        )
+        }/>
+
+
+
+        }
+        // ItemSeparatorComponent={Separator}
         renderItem={({ item }) =>
 
-          <NewsListItem title={item.title} time={moment(item.created_at).format("LLLL")} link={"read more"}
+          <NewsListItem image={item.urlToImage} title={item.title} source={item.source.name}
+                        time={moment(item.publishedAt).startOf("hour").fromNow()} link={"read more"}
                         onPress={() => navigation.navigate("NewsWebPage", { ...item })} />
 
 
@@ -59,7 +121,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    width: SIZES.width,
+    // width: SIZES.width*0.9,
     // height: SIZES.height
 
   },
@@ -88,6 +150,25 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
     marginHorizontal: 5,
   },
+  highlights: {
+    alignSelf:"flex-start",
+    paddingHorizontal:20,
+    ...FONTS.body2,
+    fontWeight:"500"
+  },
+  imgBox: {
+    // width:"70%"
+  },
+  imgBg: {
+    width:SIZES.width*0.8,
+    height:SIZES.height*0.23,
+    marginHorizontal:10,
+
+
+
+  },
+
+
 });
 
 

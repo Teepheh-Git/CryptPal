@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "react-native-splash-screen";
 import AppRoute from "./router/AppRoute";
 import OnBoardingRoute from "./router/OnBoardingRoute";
-import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, StatusBar, TouchableOpacity, View } from "react-native";
 import { enableScreens } from "react-native-screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import rootReducer from "./src/stores/rootReducer";
@@ -70,11 +70,21 @@ const App = () => {
 
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
+        <StatusBar
+          translucent={true}
+          backgroundColor={"transparent"}
+          animated={true}
+          showHideTransition={"fade"}
+          networkActivityIndicatorVisible={false} />
+
 
         <NavigationContainer>
           {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
         </NavigationContainer>
+
+
       </PersistGate>
+
 
     </Provider>
   );

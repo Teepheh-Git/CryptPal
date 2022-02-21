@@ -8,30 +8,7 @@ import axios from "axios";
 import FastImage from "react-native-fast-image";
 
 
-const Search = ({
-                  appTheme,
-                  navigation,
-                  searchC,
-
-                  getCoinMarket,
-                  coins,
-                  appCurrency,
-                  coinSearch2,
-                  getSearchMarket,
-                  getSearchMarket2,
-                }) => {
-
-
-  // const ITEM_HEIGHT = 75;
-
-  // const getItemLayout = useCallback((data, index) => ({
-  //
-  //   length: ITEM_HEIGHT,
-  //   offset: ITEM_HEIGHT * index,
-  //   index,
-  //
-  //
-  // }), []);
+const Search = ({ appTheme, navigation }) => {
 
 
   // const [searchCoin, setSearchCoin] = useState("");
@@ -119,20 +96,6 @@ const Search = ({
   // };
 
 
-  // const CoinListRenderItem = ({ item }) => {
-  //   return (
-  //     <CoinList
-  //       name={item?.name}
-  //       logoUrl={item?.image}
-  //       symbol={item?.symbol?.toUpperCase()}
-  //       currentPrice={item?.current_price}
-  //       priceChangePercentage24h={item?.price_change_percentage_24h}
-  //       chartData={item?.sparkline_in_7d?.price}
-  //       onPress={() => navigation.navigate("CoinDetails", { ...item })}
-  //     />
-  //   );
-  //
-  // };
   const CoinListRenderItem = ({ item }) => {
     return (
 
@@ -155,30 +118,17 @@ const Search = ({
             borderRadius: 30,
             marginRight: 5,
           }} />
-        {/*<Image resizeMode={"contain"} source={{ uri: }} style={{ width: 50, height: 50 }} />*/}
 
         <View style={styles.textContainer}>
-
           <View>
             <Text style={[styles.name, { color: appTheme.textColor }]}>{item?.name}</Text>
             <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{item.symbol}</Text>
           </View>
-
           <Text style={[styles.rank, { color: appTheme.textColor3 }]}>Rank: #{item?.market_cap_rank}</Text>
 
         </View>
 
       </TouchableOpacity>
-
-
-
-
-      // <CoinList
-      //   name={item?.name}
-      //   logoUrl={item?.thumb}
-      //   symbol={item?.symbol?.toUpperCase()}
-      //   onPress={() => navigation.navigate("CoinDetails", { ...item })}
-      // />
     );
 
   };
@@ -266,22 +216,21 @@ const Search = ({
       {/*{searchCoin !== "" && TopResults()}*/}
       {coinSearch !== "" && TopResults()}
 
-
       {coinSearch === "" ? AboutToSearch() : (loading ?
-          <ActivityIndicator color={appTheme.textColor2} size={"large"} /> :
+          <ActivityIndicator style={{ marginVertical: 15 }} color={appTheme.textColor2} size={"large"} /> :
           <FlatList
-            // data={FilteredDataCondition()}
             data={coinResult}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             initialNumToRender={10}
             removeClippedSubviews={true}
+            ListEmptyComponent={Notfound}
             // getItemLayout={getItemLayout}
             renderItem={CoinListRenderItem}
-            ListHeaderComponent={
-              // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
-              coinSearch !== "" && coinResult.length === 0 && Notfound()
-            }
+            // ListHeaderComponent={
+            // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
+            // coinSearch !== "" && coinResult.length === 0 && Notfound()
+            // }
           />
 
       )}
@@ -338,13 +287,9 @@ const styles = StyleSheet.create({
 
 export function mapStateToProps(state) {
   return {
-    coins: state.marketReducer.coins,
-    // searchCoin: state.marketReducer.searchCoin,
-    // coinSearch2: state.marketReducer.coinSearch2,
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
   };
 }
 
