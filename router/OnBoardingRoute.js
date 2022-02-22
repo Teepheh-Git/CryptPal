@@ -8,6 +8,7 @@ import NewsWebPage from "../src/screens/NewsWebPage";
 import MarketTrends from "../src/screens/MarketTrends";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SearchCoinDetails from "../src/screens/SearchCoinDetails";
+import NewsContentPage from "../src/screens/NewsContentPage";
 
 // const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const OnBoardingRoute = () => {
       <Stack.Screen name="TopMovers" component={TopMovers} />
       <Stack.Screen name="NewsWebPage" component={NewsWebPage} />
       <Stack.Screen name="MarketTrends" component={MarketTrends} />
+      <Stack.Screen name="NewsContentPage" component={NewsContentPage} />
     </Stack.Navigator>
   );
 };

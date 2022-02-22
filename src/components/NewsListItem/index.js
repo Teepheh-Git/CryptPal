@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
 
-const NewsListItem = ({ appTheme, title, time, link, onPress, image,source }) => {
+const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) => {
   return (
     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
-      <Image style={styles.img} resizeMode={"cover"} source={image !==null ? { uri: image } : icons.imgPlacehholder} />
+      <Image style={[styles.img, { backgroundColor: appTheme.backgroundColor2 }]} resizeMode={"cover"}
+             source={image !== null ? { uri: image } : icons.imgPlacehholder} />
       {/*<Image style={styles.img} resizeMode={"cover"} source={icons.imgPlacehholder} />*/}
 
       <View style={styles.titleBox}>
@@ -17,7 +18,8 @@ const NewsListItem = ({ appTheme, title, time, link, onPress, image,source }) =>
 
 
         <View style={styles.timeLinkContainer}>
-          <Text numberOfLines={1} style={[styles.time, { color: appTheme.textColor3 }]}> <Text style={[styles.time, { color: appTheme.textColor3 }]}>{source} - </Text>{time}</Text>
+          <Text numberOfLines={1} style={[styles.time, { color: appTheme.textColor3 }]}> <Text
+            style={[styles.time, { color: appTheme.textColor3 }]}>{source} - </Text>{time}</Text>
 
           <TouchableOpacity onPress={onPress}>
             <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
@@ -39,11 +41,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     width: SIZES.width * 0.9,
     height: SIZES.width * 0.25,
-    alignSelf:"center",
+    alignSelf: "center",
     justifyContent: "space-around",
     paddingVertical: 10,
     flexDirection: "row",
-    marginVertical:2
+    marginVertical: 2,
 
   },
   img: {
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...FONTS.body3,
-    width: SIZES.width * 0.7,
+    width: SIZES.width * 0.63,
 
   },
 
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   },
   time: {
     ...FONTS.body5,
-    width:SIZES.width*0.5
+    width: SIZES.width * 0.5,
   },
   readMore: {
     ...FONTS.h4,
