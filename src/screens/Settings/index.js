@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
-import { COLORS, constants, FONTS, SIZES } from "../../constants";
-import RNPickerSelect from "react-native-picker-select";
-import { Chevron } from "react-native-shapes";
+import { COLORS, FONTS, icons, SIZES } from "../../constants";
+import SafeAreaView from "react-native/Libraries/Components/SafeAreaView/SafeAreaView";
+import SettingsItem from "../../components/SettingsItem";
 
 
 const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
@@ -74,73 +74,87 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
 
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+      <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.title, { color: appTheme.textColor }]}>Settings ⚙️</Text>
+        </View>
+      </View>
 
 
-      <RNPickerSelect
-        value={currency}
-        style={pickerSelectStyles}
-        onValueChange={(value, itemIndex) => {
-          setCurrency(value);
-          // console.log(value)
-          if (value !== null) {
-            toggleCurrency(value);
-          }
-
-        }}
-        items={constants.currencyList}
-        Icon={() => {
-          return <Chevron size={1.5} color={"white"} />;
-        }}
-      />
+      <SettingsItem icon={icons.Show} title={"Appearance"} />
+      <SettingsItem icon={icons.HomeIcon} title={"Launch Screen"} />
+      <SettingsItem icon={icons.Ticket} title={"Default Currency"} />
+      <SettingsItem icon={icons.aboutIcon} title={"Language"} />
+      <SettingsItem icon={icons.Document} title={"NewsLetter"} />
+      <SettingsItem icon={icons.ShieldDone} title={"About"} />
 
 
-      <TouchableOpacity
-        style={{
-          height: 60,
-          width: "50%",
-          backgroundColor: "grey",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 10,
-          marginVertical: 10,
-        }}
-        onPress={() => toggleThemeHandler()}>
-        <Text>Toggle Theme </Text>
+      {/*<RNPickerSelect*/}
+      {/*  value={currency}*/}
+      {/*  style={pickerSelectStyles}*/}
+      {/*  onValueChange={(value, itemIndex) => {*/}
+      {/*    setCurrency(value);*/}
+      {/*    // console.log(value)*/}
+      {/*    if (value !== null) {*/}
+      {/*      toggleCurrency(value);*/}
+      {/*    }*/}
 
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={{
-          height: 60,
-          width: "50%",
-          backgroundColor: "grey",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 10,
-        }}
-        onPress={() => ClearOnboarding()}>
-        <Text>Reset Onboarding </Text>
-
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={{
-          height: 60,
-          width: "50%",
-          backgroundColor: "grey",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 10,
-        }}
-        onPress={() => ClearFavorites()}>
-        <Text>Clear Favorites </Text>
-
-      </TouchableOpacity>
+      {/*  }}*/}
+      {/*  items={constants.currencyList}*/}
+      {/*  Icon={() => {*/}
+      {/*    return <Chevron size={1.5} color={"white"} />;*/}
+      {/*  }}*/}
+      {/*/>*/}
 
 
-    </View>
+      {/*<TouchableOpacity*/}
+      {/*  style={{*/}
+      {/*    height: 60,*/}
+      {/*    width: "50%",*/}
+      {/*    backgroundColor: "grey",*/}
+      {/*    justifyContent: "center",*/}
+      {/*    alignItems: "center",*/}
+      {/*    borderRadius: 10,*/}
+      {/*    marginVertical: 10,*/}
+      {/*  }}*/}
+      {/*  onPress={() => toggleThemeHandler()}>*/}
+      {/*  <Text>Toggle Theme </Text>*/}
+
+      {/*</TouchableOpacity>*/}
+
+
+      {/*<TouchableOpacity*/}
+      {/*  style={{*/}
+      {/*    height: 60,*/}
+      {/*    width: "50%",*/}
+      {/*    backgroundColor: "grey",*/}
+      {/*    justifyContent: "center",*/}
+      {/*    alignItems: "center",*/}
+      {/*    borderRadius: 10,*/}
+      {/*  }}*/}
+      {/*  onPress={() => ClearOnboarding()}>*/}
+      {/*  <Text>Reset Onboarding </Text>*/}
+
+      {/*</TouchableOpacity>*/}
+
+      {/*<TouchableOpacity*/}
+      {/*  style={{*/}
+      {/*    height: 60,*/}
+      {/*    width: "50%",*/}
+      {/*    backgroundColor: "grey",*/}
+      {/*    justifyContent: "center",*/}
+      {/*    alignItems: "center",*/}
+      {/*    borderRadius: 10,*/}
+      {/*  }}*/}
+      {/*  onPress={() => ClearFavorites()}>*/}
+      {/*  <Text>Clear Favorites </Text>*/}
+
+      {/*</TouchableOpacity>*/}
+
+
+    </SafeAreaView>
   );
 };
 
@@ -149,37 +163,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
-  listTab: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
+  headerContainer: {
+    height: 55,
     width: SIZES.width * 0.9,
-    alignItems: "center",
-
-  },
-  btnTab: {
-    height: 40,
-    marginHorizontal: 5,
-    marginVertical: 5,
-    borderWidth: 0.25,
-    alignItems: "center",
-    borderColor: COLORS.grey,
-    borderRadius: 5,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  titleContainer: {
+    width: SIZES.width * 0.775,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
-  }, textTab: {
-    ...FONTS.body5,
-    paddingHorizontal: 5,
-    color: COLORS.grey,
+  title: {
+    ...FONTS.h2,
     marginHorizontal: 5,
-  },
-  btnTabActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-  },
-  textTabActive: {
-    color: "white",
   },
 });
 

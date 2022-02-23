@@ -12,13 +12,20 @@ const backArrow = require("../assets/icons/backArrow.png");
 const overviewGraph = require("../assets/icons/overviewGraph.png");
 const filterButton = require("../assets/icons/filterButton.png");
 const FavCheck = require("../assets/icons/FavCheck.png");
-const checkMark =  require("../assets/icons/checkMark.png");
-const moneyBag =  require("../assets/icons/moneyBag.png");
+const checkMark = require("../assets/icons/checkMark.png");
+const moneyBag = require("../assets/icons/moneyBag.png");
 const swapIcon = require("../assets/icons/swapIcon.png");
 const usdImage = require("../assets/images/usFlag.png");
 const eurImage = require("../assets/images/eurFlag.png");
 const ngnImage = require("../assets/images/ngnFlag.png");
 const yenImage = require("../assets/images/yenFlag.png");
+const aboutIcon = require("../assets/icons/aboutIcon.png");
+const Document = require("../assets/icons/Document.png");
+const HomeIcon = require("../assets/icons/HomeIcon.png");
+const ShieldDone = require("../assets/icons/ShieldDone.png");
+const arr_right = require("../assets/icons/arr_right.png");
+const Show = require("../assets/icons/Show.png");
+const Ticket = require("../assets/icons/Ticket.png");
 const imgPlacehholder = require("../assets/images/imgPlacehholder.jpg");
 
 export default {
@@ -43,5 +50,12 @@ export default {
   eurImage,
   yenImage,
   ngnImage,
-  imgPlacehholder
+  imgPlacehholder,
+  aboutIcon,
+  Document,
+  Show,
+  Ticket,
+  ShieldDone,
+  HomeIcon,
+  arr_right
 };

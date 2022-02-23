@@ -15,6 +15,10 @@ export const GET_CARD_MARKET_FAILURE = "GET_CARD_MARKET_FAILURE";
 export const GET_NEWS_BEGIN = "GET_NEWS_BEGIN";
 export const GET_NEWS_SUCCESS = "GET_NEWS_SUCCESS";
 export const GET_NEWS_FAILURE = "GET_NEWS_FAILURE";
+
+export const GET_HEADLINE_NEWS_BEGIN = "GET_HEADLINE_NEWS_BEGIN";
+export const GET_HEADLINE_NEWS_SUCCESS = "GET_HEADLINE_NEWS_SUCCESS";
+export const GET_HEADLINE_NEWS_FAILURE = "GET_HEADLINE_NEWS_FAILURE";
 //
 // export const GET_SEARCH_MARKET_BEGIN2 = "GET_SEARCH_MARKET_BEGIN2";
 // export const GET_SEARCH_MARKET_SUCCESS2 = "GET_SEARCH_MARKET_SUCCESS2";
@@ -70,6 +74,19 @@ export const getNewsFailure = (error) => ({
   type: GET_NEWS_FAILURE,
   payload: { error },
 });
+
+export const getHeadlineNewsBegin = () => ({
+  type: GET_HEADLINE_NEWS_BEGIN,
+});
+export const getHeadlineNewsSuccess = (headlineNews) => ({
+  type: GET_HEADLINE_NEWS_SUCCESS,
+  payload: { headlineNews },
+});
+export const getHeadlineNewsFailure = (error) => ({
+  type: GET_HEADLINE_NEWS_FAILURE,
+  payload: { error },
+});
+
 //
 //
 // export const getSearchMarketBegin2 = () => ({
@@ -120,7 +137,7 @@ export const getCoinMarketTrend = (currency = "usd", orderBy = orderBy, sparklin
 };
 
 
-export const getNewsMarket = (keyword,category) => {
+export const getNewsMarket = (keyword = "crypto", category = "publishedAt") => {
   return async dispatch => {
     try {
       const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&sortBy=${category}&language=en&sortBy=publishedAt&pageSize=10&apiKey=72d2a0865ac740eb860785c920c9f54e`);
@@ -137,7 +154,26 @@ export const getNewsMarket = (keyword,category) => {
       dispatch(getNewsFailure(e));
     }
   };
+};
 
+export const getHeadlineNewsMarket = () => {
+  return async dispatch => {
+    try {
+      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=$crypto&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+
+      const Data = newsRes.data.articles;
+
+      console.log(Data, "DOYYYY");
+      if (Data) {
+        dispatch(getHeadlineNewsSuccess(Data));
+      } else {
+        dispatch(getHeadlineNewsFailure(Data));
+      }
+    } catch (e) {
+      console.log(e,"ERRRRR");
+      dispatch(getHeadlineNewsFailure(e));
+    }
+  };
 };
 
 

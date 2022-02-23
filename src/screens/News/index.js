@@ -1,13 +1,13 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  FlatList,
+  FlatList, Image,
   ImageBackground,
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
+  Text, TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -17,18 +17,33 @@ import NewsListItem from "../../components/NewsListItem";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import axios from "axios";
 import constants from "../../constants/constants";
-import { getNewsMarket } from "../../stores/market/marketActions";
+import { getHeadlineNewsMarket, getNewsMarket } from "../../stores/market/marketActions";
 
-const News = ({ appTheme, navigation, getNewsMarket, news }) => {
+const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news }) => {
 
 
-  const [myNews, setMyNews] = useState([]);
-  const [highlights, setHighlights] = useState([]);
+
+  // const ITEM_HEIGHT = 75;
+
+  // const getItemLayout = useCallback((data, index) => ({
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT,
+  //   index,
+  //
+  // }), []);
+
+
+  // const [myNews, setMyNews] = useState([]);
+  // const [highlights, setHighlights] = useState([]);
   const [tabStatus, setTabStatus] = useState("Latest");
   const [category, setCategory] = useState("popularity");
   const [keyword, setKeyword] = useState("bitcoin");
 
-  console.log(news, "JJJJJ");
+
+  // const [coinSearch, setCoinSearch] = useState("");
+  // const [isFocused, setIsFocused] = useState(false);
+
+  // console.log(news, "JJJJJ");
 
   const [categoryLoading, setCategoryLoading] = useState(false);
 
@@ -45,35 +60,42 @@ const News = ({ appTheme, navigation, getNewsMarket, news }) => {
   useEffect((keyword, category) => {
 
     // GetNews();
+    getHeadlineNewsMarket();
 
-    if (category === "popularity") {
-      getNewsMarket(category);
-
-    }
-
-    if (category === "publishedAt") {
-      getNewsMarket(category);
+    if (tabStatus === "Popular") {
+      getNewsMarket(keyword = "blockchain+bitcoin", category = "popularity");
 
     }
 
-    if (keyword === "solana") {
-      getNewsMarket(keyword);
+    if (tabStatus === "Latest") {
+      getNewsMarket(keyword = "crypto+blockchain", category = "publishedAt");
 
     }
 
-    if (keyword === "nft") {
-      getNewsMarket(keyword);
+    if (tabStatus === "Solana") {
+      getNewsMarket(keyword = "solana", category = "publishedAt");
 
     }
 
-    if (keyword === "ethereum") {
-      getNewsMarket(keyword);
+    if (tabStatus === "NFT") {
+      getNewsMarket(keyword = "nft", category = "publishedAt");
+
+    }
+
+    if (tabStatus === "Ethereum") {
+      getNewsMarket(keyword = "ethereum", category = "publishedAt");
 
     }
 
 
-  }, [category, keyword]);
+  }, [tabStatus, keyword]);
 
+
+  if (news?.length > 0) {
+    setTimeout(() => {
+      setCategoryLoading(false);
+    }, 1000);
+  }
 
   const GetNews = async () => {
 
@@ -138,14 +160,48 @@ const News = ({ appTheme, navigation, getNewsMarket, news }) => {
 
       <FlatList
         data={news}
+        // getItemLayout={getItemLayout}
+        // initialScrollIndex={4}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
 
           <>
+            {/*<View style={{*/}
+            {/*  flexDirection: "row",*/}
+            {/*  width: SIZES.width * 0.95,*/}
+            {/*  height: 55,*/}
+            {/*  alignItems: "center",*/}
+            {/*  justifyContent: "center",*/}
+            {/*  marginVertical: 10,*/}
+            {/*  alignSelf:"center"*/}
+            {/*}}>*/}
+            {/*  <TextInput*/}
+            {/*    placeholder={"Search for crypto related news..."}*/}
+            {/*    value={coinSearch}*/}
+            {/*    // onChangeText={(text) => SearchFilter(text)}*/}
+            {/*    onChangeText={value => setCoinSearch(value)}*/}
+            {/*    placeholderTextColor={appTheme.textColor3}*/}
+            {/*    onFocus={() => setIsFocused(true)}*/}
+            {/*    multiline={false}*/}
+            {/*    style={{*/}
+            {/*      width: SIZES.width * 0.9,*/}
+            {/*      height: 55, backgroundColor: appTheme.backgroundColor,*/}
+            {/*      borderRadius: 8,*/}
+            {/*      borderWidth: isFocused ? 1 : null,*/}
+            {/*      borderColor: isFocused ? appTheme.textColor2 : null,*/}
+            {/*      paddingHorizontal: 15,*/}
+            {/*      left: 10,*/}
+            {/*      paddingRight: 30,*/}
+            {/*      color: appTheme.textColor,*/}
+            {/*    }}>*/}
+            {/*  </TextInput>*/}
+            {/*  <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}*/}
+            {/*         source={icons.searchBarIcon} />*/}
+            {/*</View>*/}
 
             <FlatList
-              data={highlights}
+              data={headlineNews}
               horizontal
               snapToAlignment={"start"}
               snapToStart={true}
@@ -343,6 +399,8 @@ export function mapStateToProps(state) {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     news: state.marketReducer.news,
+    headlineNews: state.marketReducer.headlineNews,
+
   };
 }
 
@@ -350,6 +408,10 @@ function mapDispatchToProps(dispatch) {
   return {
     getNewsMarket: (keyword, category) => {
       return dispatch(getNewsMarket(keyword, category));
+    },
+
+    getHeadlineNewsMarket: () => {
+      return dispatch(getHeadlineNewsMarket());
     },
   };
 }

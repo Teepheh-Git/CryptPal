@@ -4,8 +4,9 @@ import * as marketActions from "./marketActions";
 const initialState = {
   coins: [],
   coinCard: [],
-  coinTrend:[],
-  news:[],
+  coinTrend: [],
+  news: [],
+  headlineNews: [],
   // searchCoin: [],
   // coinSearch2: [],
   error: null,
@@ -87,6 +88,26 @@ const marketReducer = (state = initialState, action) => {
     }
 
     case marketActions.GET_NEWS_FAILURE: {
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    }
+
+    case marketActions.GET_HEADLINE_NEWS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case marketActions.GET_HEADLINE_NEWS_SUCCESS: {
+      return {
+        ...state,
+        headlineNews: action.payload.headlineNews,
+      };
+    }
+
+    case marketActions.GET_HEADLINE_NEWS_FAILURE: {
       return {
         ...state,
         error: action.payload.error,

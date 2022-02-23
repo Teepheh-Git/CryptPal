@@ -1,12 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
 
 const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) => {
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+    <Pressable onPress={onPress} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
       <Image style={[styles.img, { backgroundColor: appTheme.backgroundColor2 }]} resizeMode={"cover"}
              source={image !== null ? { uri: image } : icons.imgPlacehholder} />
       {/*<Image style={styles.img} resizeMode={"cover"} source={icons.imgPlacehholder} />*/}
@@ -31,7 +31,7 @@ const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) =
       </View>
 
 
-    </View>
+    </Pressable>
   );
 };
 
