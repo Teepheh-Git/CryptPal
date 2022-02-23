@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
-import { SIZES } from "../../constants";
+import { FONTS, SIZES } from "../../constants";
 
 const NewsContentPage = ({ appTheme, navigation, route }) => {
 
   const dataFromNewsPage = route.params;
 
-  console.log(dataFromNewsPage);
+  // console.log(dataFromNewsPage);
 
   const [visible, setVisible] = useState(false);
 
@@ -19,7 +19,7 @@ const NewsContentPage = ({ appTheme, navigation, route }) => {
 
 
     return (
-      <View style={[styles.loadingIndicator, { backgroundColor: appTheme.backgroundColor }]}>
+      <View style={[styles.loadingIndicator, { backgroundColor: "transparent" }]}>
 
         {appTheme.name === "light" ?
           <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
@@ -46,8 +46,12 @@ const NewsContentPage = ({ appTheme, navigation, route }) => {
         <Text style={[styles.desc, { color: appTheme.textColor }]}>{dataFromNewsPage.description}</Text>
 
 
-        <Image style={styles.img} source={{uri:dataFromNewsPage.urlToImage}}/>
-        <Text style={[styles.content, { color: appTheme.textColor }]}>{dataFromNewsPage.content}</Text>
+        <Image style={styles.img} source={{ uri: dataFromNewsPage.urlToImage }} />
+        <Text style={[styles.content, { color: appTheme.textColor }]}>{dataFromNewsPage.content.slice(0, 200)}...</Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate("NewsWebPage", dataFromNewsPage.url)}>
+          <Text style={[styles.readFull, { color: appTheme.textColor2 }]}>Read full article</Text>
+        </TouchableOpacity>
 
 
       </ScrollView>
@@ -77,32 +81,32 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
     lineHeight: 28,
-    marginVertical:10
+    marginVertical: 10,
   },
-  desc:{
-    fontSize: 16,
-    fontWeight: "300",
+  desc: {
+    ...FONTS.body2,
+    fontWeight: "400",
     letterSpacing: 0.5,
     lineHeight: 22,
-    opacity:0.7,
-    textAlign:"left"
+    opacity: 0.7,
+    textAlign: "left",
     // marginVertical:10
   },
-  content:{
-    fontSize: 18,
+  content: {
+    ...FONTS.body3,
     fontWeight: "300",
     letterSpacing: 0.6,
-    lineHeight: 28,
-    opacity:0.7,
-    textAlign:"left"
+    lineHeight: 26,
+    // opacity:0.7,
+    textAlign: "left",
 
   },
-  img:{
-    width:"100%",
-    height:SIZES.height*0.2,
-    borderRadius:10,
-    marginVertical:10,
-    backgroundColor:"rgba(159,159,159,0.11)"
+  img: {
+    width: "100%",
+    height: SIZES.height * 0.2,
+    borderRadius: 10,
+    marginVertical: 10,
+    backgroundColor: "rgba(159,159,159,0.11)",
 
   },
   loadingIndicator: {
@@ -116,6 +120,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  readFull: {
+
+    ...FONTS.body3,
+    fontWeight: "500",
+    marginVertical: 20,
+
+  },
+
 });
 
 

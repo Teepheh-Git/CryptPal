@@ -12,9 +12,9 @@ export const GET_CARD_MARKET_BEGIN = "GET_CARD_MARKET_BEGIN";
 export const GET_CARD_MARKET_SUCCESS = "GET_CARD_MARKET_SUCCESS";
 export const GET_CARD_MARKET_FAILURE = "GET_CARD_MARKET_FAILURE";
 
-// export const GET_SEARCH_MARKET_BEGIN = "GET_SEARCH_MARKET_BEGIN";
-// export const GET_SEARCH_MARKET_SUCCESS = "GET_SEARCH_MARKET_SUCCESS";
-// export const GET_SEARCH_MARKET_FAILURE = "GET_SEARCH_MARKET_FAILURE";
+export const GET_NEWS_BEGIN = "GET_NEWS_BEGIN";
+export const GET_NEWS_SUCCESS = "GET_NEWS_SUCCESS";
+export const GET_NEWS_FAILURE = "GET_NEWS_FAILURE";
 //
 // export const GET_SEARCH_MARKET_BEGIN2 = "GET_SEARCH_MARKET_BEGIN2";
 // export const GET_SEARCH_MARKET_SUCCESS2 = "GET_SEARCH_MARKET_SUCCESS2";
@@ -59,17 +59,17 @@ export const getCardMarketFailure = (error) => ({
 });
 
 
-// export const getSearchMarketBegin = () => ({
-//   type: GET_SEARCH_MARKET_BEGIN,
-// });
-// export const getSearchMarketSuccess = (searchCoin) => ({
-//   type: GET_SEARCH_MARKET_SUCCESS,
-//   payload: { searchCoin },
-// });
-// export const getSearchMarketFailure = (error) => ({
-//   type: GET_SEARCH_MARKET_FAILURE,
-//   payload: { error },
-// });
+export const getNewsBegin = () => ({
+  type: GET_NEWS_BEGIN,
+});
+export const getNewsSuccess = (news) => ({
+  type: GET_NEWS_SUCCESS,
+  payload: { news },
+});
+export const getNewsFailure = (error) => ({
+  type: GET_NEWS_FAILURE,
+  payload: { error },
+});
 //
 //
 // export const getSearchMarketBegin2 = () => ({
@@ -120,22 +120,25 @@ export const getCoinMarketTrend = (currency = "usd", orderBy = orderBy, sparklin
 };
 
 
-// export const getSearchMarket = (coinSearchValue) => {
-//   return async dispatch => {
-//     try {
-//       const response = await axios.get(`https://api.coingecko.com/api/v3/search?query=${coinSearchValue}`);
-//       const Data = response.data.coins;
-//       if (response.status === 200) {
-//         dispatch(getSearchMarketSuccess(Data));
-//       } else {
-//         dispatch(getSearchMarketFailure(Data));
-//       }
-//     } catch (e) {
-//       dispatch(getSearchMarketFailure(e));
-//     }
-//   };
-//
-// };
+export const getNewsMarket = (keyword,category) => {
+  return async dispatch => {
+    try {
+      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&sortBy=${category}&language=en&sortBy=publishedAt&pageSize=10&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+
+      const Data = newsRes.data.articles;
+
+      // console.log(Data, "DOYYYY");
+      if (Data) {
+        dispatch(getNewsSuccess(Data));
+      } else {
+        dispatch(getNewsFailure(Data));
+      }
+    } catch (e) {
+      dispatch(getNewsFailure(e));
+    }
+  };
+
+};
 
 
 // export const getSearchMarket2 = (currency = "usd", orderBy = orderBy, sparkline = true, priceChangePerc = "24h", perPage = 250, page = 3) => {

@@ -75,6 +75,28 @@ const listTab = [
     tabStatus: "Z - A",
   },
 ];
+
+
+const newsListTab = [
+  {
+    key: "1",
+    tabStatus: "Popular",
+  },
+  {
+    key: "2",
+    tabStatus: "Latest",
+  }, {
+    key: "3",
+    tabStatus: "Solana",
+  },
+  {
+    key: "4",
+    tabStatus: "NFT",
+  },{
+    key: "5",
+    tabStatus: "Ethereum",
+  },
+];
 const topMoversListTab = [
   {
     key: "1",
@@ -124,10 +146,11 @@ const currencyToggle = [
 ];
 
 
-constants = {
+let constants = {
   slides,
   categoryList,
   listTab,
+  newsListTab,
   topMoversListTab,
   currencyToggle,
   currencyList,

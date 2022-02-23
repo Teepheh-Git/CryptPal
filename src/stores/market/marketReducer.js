@@ -5,6 +5,7 @@ const initialState = {
   coins: [],
   coinCard: [],
   coinTrend:[],
+  news:[],
   // searchCoin: [],
   // coinSearch2: [],
   error: null,
@@ -72,25 +73,25 @@ const marketReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     }
-    // case marketActions.GET_SEARCH_MARKET_BEGIN2:
-    //   return {
-    //     ...state,
-    //     loading: true,
-    //   };
-    //
-    // case marketActions.GET_SEARCH_MARKET_SUCCESS2: {
-    //   return {
-    //     ...state,
-    //     coinSearch2: action.payload.coinSearch2,
-    //   };
-    // }
-    //
-    // case marketActions.GET_SEARCH_MARKET_FAILURE2: {
-    //   return {
-    //     ...state,
-    //     error: action.payload.error,
-    //   };
-    // }
+    case marketActions.GET_NEWS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case marketActions.GET_NEWS_SUCCESS: {
+      return {
+        ...state,
+        news: action.payload.news,
+      };
+    }
+
+    case marketActions.GET_NEWS_FAILURE: {
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    }
 
     default:
       return state;
