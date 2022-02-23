@@ -83,7 +83,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
       </View>
 
 
-      <SettingsItem icon={icons.Show} title={"Appearance"} />
+      <SettingsItem onPress={() => toggleThemeHandler()} icon={icons.Show} title={"Appearance"} />
       <SettingsItem icon={icons.HomeIcon} title={"Launch Screen"} />
       <SettingsItem icon={icons.Ticket} title={"Default Currency"} />
       <SettingsItem icon={icons.aboutIcon} title={"Language"} />

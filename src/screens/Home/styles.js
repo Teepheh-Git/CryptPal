@@ -38,16 +38,18 @@ const styles = StyleSheet.create({
     height: 43,
   },
   topMovers: {
-    fontSize: SIZES.font2,
+    ...FONTS.h2,
     fontWeight: "bold",
     // lineHeight: 24,
   },
   last24: {
-    fontSize: SIZES.font4,
+    ...FONTS.h4,
+
     fontWeight: "100",
   },
   seeAll: {
-    fontSize: SIZES.font3,
+
+    ...FONTS.h3,
     fontWeight: "bold",
 
   },
@@ -63,8 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   marketTrends: {
-    fontSize: SIZES.font2,
+    ...FONTS.h2,
     fontWeight: "bold",
+    // fontFamily:"PublicaSansRound-Thin"
     // lineHeight: 24,
   },
   listTab: {

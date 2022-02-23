@@ -12,7 +12,7 @@ const SettingsItem = ({ appTheme, icon, title, onPress }) => {
 
       <Image resizeMode={"contain"} source={icon} style={styles.icon} />
 
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title,{color:appTheme.textColor}]}>{title}</Text>
 
       <Image source={icons.arr_right} style={styles.icon} />
 

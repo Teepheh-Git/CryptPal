@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
   },
 
   source: {
-    fontSize: 18,
+ ...FONTS.h2,
     fontWeight: "200",
     letterSpacing: 0.5,
 
   },
   title: {
-    fontSize: 24,
+...FONTS.h1,
     fontWeight: "600",
     letterSpacing: 0.5,
     lineHeight: 28,

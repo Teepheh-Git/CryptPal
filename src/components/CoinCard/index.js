@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
-import { icons, SIZES } from "../../constants";
+import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
 import { toggleTheme } from "../../stores/theme/themeActions";
 
@@ -64,17 +64,21 @@ const styles = StyleSheet.create({
     },
   },
   coinName: {
-    fontSize: SIZES.font5,
+
+    ...FONTS.h5,
     fontWeight: "normal",
     bottom: 5,
   },
   coinPrice: {
-    fontSize: SIZES.font2,
+
+    ...FONTS.h2,
     fontWeight: "bold",
 
   },
   priceChange: {
-    fontSize: SIZES.font5,
+
+    ...FONTS.h5,
+
 
   },
   coinPercentage: {

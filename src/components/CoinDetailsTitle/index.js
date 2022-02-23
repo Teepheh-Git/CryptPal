@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   priceChange: {
-    fontSize: SIZES.font5,
+    ...FONTS.h5,
+
 
   },
   coinPercentage: {
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
 
   },
   name: {
-    ...SIZES.font4,
+    ...FONTS.h4,
   },
   symbol: {
     ...FONTS.body6,

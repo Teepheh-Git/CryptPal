@@ -7,7 +7,7 @@ const CoinDetailsInfo = ({ appTheme, title, value }) => {
   return (
     <View style={styles.detailsText}>
       <Text style={[styles.title, { color: appTheme.textColor3 }]}>{title}</Text>
-      <Text style={{ color: appTheme.textColor }}>{value}</Text>
+      <Text style={{...FONTS.body4, color: appTheme.textColor }}>{value}</Text>
     </View>
   );
 };

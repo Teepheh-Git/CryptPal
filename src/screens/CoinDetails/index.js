@@ -188,9 +188,11 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
             <Text style={{
+              ...FONTS.body4,
               color: appTheme.textColor2,
               alignSelf: "flex-end",
-              margin: 15,
+              margin: 5,
+              paddingHorizontal:20
             }}>Updated: {moment(dataFromHome.last_updated).fromNow()}</Text>
 
             <View style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
@@ -369,7 +371,6 @@ const styles = StyleSheet.create({
 
   },
   root: {
-
     width: SIZES.width * 0.7,
     height: 68,
     alignItems: "center",
