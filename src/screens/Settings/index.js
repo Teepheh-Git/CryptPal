@@ -1,11 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,SafeAreaView } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
-import SafeAreaView from "react-native/Libraries/Components/SafeAreaView/SafeAreaView";
 import SettingsItem from "../../components/SettingsItem";
 
 
@@ -163,6 +162,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+
     // justifyContent: "center",
   },
   headerContainer: {

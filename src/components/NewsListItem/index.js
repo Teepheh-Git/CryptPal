@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    ...FONTS.body3,
+    ...FONTS.h3,
     width: SIZES.width * 0.63,
 
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   time: {
-    ...FONTS.body5,
+    ...FONTS.h5,
     width: SIZES.width * 0.5,
   },
   readMore: {

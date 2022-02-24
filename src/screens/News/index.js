@@ -212,14 +212,14 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
                 <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
                   <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
-                                   style={[styles.imgBg, { marginLeft: index === 0 && 20 }]}
-                                   source={item.urlToImage !== null ? { uri: item.urlToImage } : icons.imgPlacehholder}>
+                                   style={[styles.imgBg, { marginLeft: index === 0 ? 20:0 }]}
+                                   source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
 
                     <View style={styles.bigCardDet}>
 
-                      <Text style={styles.bigCardTitle} numberOfLines={2}>{item.title}</Text>
+                      <Text style={styles.bigCardTitle} numberOfLines={2}>{item?.title}</Text>
                       <Text
-                        style={styles.bigCardTitle2}>{moment(item.publishedAt).startOf("hour").fromNow()} • <Text>{item.source.name}</Text></Text>
+                        style={styles.bigCardTitle2}>{moment(item?.publishedAt).startOf("hour").fromNow()} • <Text>{item?.source.name}</Text></Text>
 
                     </View>
 
@@ -254,8 +254,8 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
         // ItemSeparatorComponent={Separator}
         renderItem={({ item }) =>
 
-          <NewsListItem image={item.urlToImage} title={item.title} source={item.source.name}
-                        time={moment(item.publishedAt).startOf("hour").fromNow()} link={"read more"}
+          <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
+                        time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
                         onPress={() => navigation.navigate("NewsContentPage", { ...item })} />
 
 
@@ -307,8 +307,8 @@ const styles = StyleSheet.create({
   highlights: {
     alignSelf: "flex-start",
     paddingHorizontal: 20,
-    ...FONTS.body2,
-    fontWeight: "500",
+    ...FONTS.h2,
+    // fontWeight: "500",
   },
   imgBox: {
     // width:"70%"
@@ -337,13 +337,13 @@ const styles = StyleSheet.create({
   },
   bigCardTitle: {
     color: "white",
-    ...FONTS.body3,
+    ...FONTS.h3,
     lineHeight: 18,
     fontWeight: "bold",
   },
   bigCardTitle2: {
     color: "white",
-    ...FONTS.body5,
+    ...FONTS.h3,
     lineHeight: 18,
     fontWeight: "500",
     marginTop: 10,

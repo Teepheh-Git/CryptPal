@@ -163,7 +163,7 @@ export const getHeadlineNewsMarket = () => {
 
       const Data = newsRes.data.articles;
 
-      console.log(Data, "DOYYYY");
+      // console.log(Data, "DOYYYY");
       if (Data) {
         dispatch(getHeadlineNewsSuccess(Data));
       } else {

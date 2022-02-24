@@ -16,6 +16,7 @@ const CoinList = ({
                     currentPrice,
                     chartData,
                     onPress,
+                    onLongPress,
                   }) => {
 
 
@@ -28,7 +29,7 @@ const CoinList = ({
 
 
   return (
-    <TouchableOpacity activeOpacity={0.9} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+    <TouchableOpacity onLongPress={onLongPress} activeOpacity={0.9} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                       onPress={onPress}>
 
 
@@ -91,11 +92,11 @@ const CoinList = ({
         {priceChangePercentage24h ? <View style={styles.coinPercentage}>
             {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
                                                       style={{
-                                                       width: 13,
-                                                       height: 13,
-                                                       tintColor: priceChangeColor,
-                                                       transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                     }} />}
+                                                        width: 13,
+                                                        height: 13,
+                                                        tintColor: priceChangeColor,
+                                                        transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                      }} />}
             <Text
               style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString("en-US")}%</Text>
           </View> :
@@ -103,11 +104,11 @@ const CoinList = ({
           <View style={styles.coinPercentage}>
             {priceChangePercentageInCurrency !== 0 && <Image source={icons.arrowUp}
                                                              style={{
-                                                              width: 13,
-                                                              height: 13,
-                                                              tintColor: priceChangeColorInCurrency,
-                                                              transform: priceChangePercentageInCurrency > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                            }} />}
+                                                               width: 13,
+                                                               height: 13,
+                                                               tintColor: priceChangeColorInCurrency,
+                                                               transform: priceChangePercentageInCurrency > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                             }} />}
             <Text
               style={[styles.priceChange, { color: priceChangeColorInCurrency }]}> {priceChangePercentageInCurrency?.toLocaleString("en-US")}%</Text>
 
@@ -127,9 +128,9 @@ const styles = StyleSheet.create({
   container: {
     width: SIZES.width * 0.9,
     height: 75,
-    paddingHorizontal:15,
+    paddingHorizontal: 15,
     padding: 5,
-    // marginVertical: 1,
+    marginVertical: 1,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "space-between",
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     // borderRadius: 10,
     // elevation: 3,
     shadowOpacity: 0.02,
-    shadowColor:'#B0B7C3',
+    shadowColor: "#B0B7C3",
     shadowOffset: {
       width: 0.05,
       height: 0.05,
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
 
   },
   priceChange: {
-    ...FONTS.h5
+    ...FONTS.h5,
 
   },
   coinPercentage: {
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
 
   },
   name: {
-    ...FONTS.h4
+    ...FONTS.h4,
   },
   symbol: {
     ...FONTS.body6,

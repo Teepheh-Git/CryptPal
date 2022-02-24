@@ -52,14 +52,14 @@ const BottomTabs = ({ appTheme, navigation }) => {
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
           elevation: 4,
-          shadowOpacity: 0.1,
+          shadowOpacity: 0.04,
           shadowOffset: {
-            width: 5,
+            width: 3,
             height: -3,
           },
           backgroundColor: appTheme.backgroundColor,
           borderTopColor: "transparent",
-          height: Platform.OS === "android" ? 80 : 90,
+          height: Platform.OS === "android" ? 95 : 90,
         },
 
 

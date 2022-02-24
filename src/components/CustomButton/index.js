@@ -1,17 +1,17 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Pressable } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS, FONTS, SIZES } from "../../constants";
 
 
 const CustomButton = ({ containerStyle, onPress, text }) => {
     return (
-        <TouchableOpacity activeOpacity={0.6} style={[styles.container, { ...containerStyle }]} onPress={onPress}>
+        <Pressable activeOpacity={0.8} style={[styles.container, { ...containerStyle }]} onPress={onPress}>
             <LinearGradient style={styles.root} colors={[COLORS.white, COLORS.white]}>
 
                 <Text style={styles.text}>{text}</Text>
             </LinearGradient>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 

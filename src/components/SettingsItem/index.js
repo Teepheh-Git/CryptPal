@@ -7,14 +7,14 @@ const SettingsItem = ({ appTheme, icon, title, onPress }) => {
 
 
   return (
-    <Pressable activeOpacity={0.9} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+    <Pressable  style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                onPress={onPress}>
 
       <Image resizeMode={"contain"} source={icon} style={styles.icon} />
 
       <Text style={[styles.title,{color:appTheme.textColor}]}>{title}</Text>
 
-      <Image source={icons.arr_right} style={styles.icon} />
+      <Image source={icons.arr_right} style={[styles.icon,{tintColor:appTheme.name==="dark"?"white":"black"}]} />
 
 
 
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     height: 25,
   },
   title:{
-    ...FONTS.body2,
+    ...FONTS.body3,
+    fontWeight:"normal",
     width:"70%"
   }
 

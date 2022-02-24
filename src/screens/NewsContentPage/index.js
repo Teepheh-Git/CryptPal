@@ -71,23 +71,23 @@ const styles = StyleSheet.create({
   },
 
   source: {
- ...FONTS.h2,
-    fontWeight: "200",
+ ...FONTS.body2,
+    // fontWeight: "200",
     letterSpacing: 0.5,
 
   },
   title: {
 ...FONTS.h1,
-    fontWeight: "600",
+    // fontWeight: "600",
     letterSpacing: 0.5,
-    lineHeight: 28,
+    lineHeight: 34,
     marginVertical: 10,
   },
   desc: {
     ...FONTS.body2,
-    fontWeight: "400",
+    // fontWeight: "400",
     letterSpacing: 0.5,
-    lineHeight: 22,
+    lineHeight: 28,
     opacity: 0.7,
     textAlign: "left",
     // marginVertical:10
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: "100%",
-    height: SIZES.height * 0.2,
+    height: SIZES.height * 0.24,
     borderRadius: 10,
     marginVertical: 10,
     backgroundColor: "rgba(159,159,159,0.11)",
@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
   },
   readFull: {
 
-    ...FONTS.body3,
-    fontWeight: "500",
+    ...FONTS.h3,
+    // fontWeight: "500",
     marginVertical: 20,
 
   },

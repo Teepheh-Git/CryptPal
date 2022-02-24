@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
   },
   coinCard: {
     height: 150,
-    marginBottom: 35,
+    marginBottom: -15,
     marginLeft: 25,
   },
   marketTrendsContainer: {
     width: SIZES.width * 0.9,
     marginVertical: 5,
-    flexDirection:"row",
+    flexDirection: "row",
     alignItems: "center",
   },
   marketTrends: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   btnTab: {
     height: SIZES.height * 0.05,
     // marginHorizontal: 5,
-    marginRight:10,
+    marginRight: 10,
     marginVertical: 5,
     borderWidth: 0.25,
     alignItems: "center",
@@ -152,6 +152,52 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    backgroundColor: "rgba(107,85,208,0.16)",
+    // zIndex:100
+
+  },
+  modalView: {
+    width:SIZES.width*0.9,
+    height:SIZES.width*0.9,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    // alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 
 
