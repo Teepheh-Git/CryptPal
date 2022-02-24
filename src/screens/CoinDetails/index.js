@@ -365,9 +365,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   coinDetails: {
-    marginVertical: 5,
+    marginBottom: 15,
     ...FONTS.body2,
-    fontWeight: "bold",
+    // fontWeight: "bold",
 
   },
   root: {
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     height: 68,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: SIZES.radius2,
+    borderRadius: 10,
     marginVertical: 50,
 
   },

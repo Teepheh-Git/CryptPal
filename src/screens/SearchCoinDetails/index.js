@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   coinDetails: {
     marginVertical: 5,
     ...FONTS.body2,
-    fontWeight: "bold",
+    // fontWeight: "bold",
 
   },
   root: {

@@ -149,10 +149,10 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
         priceChangePercentage24h={item?.price_change_percentage_24h}
         chartData={item?.sparkline_in_7d?.price}
         onPress={() => navigation.navigate("CoinDetails", { ...item })}
-        onLongPress={() => {
-          setModalVisible(true);
-          setModalCoin(item?.id);
-        }}
+        // onLongPress={() => {
+        //   setModalVisible(true);
+        //   setModalCoin(item?.id);
+        // }}
 
 
       />

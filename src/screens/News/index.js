@@ -159,11 +159,10 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
       setIsSearching(true);
 
 
-      // const highlightRes = await axios.get("https://newsapi.org/v2/everything?q=blockchain&sortBy=publishedAt&searchIn=title&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e");
-      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${searchWord}&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${searchWord.toLowerCase()}&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
 
       await setSearchResult(newsRes.data.articles);
-      console.log(newsRes.data.articles);
+      // console.log(newsRes.data.articles);
       await setIsSearching(false);
 
     } catch (e) {
@@ -404,13 +403,13 @@ const styles = StyleSheet.create({
     color: "white",
     ...FONTS.h3,
     lineHeight: 18,
-    fontWeight: "bold",
+    // fontWeight: "bold",
   },
   bigCardTitle2: {
     color: "white",
-    ...FONTS.h3,
+    ...FONTS.h4,
     lineHeight: 18,
-    fontWeight: "500",
+    // fontWeight: "500",
     marginTop: 10,
     opacity: 0.8,
   },

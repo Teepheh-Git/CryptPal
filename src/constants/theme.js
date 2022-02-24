@@ -74,18 +74,18 @@ export const SIZES = {
   height,
 };
 export const FONTS = {
-  largeTitle: { fontSize: SIZES.largeTitle,  fontWeight: "bold",fontFamily:"PublicaSansRound-Thin"  },
-  h1: { fontSize: SIZES.font1,  fontWeight: "bold", fontFamily:"PublicaSansRound-Thin" },
-  h2: { fontSize: SIZES.font2,  fontWeight: "bold",fontFamily:"PublicaSansRound-Thin"  },
-  h3: { fontSize: SIZES.font3,  fontWeight: "bold" ,fontFamily:"PublicaSansRound-Thin" },
-  h4: { fontSize: SIZES.font4, fontWeight: "bold",fontFamily:"PublicaSansRound-Thin"  },
-  h5: { fontSize: SIZES.font5, fontWeight: "bold",fontFamily:"PublicaSansRound-Thin"  },
-  body1: { fontSize: SIZES.font1,  fontWeight: "normal",fontFamily:"PublicaSansRound-Thin"  },
-  body2: { fontSize: SIZES.font2, fontWeight: "normal" ,fontFamily:"PublicaSansRound-Thin" },
-  body3: { fontSize: SIZES.font3,  fontWeight: "normal",fontFamily:"PublicaSansRound-Thin"  },
-  body4: { fontSize: SIZES.font4, fontWeight: "normal",fontFamily:"PublicaSansRound-Thin"  },
-  body5: { fontSize: SIZES.font5,  fontWeight: "normal",fontFamily:"PublicaSansRound-Thin"  },
-  body6: { fontSize: SIZES.font6,  fontWeight: "normal",fontFamily:"PublicaSansRound-Thin"  },
+  largeTitle: { fontSize: SIZES.largeTitle, fontFamily: "PublicaSansRound-Rg" },
+  h1: { fontSize: SIZES.font1, fontFamily: "PublicaSansRound-Rg" },
+  h2: { fontSize: SIZES.font2, fontFamily: "PublicaSansRound-Rg" },
+  h3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
+  h4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
+  h5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
+  body1: { fontSize: SIZES.font1, fontFamily: "PublicaSansRound-Rg" },
+  body2: { fontSize: SIZES.font2, fontFamily: "PublicaSansRound-Rg" },
+  body3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
+  body4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
+  body5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
+  body6: { fontSize: SIZES.font6, fontFamily: "PublicaSansRound-Rg" },
 };
 
 export const darkTheme = {

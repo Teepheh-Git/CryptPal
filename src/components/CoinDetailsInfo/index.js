@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    ...FONTS.body3,
+    ...FONTS.body4,
 
   },
 });

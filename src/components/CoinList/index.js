@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   },
   priceChange: {
     ...FONTS.h5,
+    fontWeight:"400"
 
   },
   coinPercentage: {
@@ -168,6 +169,8 @@ const styles = StyleSheet.create({
   },
   name: {
     ...FONTS.h4,
+    // fontWeight:"400"
+
   },
   symbol: {
     ...FONTS.body6,
@@ -180,6 +183,8 @@ const styles = StyleSheet.create({
   currentPrice: {
     ...FONTS.h2,
     textAlign: "right",
+    // fontWeight:"300"
+
   },
 });
 

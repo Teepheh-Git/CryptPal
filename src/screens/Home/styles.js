@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   topMovers: {
     ...FONTS.h2,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     // lineHeight: 24,
   },
   last24: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   seeAll: {
 
     ...FONTS.h3,
-    fontWeight: "bold",
+    // fontWeight: "bold",
 
   },
   coinCard: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   marketTrends: {
     ...FONTS.h2,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     // fontFamily:"PublicaSansRound-Thin"
     // lineHeight: 24,
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   listSeeAll: {
     ...FONTS.body3,
-    fontWeight: "bold",
+    // fontWeight: "bold",
 
   },
   refreshButton: {
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
-    fontWeight: "bold",
+    // fontWeight: "bold",
     textAlign: "center",
   },
   modalText: {

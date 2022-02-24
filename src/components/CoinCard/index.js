@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
   coinName: {
 
     ...FONTS.h5,
-    fontWeight: "normal",
+    // fontWeight: "normal",
     bottom: 5,
   },
   coinPrice: {
 
     ...FONTS.h2,
-    fontWeight: "bold",
+    // fontWeight: "bold",
 
   },
   priceChange: {

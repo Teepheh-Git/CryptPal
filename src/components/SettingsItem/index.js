@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   title:{
     ...FONTS.body3,
-    fontWeight:"normal",
+    // fontWeight:"normal",
     width:"70%"
   }
 

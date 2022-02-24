@@ -88,13 +88,13 @@ const styles = StyleSheet.create({
     // fontWeight: "400",
     letterSpacing: 0.5,
     lineHeight: 28,
-    opacity: 0.7,
+    opacity: 0.6,
     textAlign: "left",
     // marginVertical:10
   },
   content: {
     ...FONTS.body3,
-    fontWeight: "300",
+    // fontWeight: "300",
     letterSpacing: 0.6,
     lineHeight: 26,
     // opacity:0.7,
