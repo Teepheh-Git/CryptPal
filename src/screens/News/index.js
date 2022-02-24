@@ -2,12 +2,14 @@ import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  FlatList, Image,
+  FlatList,
+  Image,
   ImageBackground,
   Pressable,
   ScrollView,
   StyleSheet,
-  Text, TextInput,
+  Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -18,19 +20,73 @@ import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import axios from "axios";
 import constants from "../../constants/constants";
 import { getHeadlineNewsMarket, getNewsMarket } from "../../stores/market/marketActions";
+import SearchDropdown from "../../components/SearchDropdown";
+
+
+const data = [
+  {
+    "author": "Cointelegraph By Cointelegraph Brasil",
+    "content": "In 2021, the Brazilian cryptocurrency market gained more investors, reached the Brazilian stock exchange and punctured the bubble of the mainstream, becoming an important part of the investment portf… [+6108 chars]",
+    "description": "Cointelegraph Brasil has picked out the top players in the Brazilian crypto and blockchain space in 2021.",
+    "publishedAt": "2022-02-23T16:11:00Z",
+    "source": {
+      "id": null,
+      "name": "Cointelegraph",
+    },
+    "title": "Cointelegraph Brasil’s top 10 people in crypto and blockchain in 2021",
+    "url": "https://cointelegraph.com/news/cointelegraph-brasil-s-top-10-people-in-crypto-and-blockchain-in-2021",
+    "urlToImage": "https://images.cointelegraph.com/images/1200_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjItMDIvNDMzYWIxNjktNDU5OC00NmI0LTgxYTItZTU5YmM3MDgwMTNlLmpwZw==.jpg",
+  },
+  {
+    "author": "Shomik Sen Bhattacharjee",
+    "content": "Crypto exchange FTX is launching a new division to encourage the onset of digital currencies, blockchain technology, and non-fungible tokens (NFTs) in the gaming world. FTX Gaming, a \"crypto as a ser… [+2833 chars]",
+    "description": "Crypto exchange FTX is starting a new gaming unit aimed at encouraging game publishers to embrace cryptocurrencies, NFT, and blockchain technology in general.",
+    "publishedAt": "2022-02-22T09:36:35Z",
+    "source": {
+      "id": null,
+      "name": "Gadgets360.com",
+    },
+    "title": "FTX Launches Gaming Unit to Promote Crypto, Blockchain Adoption Among Game Publishers",
+    "url": "https://gadgets360.com/cryptocurrency/news/ftx-crypto-gaming-unit-web3-exchange-blockchain-2782331",
+    "urlToImage": "https://i.gadgets360cdn.com/large/FTX_crypto_exchange_cover_large_1645522570845.jpg",
+  }, {
+    "author": "Cointelegraph By Cointelegraph Brasil",
+    "content": "In 2021, the Brazilian cryptocurrency market gained more investors, reached the Brazilian stock exchange and punctured the bubble of the mainstream, becoming an important part of the investment portf… [+6108 chars]",
+    "description": "Cointelegraph Brasil has picked out the top players in the Brazilian crypto and blockchain space in 2021.",
+    "publishedAt": "2022-02-23T16:11:00Z",
+    "source": {
+      "id": null,
+      "name": "Cointelegraph",
+    },
+    "title": "Cointelegraph Brasil’s top 10 people in crypto and blockchain in 2021",
+    "url": "https://cointelegraph.com/news/cointelegraph-brasil-s-top-10-people-in-crypto-and-blockchain-in-2021",
+    "urlToImage": "https://images.cointelegraph.com/images/1200_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjItMDIvNDMzYWIxNjktNDU5OC00NmI0LTgxYTItZTU5YmM3MDgwMTNlLmpwZw==.jpg",
+  }, {
+    "author": "Shomik Sen Bhattacharjee",
+    "content": "Crypto exchange FTX is launching a new division to encourage the onset of digital currencies, blockchain technology, and non-fungible tokens (NFTs) in the gaming world. FTX Gaming, a \"crypto as a ser… [+2833 chars]",
+    "description": "Crypto exchange FTX is starting a new gaming unit aimed at encouraging game publishers to embrace cryptocurrencies, NFT, and blockchain technology in general.",
+    "publishedAt": "2022-02-22T09:36:35Z",
+    "source": {
+      "id": null,
+      "name": "Gadgets360.com",
+    },
+    "title": "FTX Launches Gaming Unit to Promote Crypto, Blockchain Adoption Among Game Publishers",
+    "url": "https://gadgets360.com/cryptocurrency/news/ftx-crypto-gaming-unit-web3-exchange-blockchain-2782331",
+    "urlToImage": "https://i.gadgets360cdn.com/large/FTX_crypto_exchange_cover_large_1645522570845.jpg",
+  }];
+
 
 const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news }) => {
 
 
+  const ITEM_HEIGHT = 75;
 
-  // const ITEM_HEIGHT = 75;
+  const getItemLayout = useCallback((data, index) => ({
+    length: ITEM_HEIGHT,
+    offset: ITEM_HEIGHT,
+    index,
 
-  // const getItemLayout = useCallback((data, index) => ({
-  //   length: ITEM_HEIGHT,
-  //   offset: ITEM_HEIGHT,
-  //   index,
-  //
-  // }), []);
+  }), []);
 
 
   // const [myNews, setMyNews] = useState([]);
@@ -38,10 +94,12 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
   const [tabStatus, setTabStatus] = useState("Latest");
   const [category, setCategory] = useState("popularity");
   const [keyword, setKeyword] = useState("bitcoin");
+  const [searchResult, setSearchResult] = useState([]);
 
 
-  // const [coinSearch, setCoinSearch] = useState("");
-  // const [isFocused, setIsFocused] = useState(false);
+  const [coinSearch, setCoinSearch] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   // console.log(news, "JJJJJ");
 
@@ -64,17 +122,14 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
     if (tabStatus === "Popular") {
       getNewsMarket(keyword = "blockchain+bitcoin", category = "popularity");
-
     }
 
     if (tabStatus === "Latest") {
       getNewsMarket(keyword = "crypto+blockchain", category = "publishedAt");
-
     }
 
     if (tabStatus === "Solana") {
       getNewsMarket(keyword = "solana", category = "publishedAt");
-
     }
 
     if (tabStatus === "NFT") {
@@ -97,22 +152,23 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
     }, 1000);
   }
 
-  const GetNews = async () => {
+  const GetSearchNews = async (searchWord) => {
 
 
     try {
+      setIsSearching(true);
 
-      const highlightRes = await axios.get("https://newsapi.org/v2/everything?q=blockchain&sortBy=publishedAt&searchIn=title&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e");
-      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&sortBy=${category}&language=en&sortBy=publishedAt&pageSize=10&apiKey=72d2a0865ac740eb860785c920c9f54e`);
 
-      await setMyNews(newsRes.data.articles);
-      await setHighlights(highlightRes.data.articles);
+      // const highlightRes = await axios.get("https://newsapi.org/v2/everything?q=blockchain&sortBy=publishedAt&searchIn=title&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e");
+      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${searchWord}&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+
+      await setSearchResult(newsRes.data.articles);
       console.log(newsRes.data.articles);
-      await setCategoryLoading(false);
+      await setIsSearching(false);
 
     } catch (e) {
-      console.log(e, "GetNewsErr");
-      await setCategoryLoading(false);
+      console.log(e, "GetSearchNewsERR");
+      await setIsSearching(false);
 
     }
 
@@ -155,50 +211,56 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
       </View>
 
-      <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>
+      {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
 
 
       <FlatList
         data={news}
-        // getItemLayout={getItemLayout}
-        // initialScrollIndex={4}
+        getItemLayout={getItemLayout}
+        initialScrollIndex={4}
+        scrollEnabled={coinSearch === "" && true}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
-
           <>
-            {/*<View style={{*/}
-            {/*  flexDirection: "row",*/}
-            {/*  width: SIZES.width * 0.95,*/}
-            {/*  height: 55,*/}
-            {/*  alignItems: "center",*/}
-            {/*  justifyContent: "center",*/}
-            {/*  marginVertical: 10,*/}
-            {/*  alignSelf:"center"*/}
-            {/*}}>*/}
-            {/*  <TextInput*/}
-            {/*    placeholder={"Search for crypto related news..."}*/}
-            {/*    value={coinSearch}*/}
-            {/*    // onChangeText={(text) => SearchFilter(text)}*/}
-            {/*    onChangeText={value => setCoinSearch(value)}*/}
-            {/*    placeholderTextColor={appTheme.textColor3}*/}
-            {/*    onFocus={() => setIsFocused(true)}*/}
-            {/*    multiline={false}*/}
-            {/*    style={{*/}
-            {/*      width: SIZES.width * 0.9,*/}
-            {/*      height: 55, backgroundColor: appTheme.backgroundColor,*/}
-            {/*      borderRadius: 8,*/}
-            {/*      borderWidth: isFocused ? 1 : null,*/}
-            {/*      borderColor: isFocused ? appTheme.textColor2 : null,*/}
-            {/*      paddingHorizontal: 15,*/}
-            {/*      left: 10,*/}
-            {/*      paddingRight: 30,*/}
-            {/*      color: appTheme.textColor,*/}
-            {/*    }}>*/}
-            {/*  </TextInput>*/}
-            {/*  <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}*/}
-            {/*         source={icons.searchBarIcon} />*/}
-            {/*</View>*/}
+
+
+            <View style={{
+              flexDirection: "row",
+              width: SIZES.width * 0.95,
+              height: 55,
+              alignItems: "center",
+              justifyContent: "center",
+              marginVertical: 10,
+              alignSelf: "center",
+            }}>
+              <TextInput
+                placeholder={"Search for crypto related news..."}
+                value={coinSearch}
+                // onChangeText={(text) => SearchFilter(text)}
+                onChangeText={async value => {
+                  setCoinSearch(value);
+                  await GetSearchNews(value);
+                }}
+                placeholderTextColor={appTheme.textColor3}
+                onFocus={() => setIsFocused(true)}
+                multiline={false}
+                style={{
+                  width: SIZES.width * 0.9,
+                  height: 55, backgroundColor: appTheme.backgroundColor,
+                  borderRadius: 8,
+                  borderWidth: isFocused ? 1 : null,
+                  borderColor: isFocused ? appTheme.textColor2 : null,
+                  paddingHorizontal: 15,
+                  left: 10,
+                  paddingRight: 30,
+                  color: appTheme.textColor,
+                }}
+              />
+              <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
+                     source={icons.searchBarIcon} />
+            </View>
+
 
             <FlatList
               data={headlineNews}
@@ -212,7 +274,7 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
                 <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
                   <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
-                                   style={[styles.imgBg, { marginLeft: index === 0 ? 20:0 }]}
+                                   style={[styles.imgBg, { marginLeft: index === 0 ? 20 : 0 }]}
                                    source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
 
                     <View style={styles.bigCardDet}>
@@ -248,8 +310,6 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
             {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
           </>
-
-
         }
         // ItemSeparatorComponent={Separator}
         renderItem={({ item }) =>
@@ -265,6 +325,11 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
         }
       />
 
+      {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
+
+        <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
+                      time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
+                      onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
 
     </SafeAreaView>
   );
