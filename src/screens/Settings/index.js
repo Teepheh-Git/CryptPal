@@ -1,26 +1,30 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import SettingsItem from "../../components/SettingsItem";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import RNPickerSelect from "react-native-picker-select";
+import { Chevron } from "react-native-shapes";
+import  constants  from "../../constants/constants";
+import axios from "axios";
 
 
 const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
 
   const [currency, setCurrency] = useState(appCurrency.name);
+  const [togSwitch, setTogSwitch] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalCoin, setModalCoin] = useState("");
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalCoinInfo, setModalCoinInfo] = useState({});
+
 
   function toggleThemeHandler() {
-    if (appTheme.name === "light") {
-      toggleTheme("dark");
-    } else {
-      toggleTheme("light");
-    }
+    toggleTheme(appTheme.name === "light" ? "dark" : "light");
   }
 
 
@@ -49,20 +53,22 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
   //     top: 5,
   //     paddingVertical: 10,
   //     paddingHorizontal: 10,
-  //     // borderWidth: 1,
-  //     // fontWeight: "bold",
-  //     // borderColor: appTheme.textColor2,
-  //     borderRadius: 5,
-  //     color: "white",
-  //     backgroundColor: COLORS.primary,
-  //     paddingRight: 35, // to ensure the text is never behind the icon
-  //   },
-  //   inputAndroid: {
-  //     fontSize: 16,
-  //     paddingHorizontal: 10,
-  //     paddingVertical: 8,
-  {/*    borderWidth: 0.5,*/}
-  {/*    borderColor: "purple",*/}
+      // borderWidth: 1,
+      // fontWeight: "bold",
+      // borderColor: appTheme.textColor2,
+      // borderRadius: 5,
+      // color: "white",
+      // backgroundColor: COLORS.primary,
+      // paddingRight: 35, // to ensure the text is never behind the icon
+    // },
+    // inputAndroid: {
+    //   fontSize: 16,
+    //   paddingHorizontal: 10,
+    //   paddingVertical: 8,
+  // {/*    borderWidth: 0.5,*/
+  // }
+  // {/*    borderColor: "purple",*/
+  // }
   //     borderRadius: 8,
   //     color: "black",
   //     paddingRight: 30, // to ensure the text is never behind the icon
@@ -72,6 +78,46 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
   //     right: 15,
   //   },
   // });
+
+
+
+
+  function CurrencyModal() {
+
+    return (
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          // onShow={getModalCoinInfo}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <Pressable onPress={() => setModalVisible(!modalVisible)}
+                     style={styles.centeredView}>
+
+
+            <View style={[styles.modalView, { backgroundColor: appTheme.backgroundColor }]}>
+
+
+              <Pressable>
+                <Text style={{color:"white"}}>Gerrr</Text>
+
+              </Pressable>
+
+
+            </View>
+          </Pressable>
+        </Modal>
+      </View>
+    );
+  }
+
+
+
 
 
   return (
@@ -84,15 +130,29 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
       </View>
 
 
-
       <View>
-        <SettingsItem onPress={() => toggleThemeHandler()} icon={icons.Show} title={"Appearance"} />
+
+        <SettingsItem
+
+          trackColor={{false: "#767577", true: COLORS.primary}}
+          thumbColor={togSwitch ? COLORS.white : "#c3c1c4"}
+          ios_backgroundColor="#3e3e3e"
+          check switchValue={togSwitch} onSwitchChange={(value)=>{
+          setTogSwitch(value)
+          toggleThemeHandler()
+        }} icon={icons.Show}
+                      title={togSwitch?"Light Mode":"Dark Mode"} />
         <SettingsItem icon={icons.HomeIcon} title={"Launch Screen"} />
-        <SettingsItem icon={icons.Ticket} title={"Default Currency"} />
+        <SettingsItem icon={icons.Ticket} onPress={()=>{
+          console.log("shhow");
+          setModalVisible(true)
+
+        }} title={"Default Currency"} />
+
+
         <SettingsItem icon={icons.aboutIcon} title={"Language"} />
         <SettingsItem icon={icons.Document} title={"NewsLetter"} />
         <SettingsItem icon={icons.ShieldDone} title={"About"} />
-
       </View>
 
 
@@ -109,25 +169,12 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
       {/*  }}*/}
       {/*  items={constants.currencyList}*/}
       {/*  Icon={() => {*/}
-      {/*    return <Chevron size={1.5} color={"white"} />;*/}
+      {/*    return <Image source={icons.arr_right} />;*/}
       {/*  }}*/}
       {/*/>*/}
 
 
-      {/*<TouchableOpacity*/}
-      {/*  style={{*/}
-      {/*    height: 60,*/}
-      {/*    width: "50%",*/}
-      {/*    backgroundColor: "grey",*/}
-      {/*    justifyContent: "center",*/}
-      {/*    alignItems: "center",*/}
-      {/*    borderRadius: 10,*/}
-      {/*    marginVertical: 10,*/}
-      {/*  }}*/}
-      {/*  onPress={() => toggleThemeHandler()}>*/}
-      {/*  <Text>Toggle Theme </Text>*/}
 
-      {/*</TouchableOpacity>*/}
 
 
       {/*<TouchableOpacity*/}
@@ -157,6 +204,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
       {/*  <Text>Clear Favorites </Text>*/}
 
       {/*</TouchableOpacity>*/}
+      { CurrencyModal()}
 
 
     </SafeAreaView>
@@ -187,6 +235,37 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
     marginHorizontal: 5,
   },
+  centeredView: {
+    flex: 1,
+    // position:"absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    alignSelf:"center",
+    backgroundColor: "rgba(107,85,208,0.16)",
+    // zIndex:100
+
+  },
+  modalView: {
+    width:SIZES.width*0.9,
+    height:SIZES.width*0.8,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    // alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex:1000000000
+
+  },
+
+
 });
 
 

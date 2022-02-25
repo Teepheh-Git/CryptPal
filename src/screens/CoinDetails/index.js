@@ -31,7 +31,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
   const [favAdded, setFavAdded] = useState(false);
-  const [textUnit, setTextUnit] = useState("0");
+  const [textUnit, setTextUnit] = useState("");
   const [fiatValue, setFiatValue] = useState("0.00");
   const [tokenValue, setTokenValue] = useState("0.00");
   const [swap, setSwap] = useState(true);
@@ -314,7 +314,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
                 style={{
                   color: appTheme.textColor,
                   borderWidth: 0.5,
-                  height: SIZES.height * 0.06,
+                  height: SIZES.height * 0.08,
                   borderRadius: 8,
                   borderColor: COLORS.grey,
                   paddingHorizontal: 10,
@@ -326,9 +326,9 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
             <TouchableOpacity activeOpacity={0.6} onPress={favAdded ? RemoveFromFavorites : SaveToFavorites}>
               {favAdded ? <LinearGradient style={[styles.root2, { borderColor: appTheme.textColor2 }]}
                                           colors={[appTheme.backgroundColor2, appTheme.backgroundColor2]}>
-                  <Image style={{ width: 18, height: 18, tintColor: appTheme.textColor2, marginHorizontal: 10 }}
-                         source={icons.FavCheck} />
-                  <Text style={[styles.text, { color: appTheme.textColor2 }]}>Added to Favorite</Text>
+                  {/*<Image style={{ width: 18, height: 18, tintColor: appTheme.textColor2, marginHorizontal: 10 }}*/}
+                  {/*       source={icons.FavCheck} />*/}
+                  <Text style={[styles.text, { color: appTheme.textColor2 }]}>Remove from Favorite</Text>
                 </LinearGradient> :
                 <LinearGradient style={styles.root} colors={["#826FD7", "#4F36C4"]}>
                   <Text style={styles.text}>Add to Favorite</Text>
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: COLORS.white,
-    ...FONTS.h5,
+    ...FONTS.h4,
   },
   converterContainer: {
     width: SIZES.width * 0.9,

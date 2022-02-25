@@ -1,21 +1,40 @@
 import React from "react";
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { Image, Pressable, StyleSheet, Switch, Text } from "react-native";
 import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
-const SettingsItem = ({ appTheme, icon, title, onPress }) => {
+const SettingsItem = ({
+                        appTheme,
+                        icon,
+                        title,
+                        onPress,
+                        check,
+                        switchValue,
+                        onSwitchChange,
+                        ios_backgroundColor,
+                        trackColor,
+                        thumbColor,
+                      }) => {
 
 
   return (
-    <Pressable  style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+    <Pressable style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                onPress={onPress}>
 
       <Image resizeMode={"contain"} source={icon} style={styles.icon} />
 
-      <Text style={[styles.title,{color:appTheme.textColor}]}>{title}</Text>
+      <Text style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
 
-      <Image source={icons.arr_right} style={[styles.icon,{tintColor:appTheme.name==="dark"?"white":"black"}]} />
 
+      {check ? <Switch
+        value={switchValue}
+        onValueChange={onSwitchChange}
+        trackColor={trackColor}
+        thumbColor={thumbColor}
+        ios_backgroundColor={ios_backgroundColor}
+      /> : <Image source={icons.arr_right}
+                  style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : "black" }]} />
+      }
 
 
     </Pressable>
@@ -49,11 +68,11 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  title:{
+  title: {
     ...FONTS.body3,
     // fontWeight:"normal",
-    width:"70%"
-  }
+    width: "70%",
+  },
 
 });
 
