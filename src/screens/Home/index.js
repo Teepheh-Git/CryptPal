@@ -60,7 +60,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
       setHomePageLoading(false);
       setCategoryLoading(false);
 
-    }, 1000);
+    }, 3000);
   }
 
   if (coins == null || coinCard == null) {
@@ -394,7 +394,7 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 10, page));
+      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 6, page));
     },
     getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline) => {
       return dispatch(getCardMarket(currency, orderBy, sparkline, priceChangePerc, perPage, page));

@@ -8,50 +8,58 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
+import { getFavouritesCoins } from "../../stores/market/marketActions";
 
 
-const Favorite = ({ appTheme, navigation, appCurrency }) => {
+const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCoins }) => {
 
-  const [favs, setFavs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [favPageError, setFavPageError] = useState(true);
-  const [retry, setRetry] = useState("");
+  // const [favs, setFavs] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [favPageError, setFavPageError] = useState(true);
+  // const [retry, setRetry] = useState("");
 
+
+  // useEffect((currency) => {
+  //
+  //
+  //   getFavouritesCoins(currency = appCurrency.ticker);
+  //
+  // }, [appCurrency]);
 
 
 
   useFocusEffect(
-    useCallback(() => {
+    useCallback((currency) => {
 
-      GetFavorites();
+      getFavouritesCoins(currency = appCurrency.ticker);
 
-    }, [appCurrency, retry]),
+    }, [appCurrency]),
   );
 
 
-  const GetFavorites = async () => {
-
-    try {
-      setLoading(true);
-
-      const valueGot = await AsyncStorage.getItem("FavoriteCoin");
-      const coinGotten = await JSON.parse(valueGot);
-      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
-      await setFavs(res.data);
-
-      if (res) {
-        setLoading(false);
-        setFavPageError(false);
-
-      }
-
-    } catch (e) {
-      console.log(e);
-      setLoading(false);
-      setFavPageError(true);
-
-    }
-  };
+  // const GetFavorites = async () => {
+  //
+  //   try {
+  //     setLoading(true);
+  //
+  //     const valueGot = await AsyncStorage.getItem("FavoriteCoin");
+  //     const coinGotten = await JSON.parse(valueGot);
+  //     const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
+  //     await setFavs(res.data);
+  //
+  //     if (res) {
+  //       setLoading(false);
+  //       setFavPageError(false);
+  //
+  //     }
+  //
+  //   } catch (e) {
+  //     console.log(e);
+  //     setLoading(false);
+  //     setFavPageError(true);
+  //
+  //   }
+  // };
 
 
   const CoinListRenderItem = ({ item }) => {
@@ -120,24 +128,18 @@ const Favorite = ({ appTheme, navigation, appCurrency }) => {
         </View>
       </View>
 
-      {favPageError ? NetworkError() :
-        (
-          loading ? <ActivityIndicator color={appTheme.textColor2} size={"small"} /> :
-            (favs.length < 1 ? EmptyFavorite() :
               <FlatList
-                // data={UniqueFavCoins}
-                data={favs}
+                data={favCoins}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={CoinListRenderItem}
                 showsVerticalScrollIndicator={false}
                 initialNumToRender={6}
+                ListEmptyComponent={EmptyFavorite}
                 maxToRenderPerBatch={2}
                 windowSize={3}
-              />)
-        )
+              />
 
 
-      }
     </SafeAreaView>
   );
 };
@@ -201,12 +203,18 @@ export function mapStateToProps(state) {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,
+    favCoins: state.marketReducer.favCoins,
 
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    getFavouritesCoins: (currency) => {
+      return dispatch(getFavouritesCoins(currency));
+    },
+
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorite);

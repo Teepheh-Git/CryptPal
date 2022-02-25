@@ -38,7 +38,7 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
       setMarketPageLoading(false);
       setCategoryLoading(false);
 
-    }, 200);
+    }, 3000);
   }
 
   if (coinTrend == null) {
@@ -111,40 +111,40 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
   };
 
 
-  const Retry = () => {
-    setMarketPageLoading(true);
-    let r = Math.random().toString(36).substr(2, 5);
-    setRetry(r);
-  };
+  // const Retry = () => {
+  //   setMarketPageLoading(true);
+  //   let r = Math.random().toString(36).substr(2, 5);
+  //   setRetry(r);
+  // };
+  //
+  // const NetworkErrorPage = () => {
+  //   return (
+  //     <View style={styles.networkErrorContainer}>
+  //       <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/ExpressionLess.png")} />
+  //       <Text style={[styles.networkErrorText, { color: appTheme.textColor }]}>Network error!! </Text>
+  //       <Text style={[styles.networkErrorDesc, { color: appTheme.textColor3 }]}>Your network is asleep, please check
+  //         your internet connections and click refresh.</Text>
+  //       <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
+  //         <LinearGradient style={styles.refreshButton} colors={["#4F36C4", "#4F36C4"]}>
+  //           <Text style={styles.refresh}>Refresh</Text>
+  //         </LinearGradient>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
 
-  const NetworkErrorPage = () => {
-    return (
-      <View style={styles.networkErrorContainer}>
-        <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/ExpressionLess.png")} />
-        <Text style={[styles.networkErrorText, { color: appTheme.textColor }]}>Network error!! </Text>
-        <Text style={[styles.networkErrorDesc, { color: appTheme.textColor3 }]}>Your network is asleep, please check
-          your internet connections and click refresh.</Text>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
-          <LinearGradient style={styles.refreshButton} colors={["#4F36C4", "#4F36C4"]}>
-            <Text style={styles.refresh}>Refresh</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  if (marketPageLoading) {
-    return (
-      <View
-        style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: appTheme.backgroundColor }}>
-        {appTheme.name === "light" ?
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
-                      autoPlay loop /> :
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
-                      autoPlay loop />}
-      </View>
-    );
-  }
+  // if (marketPageLoading) {
+  //   return (
+  //     <View
+  //       style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: appTheme.backgroundColor }}>
+  //       {appTheme.name === "light" ?
+  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
+  //                     autoPlay loop /> :
+  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
+  //                     autoPlay loop />}
+  //     </View>
+  //   );
+  // }
 
   return (
     <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
@@ -167,7 +167,8 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
       {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
 
 
-      {coinTrend == null ? NetworkErrorPage() : <FlatList
+      {coinTrend == null ? NetworkErrorPage() :
+        <FlatList
         data={coinTrend}
         keyExtractor={(item) => item.id}
         renderItem={CoinListRenderItem}
@@ -199,7 +200,7 @@ export function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCoinMarketTrend: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarketTrend(currency, orderBy, sparkline, priceChangePerc, perPage = 30, page));
+      return dispatch(getCoinMarketTrend(currency, orderBy, sparkline, priceChangePerc, perPage = 20, page));
     },
 
   };

@@ -44,9 +44,11 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
       try {
         const fav = await AsyncStorage.getItem("FavoriteCoin");
         const savedCoin = fav == null ? [] : JSON.parse(fav);
+
         function findSaved(item) {
           return item === dataFromHome.id;
         }
+
         const CoinStoredCheck = savedCoin.find(findSaved);
         if (CoinStoredCheck !== undefined) {
           setFavAdded(true);
@@ -91,7 +93,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
   };
 
   const RemoveFromFavorites = async () => {
-
     try {
       const fav = await AsyncStorage.getItem("FavoriteCoin");
       const favCoin = JSON.parse(fav);
@@ -101,11 +102,9 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
       AsyncStorage.setItem("FavoriteCoin", JSON.stringify(filterFav));
       setFavAdded(false);
 
-
     } catch (e) {
       console.log(e);
     }
-
   };
 
 
@@ -192,7 +191,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
               color: appTheme.textColor2,
               alignSelf: "flex-end",
               margin: 5,
-              paddingHorizontal:20
+              paddingHorizontal: 20,
             }}>Updated: {moment(dataFromHome.last_updated).fromNow()}</Text>
 
             <View style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
@@ -285,7 +284,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
 
               <View style={{
-                backgroundColor: appTheme.backgroundColor3,
+                backgroundColor: appTheme.backgroundColor4,
                 height: SIZES.height * 0.13,
                 borderRadius: 10,
                 justifyContent: "center",

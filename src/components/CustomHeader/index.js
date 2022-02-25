@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     // borderBottomLeftRadius: 5,
     justifyContent: "space-between",
     flexDirection: "row",
-    padding: 20,
+    // paddingVertical: 10,
+    paddingHorizontal: 20,
     // elevation: 4,
     // shadowOpacity: 0.1,
     // shadowOffset: {
@@ -63,7 +64,8 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    ...FONTS.h2,
+    ...FONTS.h3,
+    // lineHeight:38,
     marginHorizontal: 5,
 
   },

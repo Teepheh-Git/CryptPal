@@ -93,7 +93,7 @@ export const darkTheme = {
   backgroundColor: COLORS.black,
   backgroundColor2: COLORS.black2,
   backgroundColor3: COLORS.black,
-  backgroundColor4: COLORS.black2,
+  backgroundColor4: COLORS.black,
   backgroundColor5: COLORS.black2,
   textColor: COLORS.white,
   textColor2: COLORS.white2,

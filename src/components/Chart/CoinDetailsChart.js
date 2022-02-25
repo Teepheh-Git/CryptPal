@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import moment from "moment";
-import { monotoneCubicInterpolation } from "@rainbow-me/animated-charts";
 import { COLORS, FONTS, SIZES } from "../../constants";
 import { connect } from "react-redux";
 import { LineChart } from "react-native-chart-kit";
+import styles from "../../screens/Home/styles";
 
 
 const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }) => {
@@ -99,7 +99,7 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
         left: SIZES.padding,
         // paddingLeft:5,
         // top: 0,
-        zIndex:100,
+        zIndex: 100,
         // backgroundColor: 'cyan',
         // bottom: 0,
         // alignItems:"center",
@@ -126,38 +126,62 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
 
       {/*Chart*/}
       {data.length > 0 &&
-      <LineChart
-        withVerticalLabels={false}
-        withHorizontalLabels={false}
-        withDots={false}
-        withInnerLines={false}
-        withVerticalLines={true}
-        withOuterLines={false}
-        bezier
-        data={{
-          datasets: [{ data: chartPrices }],
-        }}
-        width={SIZES.width * 0.9}
-        height={SIZES.height * 0.39}
-        chartConfig={{
-          color: () => COLORS.primary,
-          // backgroundColor: "cyan",
-          backgroundGradientFrom: appTheme.backgroundColor2,
-          backgroundGradientTo: appTheme.backgroundColor2,
-          strokeWidth: 2,
-          fillShadowGradient: COLORS.primary,
-          fillShadowGradientOpacity: 0.2,
-        }}
-        style={{
-          paddingRight: 15,
-          paddingLeft: 0,
+        <LineChart
+          withVerticalLabels={false}
+          withHorizontalLabels={false}
+          withDots={false}
+          withInnerLines={true}
+          withVerticalLines={false}
+          withShadow={true}
+          withOuterLines={false}
+          bezier
+          decorator={() => {
+            return (
+              <View style={{
+                backgroundColor: "transparent",
+                height: "96%",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                {/*<View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>*/}
+                <Image resizeMode="contain" style={[styles.imgHeader, { tintColor: appTheme.tintColor, opacity: 0.1 }]}
+                       source={require("../../assets/images/logo.png")} />
+                {/*</View>*/}
 
-          height:SIZES.height * 0.35,
-          // backgroundColor:'green'
 
-          // marginTop: SIZES.padding,
-        }}
-      />
+              </View>
+            );
+          }
+          }
+          data={{
+            datasets: [{ data: chartPrices }],
+
+          }}
+          width={SIZES.width * 0.9}
+          height={SIZES.height * 0.39}
+          chartConfig={{
+            color: () => COLORS.primary,
+            // backgroundColor: "cyan",
+            backgroundGradientFrom: appTheme.backgroundColor2,
+            backgroundGradientTo: appTheme.backgroundColor2,
+            strokeWidth: 2,
+            fillShadowGradient: COLORS.primary,
+            fillShadowGradientOpacity: 0.2,
+
+
+          }}
+
+          style={{
+            paddingRight: 15,
+            paddingLeft: 0,
+
+            height: SIZES.height * 0.35,
+            // backgroundColor:'green'
+
+            // marginTop: SIZES.padding,
+          }}
+        />
       }
 
     </View>

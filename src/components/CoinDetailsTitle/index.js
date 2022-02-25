@@ -25,7 +25,7 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
             priority: FastImage.priority.normal,
             cache: FastImage.cacheControl.immutable,
           }}
-          style={{ width: 24, height: 24, borderRadius: 30, marginRight: 5 }}
+          style={{ width: 30, height: 30, borderRadius: 30, marginRight: 5 }}
         />
         <View style={styles.nameSymbolContainer}>
           <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>

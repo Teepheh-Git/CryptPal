@@ -7,6 +7,7 @@ const initialState = {
   coinTrend: [],
   news: [],
   headlineNews: [],
+  favCoins: [],
   // searchCoin: [],
   // coinSearch2: [],
   error: null,
@@ -108,6 +109,26 @@ const marketReducer = (state = initialState, action) => {
     }
 
     case marketActions.GET_HEADLINE_NEWS_FAILURE: {
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    }
+
+    case marketActions.GET_FAVOURITES_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case marketActions.GET_FAVOURITES_SUCCESS: {
+      return {
+        ...state,
+        favCoins: action.payload.favCoins,
+      };
+    }
+
+    case marketActions.GET_FAVOURITES_FAILURE: {
       return {
         ...state,
         error: action.payload.error,

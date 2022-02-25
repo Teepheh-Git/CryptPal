@@ -1,4 +1,5 @@
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const GET_COIN_MARKET_BEGIN = "GET_COIN_MARKET_BEGIN";
 export const GET_COIN_MARKET_SUCCESS = "GET_COIN_MARKET_SUCCESS";
@@ -19,6 +20,11 @@ export const GET_NEWS_FAILURE = "GET_NEWS_FAILURE";
 export const GET_HEADLINE_NEWS_BEGIN = "GET_HEADLINE_NEWS_BEGIN";
 export const GET_HEADLINE_NEWS_SUCCESS = "GET_HEADLINE_NEWS_SUCCESS";
 export const GET_HEADLINE_NEWS_FAILURE = "GET_HEADLINE_NEWS_FAILURE";
+
+export const GET_FAVOURITES_BEGIN = "GET_FAVOURITES_BEGIN";
+export const GET_FAVOURITES_SUCCESS = "GET_FAVOURITES_SUCCESS";
+export const GET_FAVOURITES_FAILURE = "GET_FAVOURITES_FAILURE";
+
 //
 // export const GET_SEARCH_MARKET_BEGIN2 = "GET_SEARCH_MARKET_BEGIN2";
 // export const GET_SEARCH_MARKET_SUCCESS2 = "GET_SEARCH_MARKET_SUCCESS2";
@@ -87,6 +93,20 @@ export const getHeadlineNewsFailure = (error) => ({
   payload: { error },
 });
 
+
+export const getFavouritesBegin = () => ({
+  type: GET_HEADLINE_NEWS_BEGIN,
+});
+export const getFavouritesSuccess = (favCoins) => ({
+  type: GET_FAVOURITES_SUCCESS,
+  payload: { favCoins },
+});
+export const getFavouritesFailure = (error) => ({
+  type: GET_FAVOURITES_FAILURE,
+  payload: { error },
+});
+
+
 //
 //
 // export const getSearchMarketBegin2 = () => ({
@@ -105,6 +125,8 @@ export const getHeadlineNewsFailure = (error) => ({
 export const getCoinMarket = (currency = "usd", orderBy = orderBy, sparkline = true, priceChangePerc = "24h", perPage = perPage, page = 1) => {
   return async dispatch => {
     try {
+
+      // console.log(orderBy);
       const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
       const Data = response.data;
       if (response.status === 200) {
@@ -170,8 +192,33 @@ export const getHeadlineNewsMarket = () => {
         dispatch(getHeadlineNewsFailure(Data));
       }
     } catch (e) {
-      console.log(e,"ERRRRR");
+      // console.log(e,"ERRRRR");
       dispatch(getHeadlineNewsFailure(e));
+    }
+  };
+};
+
+
+export const getFavouritesCoins = (currency = "usd") => {
+  return async dispatch => {
+    try {
+      // const favRes = await axios.get(``);
+
+      const valueGot = await AsyncStorage.getItem("FavoriteCoin");
+      const coinGotten = await JSON.parse(valueGot);
+      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
+
+
+      const Data = res.data;
+      // console.log(Data);
+      if (Data) {
+        dispatch(getFavouritesSuccess(Data));
+      } else {
+        dispatch(getFavouritesFailure(Data));
+      }
+    } catch (e) {
+      // console.log(e,"ERRRRR");
+      dispatch(getFavouritesFailure(e));
     }
   };
 };
@@ -194,11 +241,13 @@ export const getHeadlineNewsMarket = () => {
 //
 // };
 
-export const getCardMarket = (currency = "usd", priceChangePerc = "24h", orderBy = "market_cap_desc", sparkline = true, perPage = 50, page = 1) => {
+export const getCardMarket = (currency = "usd", priceChangePerc, orderBy = "market_cap_desc", perPage = 230, page = 1, sparkline = true) => {
   return async dispatch => {
     try {
+
       const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
-      const Data = response.data;
+      const Data = await response.data;
+
       if (response.status === 200) {
         dispatch(getCardMarketSuccess(Data));
       } else {

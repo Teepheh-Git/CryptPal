@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, SIZES } from "../../constants";
@@ -39,20 +39,20 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
   const [tabStatus, setTabStatus] = useState("24H");
   const [coinPriceChangePerc, setCoinPriceChangePerc] = useState("24h");
-  const [coinFetched, setCoinFetched] = useState([]);
+  // const [coinFetched, setCoinFetched] = useState([]);
   const [searchLoading, setSearchLoading] = useState(true);
-  const [retry, setRetry] = useState("");
+  // const [retry, setRetry] = useState("");
 
   if (coinCard?.length > 0) {
     setTimeout(() => {
       setSearchLoading(false);
-    }, 200);
-  }
-  if (coinCard == null) {
-    setTimeout(() => {
-      setSearchLoading(false);
     }, 3000);
   }
+  // if (coinCard == null) {
+  //   setTimeout(() => {
+  //     setSearchLoading(false);
+  //   }, 3000);
+  // }
 
   // const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
   //   try {
@@ -65,13 +65,12 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
   // };
 
   useEffect((currency, priceChangePerc) => {
-    // const FetchMarketData = async () => {
-    // const MarketData = await
+
+
     getCardMarket(currency = appCurrency.ticker, priceChangePerc = coinPriceChangePerc);
-    // setCoinFetched(MarketData)
-    // }
-    // FetchMarketData()
-  }, [coinPriceChangePerc, retry]);
+
+
+  }, [coinPriceChangePerc]);
 
 
   const CoinListRenderItem = ({ item }) =>
@@ -96,6 +95,8 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
   const setTabStatusFilter = tabStatus => {
     setTabStatus(tabStatus);
+    setSearchLoading(true);
+
     if (tabStatus === "1H") {
       setCoinPriceChangePerc("1h");
     }
@@ -120,47 +121,47 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
   };
 
 
-  const Retry = () => {
-    setSearchLoading(true);
-    let r = Math.random().toString(36).substr(2, 5);
-    setRetry(r);
-  };
+  // const Retry = () => {
+  //   setSearchLoading(true);
+  //   let r = Math.random().toString(36).substr(2, 5);
+  //   setRetry(r);
+  // };
 
-  const NetworkErrorPage = () => {
-    return (
-      <View style={{
-        width: SIZES.width * 0.7,
-        alignItems: "center",
-        justifyContent: "center",
-        top: SIZES.height * 0.2,
-        alignSelf: "center",
-      }}>
-        <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/Sleepy.png")} />
-        <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
-        <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Your network is asleep, please
-          check your internet connections and click refresh.</Text>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
-          <LinearGradient style={styles.refreshButton} colors={["#4F36C4", "#4F36C4"]}>
-            <Text style={styles.refresh}>Refresh</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  // const NetworkErrorPage = () => {
+  //   return (
+  //     <View style={{
+  //       width: SIZES.width * 0.7,
+  //       alignItems: "center",
+  //       justifyContent: "center",
+  //       top: SIZES.height * 0.2,
+  //       alignSelf: "center",
+  //     }}>
+  //       <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/Sleepy.png")} />
+  //       <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
+  //       <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Your network is asleep, please
+  //         check your internet connections and click refresh.</Text>
+  //       <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
+  //         <LinearGradient style={styles.refreshButton} colors={["#4F36C4", "#4F36C4"]}>
+  //           <Text style={styles.refresh}>Refresh</Text>
+  //         </LinearGradient>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
 
 
-  if (searchLoading) {
-    return (
-      <View
-        style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: appTheme.backgroundColor }}>
-        {appTheme.name === "light" ?
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
-                      autoPlay loop /> :
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
-                      autoPlay loop />}
-      </View>
-    );
-  }
+  // if (searchLoading) {
+  //   return (
+  //     <View
+  //       style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: appTheme.backgroundColor }}>
+  //       {appTheme.name === "light" ?
+  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
+  //                     autoPlay loop /> :
+  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
+  //                     autoPlay loop />}
+  //     </View>
+  //   );
+  // }
 
 
   return (
@@ -180,10 +181,13 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
           }
         </View>
 
-        {coinCard == null ? NetworkErrorPage() :
+
+        {searchLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+
+        {/*{coinCard == null ? NetworkErrorPage() :*/}
           <FlatList
             // data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
-            data={coinCard}
+            data={coinCard?.sort(TopMoverCoins)?.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={CoinListRenderItem}
             showsVerticalScrollIndicator={false}
@@ -194,7 +198,7 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
             }
           />
 
-        }
+        {/*}*/}
       </View>
     </SafeAreaView>
   );
@@ -264,8 +268,8 @@ export function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline ) => {
-      return dispatch(getCardMarket(currency, priceChangePerc, orderBy, sparkline, perPage, page));
+    getCardMarket: (currency, priceChangePerc, orderBy, perPage, page, sparkline) => {
+      return dispatch(getCardMarket(currency, priceChangePerc, orderBy, perPage, page, sparkline));
     },
   };
 };
