@@ -8,8 +8,11 @@ import SettingsItem from "../../components/SettingsItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import constants from "../../constants/constants";
+import Toast from "react-native-toast-message";
+import Clipboard from "@react-native-clipboard/clipboard";
+import { toggleLaunch } from "../../stores/launch/launchActions";
 
-const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
+const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLaunch, appLaunch }) => {
 
 
   const [currency, setCurrency] = useState(appCurrency.name);
@@ -19,6 +22,18 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
   const [modalLoading, setModalLoading] = useState(false);
   const [modalCoinInfo, setModalCoinInfo] = useState({});
   const [tabStatus, setTabStatus] = useState(appCurrency.ticker);
+  const [launchStatus, setLaunchStatus] = useState(appLaunch.name);
+
+  // const [address, setAddress] = useState("");
+
+  const copyToClipboard = async (address) => {
+    await Clipboard.setString(`${address}`);
+    await Toast.show({
+      type: "success",
+      text1: address,
+      text2: "Copied to clipboard",
+    });
+  };
 
 
   function toggleThemeHandler() {
@@ -88,7 +103,10 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
   const setTabStatusFilter = (tabStatus) => {
     setTabStatus(tabStatus);
+  };
 
+  const setTabStatusLaunch = (tabStatus) => {
+    setLaunchStatus(tabStatus);
   };
 
 
@@ -114,7 +132,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
           setTogSwitch(value);
           toggleThemeHandler();
         }} icon={icons.darkMode}
-          title={togSwitch ? "Dark Mode" : "Light Mode"} />
+          title={"Light Mode"} />
 
 
         <SettingsItem currencyLabel={true} currentCurrency={appCurrency.ticker} onPress={openCurrencyModal}
@@ -173,10 +191,20 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
         }}>
         {ModalTitle("        Change Launch Screen", () => launchScreenSheetModalRef.current?.close())}
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-          <View>
-
-
-          </View>
+          {constants.launchList.map((buttonLabel, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.btnTab, launchStatus === buttonLabel.launchStatus && styles.btnTabActive]}
+              onPress={() => {
+                setTabStatusLaunch(buttonLabel.label);
+                toggleLaunch(buttonLabel.value);
+                // bottomSheetModalRef.current?.close();
+                // console.log(buttonLabel.value);
+              }}>
+              <Text
+                style={[styles.textTab, { color: appTheme.textColor }, launchStatus === buttonLabel.launchStatus && styles.textTabActive]}>{buttonLabel.label}</Text>
+            </TouchableOpacity>
+          ))}
         </BottomSheetScrollView>
       </BottomSheetModal>
 
@@ -197,7 +225,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           <View style={[styles.modalInnerBox, {
             shadowColor: appTheme.textColor,
-            backgroundColor: appTheme.backgroundColor2,
+            backgroundColor: appTheme.backgroundColor,
           }]}>
 
 
@@ -229,13 +257,31 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           <View style={[styles.modalInnerBox, {
             shadowColor: appTheme.textColor,
-            backgroundColor: appTheme.backgroundColor2,
+            backgroundColor: appTheme.backgroundColor,
+            height: SIZES.height * 0.3,
+
           }]}>
 
 
             <Text style={[styles.about, { color: appTheme.textColor }]}>Hey! ☺️, you can show some support by buying us
-              a coffee ☕️ through our eth address “0xasasdasdcxcxasdasd”. Sipping our hot coffee in advance.
+              a coffee ☕️ through any of our wallet address below. Sipping our hot coffee in advance.
               Thanks❤️.</Text>
+
+
+            <View style={{ marginTop: 25 }}>
+
+              <Text style={{ ...FONTS.body5, color: appTheme.textColor3 }}>Tap to Copy</Text>
+
+              <Text style={[styles.address, { color: appTheme.textColor }]}
+                    onPress={() => copyToClipboard("bc1qpvc2kl02s3rv94aakg83e2kvlksuuj6xssmzp8")}>BTC:
+                bc1qpvc2kl02s3rv94aakg83e2kvlksuuj6xssmzp8 </Text>
+              <Text style={[styles.address, { color: appTheme.textColor }]}
+                    onPress={() => copyToClipboard("0x1b360546283Ec5fF95806279fc930157F42104aD")}>ETH:
+                0x1b360546283Ec5fF95806279fc930157F42104aD</Text>
+              <Text style={[styles.address, { color: appTheme.textColor }]}
+                    onPress={() => copyToClipboard("TJCYx6oktuy9zm4sebn9pLgMcVdweTB4YY")}>TRX:
+                TJCYx6oktuy9zm4sebn9pLgMcVdweTB4YY</Text>
+            </View>
 
           </View>
         </BottomSheetScrollView>
@@ -258,9 +304,9 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           <View style={[styles.modalInnerBox, {
             shadowColor: appTheme.textColor,
-            backgroundColor: appTheme.backgroundColor2,
-            justifyContent:"center",
-            alignItems:"center"
+            backgroundColor: appTheme.backgroundColor,
+            justifyContent: "center",
+            alignItems: "center",
           }]}>
 
 
@@ -408,6 +454,11 @@ const styles = StyleSheet.create({
     opacity: 0.8,
 
   },
+  address: {
+    ...FONTS.body5,
+    marginVertical: 10,
+    textDecorationLine: "underline",
+  },
 
 
 });
@@ -418,6 +469,8 @@ export function mapStateToProps(state) {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
     appCurrency: state.currencyReducer.appCurrency,
+    appLaunch: state.launchReducer.appLaunch,
+
     // error: state.currencyReducer.error,
   };
 }
@@ -429,6 +482,9 @@ function mapDispatchToProps(dispatch) {
     },
     toggleCurrency: currencyType => {
       return dispatch(toggleCurrency(currencyType));
+    },
+    toggleLaunch: launchType => {
+      return dispatch(toggleLaunch(launchType));
     },
   };
 }

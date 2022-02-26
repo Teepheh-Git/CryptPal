@@ -27,7 +27,6 @@ export const jpy = {
   symbol: "¥",
   ticker: "JPY",
   image: icons.yenImage,
-
 };
 
 

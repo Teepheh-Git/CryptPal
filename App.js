@@ -14,6 +14,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+import { COLORS } from "./src/constants";
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
@@ -68,6 +70,39 @@ const App = () => {
   };
 
 
+  const toastConfig = {
+
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{borderLeftColor: COLORS.primary}}
+        contentContainerStyle={{paddingHorizontal: 15}}
+        text1Style={{
+          fontSize: 20,
+          fontFamily: "PublicaSansRound-Rg"
+        }}
+        text2Style={{
+          fontSize: 14,
+          fontFamily: "PublicaSansRound-Rg"
+        }}
+      />
+    ),
+
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        text1Style={{
+          fontSize: 17
+        }}
+        text2Style={{
+          fontSize: 15
+        }}
+      />
+    ),
+
+
+  };
+
   return (
 
 
@@ -89,6 +124,7 @@ const App = () => {
         <NavigationContainer>
           {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
         </NavigationContainer>
+          <Toast config={toastConfig} />
 
         </BottomSheetModalProvider>
 

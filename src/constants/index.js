@@ -2,6 +2,7 @@ import constants from "./constants";
 import dummyData from "./dummyData";
 import icons from "./icons";
 import { eur, jpy, ngn, selectedCurrency, usd } from "./currency";
+import { favorite, home, news, selectedLaunch } from "./launchScreen";
 // import images from './images';
 import theme, { COLORS, darkTheme, FONTS, lightTheme, selectedTheme, SIZES } from "./theme";
 
@@ -18,4 +19,5 @@ export {
   lightTheme,
   selectedTheme,
   usd, ngn, eur, jpy, selectedCurrency,
+  home, favorite, news, selectedLaunch,
 };

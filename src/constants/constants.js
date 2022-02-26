@@ -55,6 +55,14 @@ let currencyList = [
 ];
 
 
+let launchList = [
+  { label: "Home", value: "Home", launchStatus: "Home" },
+  { label: "Favorite", value: "Favorite", launchStatus: "Favorite" },
+  { label: "News", value: "News", launchStatus: "News" },
+
+];
+
+
 const listTab = [
   {
     key: "1",
@@ -154,6 +162,7 @@ let constants = {
   topMoversListTab,
   currencyToggle,
   currencyList,
+  launchList,
 };
 
 export default constants;

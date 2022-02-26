@@ -11,7 +11,7 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
       <TouchableOpacity activeOpacity={0.6}
                         style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]}
                         onPress={onPress}>
-        <Image style={styles.backArrow} source={icons.backArrow} />
+        <Image style={[styles.backArrow, { tintColor: appTheme.textColor2 }]} source={icons.backArrow} />
 
       </TouchableOpacity>
 

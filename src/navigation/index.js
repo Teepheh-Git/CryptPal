@@ -8,9 +8,9 @@ import News from "../screens/News";
 import Search from "../screens/Search";
 import Settings from "../screens/Settings";
 import { connect } from "react-redux";
-import { toggleTheme } from "../stores/theme/themeActions";
 import { COLORS, FONTS } from "../constants";
 import LinearGradient from "react-native-linear-gradient";
+import { toggleLaunch } from "../stores/launch/launchActions";
 
 
 const TabBarCustomButton = ({ children, onPress, appTheme }) => {
@@ -34,11 +34,12 @@ const TabBarCustomButton = ({ children, onPress, appTheme }) => {
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabs = ({ appTheme, navigation }) => {
+const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
 
 
   return (
     <Tab.Navigator
+      initialRouteName={appLaunch.name}
       detachInactiveScreens
       screenOptions={{
         headerShown: false,
@@ -53,11 +54,12 @@ const BottomTabs = ({ appTheme, navigation }) => {
           borderTopRightRadius: 40,
           elevation: 4,
           shadowOpacity: 0.04,
+          shadowColor: appTheme.textColor,
           shadowOffset: {
-            width: 3,
+            width: 0,
             height: -3,
           },
-          backgroundColor: appTheme.backgroundColor,
+          backgroundColor: appTheme.backgroundColor2,
           borderTopColor: "transparent",
           height: Platform.OS === "android" ? 95 : 90,
         },
@@ -265,14 +267,13 @@ export function mapStateToProps(state) {
   return {
     appTheme: state.themeReducer.appTheme,
     error: state.themeReducer.error,
+    appLaunch: state.launchReducer.appLaunch,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleTheme: themeType => {
-      return dispatch(toggleTheme(themeType));
-    },
+
   };
 }
 
