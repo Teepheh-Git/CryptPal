@@ -12,6 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import rootReducer from "./src/stores/rootReducer";
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
@@ -68,25 +70,36 @@ const App = () => {
 
   return (
 
+
+    <GestureHandlerRootView style={{flex:1}}>
+
+
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
+
+
         <StatusBar
           translucent={true}
           backgroundColor={"rgba(0,0,0,0.19)"}
           animated={true}
           showHideTransition={"fade"}
           networkActivityIndicatorVisible={false} />
-
+        <BottomSheetModalProvider>
 
         <NavigationContainer>
           {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
         </NavigationContainer>
 
+        </BottomSheetModalProvider>
 
       </PersistGate>
 
 
     </Provider>
+
+
+    </GestureHandlerRootView>
+
   );
 };
 

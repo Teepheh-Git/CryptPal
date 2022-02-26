@@ -14,6 +14,8 @@ const SettingsItem = ({
                         ios_backgroundColor,
                         trackColor,
                         thumbColor,
+                        currencyLabel,
+                        currentCurrency,
                       }) => {
 
 
@@ -21,7 +23,8 @@ const SettingsItem = ({
     <Pressable style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                onPress={onPress}>
 
-      <Image resizeMode={"contain"} source={icon} style={styles.icon} />
+      <Image resizeMode={"contain"} source={icon}
+             style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : null }]} />
 
       <Text style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
 
@@ -33,8 +36,8 @@ const SettingsItem = ({
         trackColor={trackColor}
         thumbColor={thumbColor}
         ios_backgroundColor={ios_backgroundColor}
-      /> : <Image source={icons.arr_right}
-                  style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : "black" }]} />
+      /> : currencyLabel ? <Text style={[styles.currentCurrency,{color:appTheme.textColor}]}> {currentCurrency}</Text> : <Image source={icons.arr_right}
+                                                                    style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : "black" }]} />
       }
 
 
@@ -74,6 +77,9 @@ const styles = StyleSheet.create({
     // fontWeight:"normal",
     width: "70%",
   },
+  currentCurrency:{
+    ...FONTS.body3
+  }
 
 });
 

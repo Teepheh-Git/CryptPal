@@ -6,8 +6,8 @@ export const COLORS = {
   // primary colors
   primary: "#6B55D0",
   primary2: "#B1BBCD",
-  black: "#040415",
-  black2: "#000000",
+  black: "#0e0c0c",
+  black2: "#121212",
   white: "#FFF",
   white2: "#f9f6fc",
   white3: "#F0F0F0",

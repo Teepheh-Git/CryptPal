@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Platform, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Favorite from "../screens/Favorite";
 import Home from "../screens/Home";
@@ -13,7 +13,7 @@ import { COLORS, FONTS } from "../constants";
 import LinearGradient from "react-native-linear-gradient";
 
 
-const TabBarCustomButton = ({ children, onPress }) => {
+const TabBarCustomButton = ({ children, onPress, appTheme }) => {
 
   return (
     <TouchableOpacity
@@ -76,10 +76,10 @@ const BottomTabs = ({ appTheme, navigation }) => {
                               justifyContent: "space-around",
                             }}>
                             <Text
-                              style={{ ...FONTS.h4, color: COLORS.primary, top: 20 }}>
+                              style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
                               Home
                             </Text>
-                            <Text style={{ ...FONTS.largeTitle, color: COLORS.primary }}>
+                            <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
                               .
                             </Text>
                           </View>
@@ -114,10 +114,10 @@ const BottomTabs = ({ appTheme, navigation }) => {
                     justifyContent: "space-around",
                   }}>
                   <Text
-                    style={{ ...FONTS.h4, color: COLORS.primary, top: 20 }}>
+                    style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
                     Favorite
                   </Text>
-                  <Text style={{ ...FONTS.largeTitle, color: COLORS.primary }}>
+                  <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
                     .
                   </Text>
                 </View>
@@ -198,10 +198,10 @@ const BottomTabs = ({ appTheme, navigation }) => {
                     justifyContent: "space-around",
                   }}>
                   <Text
-                    style={{ ...FONTS.h4, color: COLORS.primary, top: 20 }}>
+                    style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
                     News
                   </Text>
-                  <Text style={{ ...FONTS.largeTitle, color: COLORS.primary }}>
+                  <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
                     .
                   </Text>
                 </View>
@@ -233,10 +233,10 @@ const BottomTabs = ({ appTheme, navigation }) => {
                   justifyContent: "space-around",
                 }}>
                 <Text
-                  style={{ ...FONTS.h4, color: COLORS.primary, top: 20 }}>
+                  style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
                   Settings
                 </Text>
-                <Text style={{ ...FONTS.largeTitle, color: COLORS.primary }}>
+                <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
                   .
                 </Text>
               </View>

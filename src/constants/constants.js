@@ -47,10 +47,10 @@ let categoryList = [
 
 
 let currencyList = [
-  { label: "USD", value: "dollar" },
-  { label: "NGN", value: "naira" },
-  { label: "EUR", value: "euro" },
-  { label: "JPY", value: "yen" },
+  { label: "USD", value: "dollar", tabStatus: "USD" },
+  { label: "NGN", value: "naira", tabStatus: "NGN" },
+  { label: "EUR", value: "euro", tabStatus: "EUR" },
+  { label: "JPY", value: "yen", tabStatus: "JPY" },
 
 ];
 
@@ -92,7 +92,7 @@ const newsListTab = [
   {
     key: "4",
     tabStatus: "NFT",
-  },{
+  }, {
     key: "5",
     tabStatus: "Ethereum",
   },
