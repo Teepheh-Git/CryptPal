@@ -27,6 +27,11 @@ const arr_right = require("../assets/icons/arr_right.png");
 const Show = require("../assets/icons/Show.png");
 const Ticket = require("../assets/icons/Ticket.png");
 const imgPlacehholder = require("../assets/images/imgPlacehholder.jpg");
+const buyCoffee = require("../assets/icons/buyCoffee.png");
+const chkUpdate = require("../assets/icons/chkUpdate.png");
+const Close = require("../assets/icons/Close.png");
+const darkMode = require("../assets/icons/darkMode.png");
+
 
 export default {
   settings,
@@ -35,6 +40,10 @@ export default {
   arrowUp,
   arrowDown,
   arrowRight,
+  buyCoffee,
+  chkUpdate,
+  Close,
+  darkMode,
   search,
   searchBarIcon,
   home,
@@ -57,5 +66,5 @@ export default {
   Ticket,
   ShieldDone,
   HomeIcon,
-  arr_right
+  arr_right,
 };

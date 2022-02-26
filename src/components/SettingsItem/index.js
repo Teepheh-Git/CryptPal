@@ -27,6 +27,7 @@ const SettingsItem = ({
 
 
       {check ? <Switch
+        // style={{backgroundColor:"red"}}
         value={switchValue}
         onValueChange={onSwitchChange}
         trackColor={trackColor}

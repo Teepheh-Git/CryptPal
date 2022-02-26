@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActivityIndicator, Alert, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
@@ -82,39 +82,44 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
 
 
-  function CurrencyModal() {
+  {/*function CurrencyModal() {*/}
 
-    return (
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          // onShow={getModalCoinInfo}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <Pressable onPress={() => setModalVisible(!modalVisible)}
-                     style={styles.centeredView}>
+  {/*  return (*/}
+  //     <View style={styles.centeredView}>
+  //       <Modal
+  //         animationType="slide"
+  //         transparent={true}
+  //         // onShow={getModalCoinInfo}
+  //         visible={modalVisible}
+  //         onRequestClose={() => {
+  //           Alert.alert("Modal has been closed.");
+  //           setModalVisible(!modalVisible);
+  //         }}
+  //       >
+  //         <Pressable onPress={() => setModalVisible(!modalVisible)}
+  //                    style={styles.centeredView}>
+  //
+  //
+  //           <View style={[styles.modalView, { backgroundColor: appTheme.backgroundColor }]}>
+  //           <ScrollView style={{backgroundColor:"cyan"}}>
+  //
+  //             {["usd", "yen", "ngn"].map((item, index)=>(
+  //
+  //               <View>
+  //                 <Text>{item}</Text>
+  {/*              </View>*/}
 
+  {/*            ))}*/}
 
-            <View style={[styles.modalView, { backgroundColor: appTheme.backgroundColor }]}>
-
-
-              <Pressable>
-                <Text style={{color:"white"}}>Gerrr</Text>
-
-              </Pressable>
-
-
-            </View>
-          </Pressable>
-        </Modal>
-      </View>
-    );
-  }
+  //
+  //
+  //           </ScrollView>
+  //           </View>
+  //         </Pressable>
+  //       </Modal>
+  //     </View>
+  //   );
+  // }
 
 
 
@@ -134,14 +139,14 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
 
         <SettingsItem
 
-          trackColor={{false: "#767577", true: COLORS.primary}}
-          thumbColor={togSwitch ? COLORS.white : "#c3c1c4"}
-          ios_backgroundColor="#3e3e3e"
+          trackColor={{false: "#EEF1F5", true: COLORS.primary}}
+          thumbColor={togSwitch ? COLORS.white : COLORS.white}
+          ios_backgroundColor="#EEF1F5"
           check switchValue={togSwitch} onSwitchChange={(value)=>{
           setTogSwitch(value)
           toggleThemeHandler()
-        }} icon={icons.Show}
-                      title={togSwitch?"Light Mode":"Dark Mode"} />
+        }} icon={icons.darkMode}
+                      title={togSwitch?"Dark Mode":"Light Mode"} />
         <SettingsItem icon={icons.HomeIcon} title={"Launch Screen"} />
         <SettingsItem icon={icons.Ticket} onPress={()=>{
           console.log("shhow");
@@ -150,9 +155,9 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
         }} title={"Default Currency"} />
 
 
-        <SettingsItem icon={icons.aboutIcon} title={"Language"} />
-        <SettingsItem icon={icons.Document} title={"NewsLetter"} />
-        <SettingsItem icon={icons.ShieldDone} title={"About"} />
+        <SettingsItem icon={icons.buyCoffee} title={"Support"} />
+        <SettingsItem icon={icons.Document} title={"About"} />
+        <SettingsItem icon={icons.chkUpdate} title={"Check for Update"} />
       </View>
 
 
@@ -204,7 +209,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency }) => {
       {/*  <Text>Clear Favorites </Text>*/}
 
       {/*</TouchableOpacity>*/}
-      { CurrencyModal()}
+      {/*{ CurrencyModal()}*/}
 
 
     </SafeAreaView>
@@ -251,7 +256,7 @@ const styles = StyleSheet.create({
     height:SIZES.width*0.8,
     margin: 20,
     borderRadius: 20,
-    padding: 35,
+    padding: 10,
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
