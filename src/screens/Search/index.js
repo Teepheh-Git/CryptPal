@@ -54,7 +54,7 @@ const Search = ({ appTheme, navigation }) => {
 
 
       } catch (e) {
-        console.error(e, "SearchExampleError");
+        // console.error(e, "SearchExampleError");
         setLoading(false);
 
       }

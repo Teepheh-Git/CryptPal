@@ -16,7 +16,7 @@ export const news = {
 };
 
 
-export const selectedLaunch = favorite;
+export const selectedLaunch = home;
 
 const appLaunch = {
   home,

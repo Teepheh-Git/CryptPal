@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
@@ -12,19 +12,13 @@ import Toast from "react-native-toast-message";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { toggleLaunch } from "../../stores/launch/launchActions";
 
+
 const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLaunch, appLaunch }) => {
 
 
-  const [currency, setCurrency] = useState(appCurrency.name);
   const [togSwitch, setTogSwitch] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalCoin, setModalCoin] = useState("");
-  const [modalLoading, setModalLoading] = useState(false);
-  const [modalCoinInfo, setModalCoinInfo] = useState({});
   const [tabStatus, setTabStatus] = useState(appCurrency.ticker);
   const [launchStatus, setLaunchStatus] = useState(appLaunch.name);
-
-  // const [address, setAddress] = useState("");
 
   const copyToClipboard = async (address) => {
     await Clipboard.setString(`${address}`);
@@ -132,7 +126,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
           setTogSwitch(value);
           toggleThemeHandler();
         }} icon={icons.darkMode}
-          title={"Light Mode"} />
+          title={"Dark Mode"} />
 
 
         <SettingsItem currencyLabel={true} currentCurrency={appCurrency.ticker} onPress={openCurrencyModal}
@@ -198,7 +192,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
               onPress={() => {
                 setTabStatusLaunch(buttonLabel.label);
                 toggleLaunch(buttonLabel.value);
-                // bottomSheetModalRef.current?.close();
+                launchScreenSheetModalRef.current?.close();
                 // console.log(buttonLabel.value);
               }}>
               <Text
