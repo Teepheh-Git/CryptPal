@@ -31,7 +31,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
 
   const [favAdded, setFavAdded] = useState(false);
-  const [textUnit, setTextUnit] = useState("0");
+  const [textUnit, setTextUnit] = useState("");
   const [fiatValue, setFiatValue] = useState("0.00");
   const [tokenValue, setTokenValue] = useState("0.00");
   const [swap, setSwap] = useState(true);

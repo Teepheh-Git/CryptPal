@@ -29,7 +29,8 @@ const CoinList = ({
 
 
   return (
-    <TouchableOpacity onLongPress={onLongPress} activeOpacity={0.9} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+    <TouchableOpacity onLongPress={onLongPress} activeOpacity={0.9}
+                      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
                       onPress={onPress}>
 
 
@@ -65,7 +66,7 @@ const CoinList = ({
         withOuterLines={false}
         bezier
         data={{
-          datasets: [{ data: chartData }],
+          datasets: [{ data: chartData !== [] && chartData }],
         }}
         width={80}
         height={73}
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   },
   priceChange: {
     ...FONTS.h5,
-    fontWeight:"400"
+    fontWeight: "400",
 
   },
   coinPercentage: {

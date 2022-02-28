@@ -192,6 +192,7 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
             renderItem={CoinListRenderItem}
             showsVerticalScrollIndicator={false}
             initialNumToRender={20}
+
             // getItemLayout={getItemLayout}
             ListFooterComponent={
               <View style={{ marginBottom: 50 }} />
@@ -219,6 +220,7 @@ const styles = StyleSheet.create({
   },
   btnTab: {
     height: 40,
+    width:45,
     marginHorizontal: 5,
     marginVertical: 5,
     borderWidth: 0.25,

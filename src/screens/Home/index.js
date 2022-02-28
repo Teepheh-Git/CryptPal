@@ -37,6 +37,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   // }), []);
 
 
+
   const navigation = useNavigation();
 
   //  SORT COIN CARD FUNCTION
@@ -78,6 +79,13 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   // )
 
   useEffect((currency, orderBy) => {
+
+
+    const newArr= coins.map((item)=>{
+      return item.sparkline_in_7d
+    })
+    console.log(newArr);
+
 
 
     if (orderByCoin === "market_cap_desc") {
@@ -147,7 +155,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
         symbol={item?.symbol?.toUpperCase()}
         currentPrice={item?.current_price?.toLocaleString("en-US")}
         priceChangePercentage24h={item?.price_change_percentage_24h}
-        chartData={item?.sparkline_in_7d?.price}
+        chartData={item?.sparkline_in_7d?.price!==[]&&item?.sparkline_in_7d?.price}
         onPress={() => navigation.navigate("CoinDetails", { ...item })}
         // onLongPress={() => {
         //   setModalVisible(true);

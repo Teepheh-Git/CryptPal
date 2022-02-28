@@ -11,12 +11,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { getFavouritesCoins } from "../../stores/market/marketActions";
 
 
-const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCoins }) => {
+const Favorite = ({ appTheme, navigation, appCurrency,getFavouritesCoins, favCoins }) => {
 
-  // const [favs, setFavs] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [favPageError, setFavPageError] = useState(true);
-  // const [retry, setRetry] = useState("");
+  const [favs, setFavs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [favPageError, setFavPageError] = useState(true);
+  const [retry, setRetry] = useState("");
 
 
   // useEffect((currency) => {
@@ -26,8 +26,7 @@ const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCo
   //
   // }, [appCurrency]);
 
-
-
+  // console.log(favCoins);
   useFocusEffect(
     useCallback((currency) => {
 
@@ -35,6 +34,7 @@ const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCo
 
     }, [appCurrency]),
   );
+
 
 
   // const GetFavorites = async () => {
@@ -81,7 +81,7 @@ const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCo
   const EmptyFavorite = () => {
     return (
       <View
-        style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center", top: SIZES.height * 0.2 }}>
+        style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center",  height:SIZES.height*0.5 }}>
         <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/Sleepy.png")} />
         <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>It’s awfully quiet here..... </Text>
         <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Explore coins and add to
@@ -127,16 +127,18 @@ const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCo
           <Text style={[styles.title, { color: appTheme.textColor }]}>Favorite 🌟</Text>
         </View>
       </View>
+      {/*{EmptyFavorite()}*/}
 
               <FlatList
                 data={favCoins}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={CoinListRenderItem}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={6}
+                // initialNumToRender={6}
                 ListEmptyComponent={EmptyFavorite}
-                maxToRenderPerBatch={2}
-                windowSize={3}
+                // maxToRenderPerBatch={2}
+                // windowSize={3}
+
               />
 
 
@@ -150,6 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     width: SIZES.width,
+    height:SIZES.height,
+    justifyContent:"center"
 
   },
   headerContainer: {

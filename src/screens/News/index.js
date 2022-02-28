@@ -215,8 +215,8 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
       <FlatList
         data={news}
-        getItemLayout={getItemLayout}
-        initialScrollIndex={4}
+        // getItemLayout={getItemLayout}
+        // initialScrollIndex={0}
         scrollEnabled={coinSearch === "" && true}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}

@@ -71,10 +71,8 @@ const listTab = [
   {
     key: "2",
     tabStatus: "Volume ↑",
-  }, {
-    key: "3",
-    tabStatus: "Volume ↓",
   },
+  // { key: "3", tabStatus: "Volume ↓", },
   {
     key: "4",
     tabStatus: "A - Z",
