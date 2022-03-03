@@ -18,12 +18,12 @@ const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) =
 
 
         <View style={styles.timeLinkContainer}>
-          <Text numberOfLines={1} style={[styles.time, { color: appTheme.textColor3 }]}> <Text
+          <Text numberOfLines={1} ellipsizeMode={"head"} style={[styles.time, { color: appTheme.textColor3 }]}> <Text
             style={[styles.time, { color: appTheme.textColor3 }]}>{source} - </Text>{time}</Text>
 
-          <TouchableOpacity onPress={onPress}>
+          {/*<TouchableOpacity style={{width:50}} onPress={onPress}>*/}
             <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
-          </TouchableOpacity>
+          {/*</TouchableOpacity>*/}
 
         </View>
 
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "space-around",
     paddingVertical: 10,
+    paddingHorizontal:5,
     flexDirection: "row",
     marginVertical: 2,
 
@@ -56,30 +57,38 @@ const styles = StyleSheet.create({
 
   },
   titleBox: {
-    width: SIZES.width * 0.7,
+    width: SIZES.width * 0.63,
+    // backgroundColor:"cyan",
     height: SIZES.width * 0.2,
     justifyContent: "space-between",
-    padding: 10,
+    padding: 5,
 
 
   },
   title: {
     ...FONTS.h3,
-    width: SIZES.width * 0.63,
+    width: SIZES.width * 0.55,
 
   },
 
   timeLinkContainer: {
+    width: SIZES.width * 0.6,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    // backgroundColor:"yellow",
+
   },
   time: {
     ...FONTS.h5,
-    width: SIZES.width * 0.5,
+    width: SIZES.width * 0.4,
   },
   readMore: {
-    ...FONTS.h4,
+    ...FONTS.h5,
+    // alignSelf: "flex-end",
+    textAlign:"right"
+    // width: SIZES.width * 0.2,
+
   },
 });
 

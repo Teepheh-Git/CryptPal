@@ -248,9 +248,10 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    height: 75,
+    height: SIZES.height*0.1,
     width: SIZES.width * 0.9,
-    padding: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     flexDirection: "row",
     // justifyContent: "space-between",
     marginVertical: 5,

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        padding: 5,
+        padding: 10,
         width: SIZES.width,
         height: SIZES.height,
         alignItems: 'center',
@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
         ...FONTS.body3,
         color: COLORS.white2,
         textAlign: 'center',
-        width: '70%',
-        bottom: 60,
+        // width: '65%',
+        // bottom: 60,
         marginVertical: 20,
     },
     buttonContainer: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     pagination: {
         flexDirection: 'row',
-        height: 64,
+        height: SIZES.height*0.02,
     },
 
     headerContainer: {

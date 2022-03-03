@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
   container: {
     width: SIZES.width * 0.9,
-    height: 75,
+    height: SIZES.height*0.09,
     paddingHorizontal: 15,
     padding: 5,
     marginVertical: 10,

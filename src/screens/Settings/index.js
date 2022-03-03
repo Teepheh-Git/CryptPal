@@ -110,7 +110,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
 
       <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: appTheme.textColor }]}>Settings ⚙</Text>
+          <Text style={[styles.title, { color: appTheme.textColor }]}>Settings ⚙️</Text>
         </View>
       </View>
 
@@ -228,7 +228,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
               CryptPal features, users can create price notifications of any crypto asset of their choice.</Text>
 
             <Text style={[styles.about, { marginVertical: 10, alignSelf: "flex-end", color: appTheme.textColor }]}>Version:
-              1.0.0</Text>
+              1.1.0</Text>
 
           </View>
         </BottomSheetScrollView>
@@ -262,7 +262,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
               Thanks❤️.</Text>
 
 
-            <View style={{ marginTop: 25 }}>
+            <View style={{ marginTop: SIZES.height*0.02 }}>
 
               <Text style={{ ...FONTS.body5, color: appTheme.textColor3 }}>Tap to Copy</Text>
 
@@ -428,8 +428,7 @@ const styles = StyleSheet.create({
   },
   modalInnerBox: {
     width: "99%",
-
-    height: SIZES.height * 0.23,
+    height: SIZES.height * 0.3,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -439,18 +438,19 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginVertical: 10,
     alignSelf: "center",
-    padding: 20,
+    paddingVertical: 10,
+    paddingHorizontal:20,
     borderRadius: 10,
 
   },
   about: {
-    ...FONTS.body2,
+    ...FONTS.body3,
     opacity: 0.8,
 
   },
   address: {
     ...FONTS.body5,
-    marginVertical: 10,
+    marginVertical: SIZES.height*0.009,
     textDecorationLine: "underline",
   },
 

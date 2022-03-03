@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 50,
-        width: SIZES.width * 0.7,
-        height: 68,
+        width: SIZES.width * 0.75,
+        height: SIZES.height*0.08,
         backgroundColor: "#ffffff",
         borderRadius: SIZES.radius3,
 
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     },
     text: {
         color: COLORS.primary,
-        ...FONTS.h5,
+        ...FONTS.h3,
     },
 })

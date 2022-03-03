@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     // right: 0,
     // bottom: 0,
     // zIndex:100,
-    top: SIZES.height * 0.2,
+    top: SIZES.height * 0.21,
     width: SIZES.width,
     height: SIZES.height,
     alignSelf: "center",

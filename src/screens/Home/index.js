@@ -81,10 +81,10 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   useEffect((currency, orderBy) => {
 
 
-    const newArr= coins.map((item)=>{
-      return item.sparkline_in_7d
-    })
-    console.log(newArr);
+    // const newArr= coins.map((item)=>{
+    //   return item.sparkline_in_7d
+    // })
+    // console.log(newArr);
 
 
 

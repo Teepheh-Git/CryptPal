@@ -243,6 +243,7 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                 }}
                 placeholderTextColor={appTheme.textColor3}
                 onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 multiline={false}
                 style={{
                   width: SIZES.width * 0.9,
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
     width: SIZES.width * 0.9,
     // alignItems: "flex-end",
     // backgroundColor:'red',
-    marginVertical: 20,
+    marginVertical: 10,
     // elevation: 0.3,
     // shadowOpacity: 0.1,
     // shadowOffset: {
