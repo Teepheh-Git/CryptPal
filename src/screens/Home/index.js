@@ -44,7 +44,9 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   function TopMoverCoins(a, b) {
     return b.price_change_percentage_24h - a.price_change_percentage_24h;
   }
-
+  function FilterCoin (item){
+    return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
+  }
   const [homePageLoading, setHomePageLoading] = useState(true);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [tabStatus, setTabStatus] = useState("Popular");
@@ -54,6 +56,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   const [modalCoin, setModalCoin] = useState("");
   const [modalLoading, setModalLoading] = useState(false);
   const [modalCoinInfo, setModalCoinInfo] = useState({});
+
 
 
   if (coins?.length > 0 && coinCard?.length > 0) {
@@ -81,10 +84,14 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   useEffect((currency, orderBy) => {
 
 
-    // const newArr= coins.map((item)=>{
-    //   return item.sparkline_in_7d
-    // })
-    // console.log(newArr);
+
+
+    // console.log((coins.filter(FilterCoin)), "FFFFFFF");
+
+    // const arrFiltered = coins.filter(item => {
+    //   return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
+    // });
+    // console.log(arrFiltered, "ARRRR");
 
 
 
@@ -116,6 +123,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
     getCardMarket(currency = appCurrency.ticker);
   }, [appCurrency]);
 
+
+  // console.log(coins,"koiiiii");
 
   // HOME PAGE LOADING FUNCTION
   if (homePageLoading) {
@@ -311,7 +320,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
       {coins == null || coinCard == null ? NetworkError() :
 
         <FlatList
-          data={coins}
+          data={coins.filter(FilterCoin)}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           initialNumToRender={20}

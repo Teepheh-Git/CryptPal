@@ -33,6 +33,11 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
   const [retry, setRetry] = useState("");
 
 
+
+  function FilterCoin (item){
+    return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
+  }
+
   if (coinTrend?.length > 0) {
     setTimeout(() => {
       setMarketPageLoading(false);
@@ -169,7 +174,7 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
 
       {coinTrend == null ? NetworkErrorPage() :
         <FlatList
-        data={coinTrend}
+        data={coinTrend.filter(FilterCoin)}
         keyExtractor={(item) => item.id}
         renderItem={CoinListRenderItem}
         showsVerticalScrollIndicator={false}
