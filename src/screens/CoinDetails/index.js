@@ -23,8 +23,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CoinDetailsChart from "../../components/Chart/CoinDetailsChart";
 import axios from "axios";
 import NotchResponsive from "../../components/NotchResponsive";
+import config from "../../../config";
 
 const CoinDetails = ({ appTheme, appCurrency, route }) => {
+
+
 
 
   const navigation = useNavigation();
@@ -115,7 +118,9 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
       try {
 
-        const res = await axios.get(`${process.env.CURRENCY_URL}/api/v2/latest?apikey=${process.env.CURRENCY_API_KEY}`);
+        // const res = await axios.get(`https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766`);
+        const res = await axios.get(`${config.REACT_APP_CURRENCY_URL}/api/v2/latest?apikey=${config.REACT_APP_CURRENCY_API_KEY}`);
+
 
         if (appCurrency.ticker === "NGN") {
           setCurrencyRate(res.data.data.NGN);

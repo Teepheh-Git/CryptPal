@@ -29,6 +29,7 @@
     "react-native": "0.66.0",
     "react-native-actionsheet": "^2.4.2",
     "react-native-chart-kit": "^6.11.0",
+    "react-native-dotenv": "^3.3.1",
     "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "^2.2.0",
     "react-native-linear-gradient": "^2.5.6",

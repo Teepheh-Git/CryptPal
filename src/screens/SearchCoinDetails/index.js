@@ -23,6 +23,7 @@ import CoinDetailsChart from "../../components/Chart/CoinDetailsChart";
 import axios from "axios";
 import CoinDetailsTitle from "../../components/CoinDetailsTitle";
 import NotchResponsive from "../../components/NotchResponsive";
+import config from "../../../config";
 
 const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
@@ -79,7 +80,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
     const getDetails = async () => {
       try {
         setLoading(true);
-        const result = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinId}&order=market_cap_desc&per_page=1&page=1&sparkline=true&price_change_percentage=24h`);
+        const result = await axios.get(`${config.REACT_APP_COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&ids=${coinId}&order=market_cap_desc&per_page=1&page=1&sparkline=true&price_change_percentage=24h`);
         setFullDetails(result.data[0]);
         if (result) {
           setLoading(false);
@@ -154,7 +155,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
   const CurrencyRates = async () => {
 
     try {
-      const res = await axios.get(`${process.env.CURRENCY_URL}/api/v2/latest?apikey=${process.env.CURRENCY_API_KEY}`);
+      const res = await axios.get(`${config.REACT_APP_CURRENCY_URL}/api/v2/latest?apikey=${config.REACT_APP_CURRENCY_API_KEY}`);
 
       if (appCurrency.ticker === "NGN") {
         setCurrencyRate(res.data.data.NGN);

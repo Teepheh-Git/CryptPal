@@ -16,6 +16,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { COLORS } from "./src/constants";
+import config from "./config";
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
@@ -111,7 +112,6 @@ const App = () => {
 
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
-
 
 
           <BottomSheetModalProvider>
