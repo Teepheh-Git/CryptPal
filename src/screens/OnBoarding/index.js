@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Animated, FlatList, Image, ImageBackground, View,StatusBar } from "react-native";
+import { ActivityIndicator, Animated, FlatList, Image, ImageBackground, StatusBar, View } from "react-native";
 import { constants } from "../../constants";
 import CustomButton from "../../components/CustomButton";
 import { SIZES } from "../../constants/theme";
@@ -84,7 +84,7 @@ const OnBoarding = ({ appTheme }) => {
     setTimeout(() => {
 
       <ActivityIndicator size="small" color={appTheme.textColor2} />;
-    }, 5000);
+    }, 3000);
 
 
   }, []);

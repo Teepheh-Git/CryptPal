@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import NewsListItem from "../../components/NewsListItem";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
@@ -21,6 +20,7 @@ import axios from "axios";
 import constants from "../../constants/constants";
 import { getHeadlineNewsMarket, getNewsMarket } from "../../stores/market/marketActions";
 import SearchDropdown from "../../components/SearchDropdown";
+import NotchResponsive from "../../components/NotchResponsive";
 
 
 const data = [
@@ -198,140 +198,147 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <>
 
-      <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
-        <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: appTheme.textColor }]}>News 📄</Text>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+        <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
+          <View style={styles.titleContainer}>
+            <Text style={[styles.title, { color: appTheme.textColor }]}>News 📄</Text>
+          </View>
+          {/*<TouchableOpacity style={styles.filterButtonContainer}>*/}
+          {/*  <Image style={styles.filterButton} source={icons.filterButton} />*/}
+          {/*</TouchableOpacity>*/}
+
         </View>
-        {/*<TouchableOpacity style={styles.filterButtonContainer}>*/}
-        {/*  <Image style={styles.filterButton} source={icons.filterButton} />*/}
-        {/*</TouchableOpacity>*/}
 
-      </View>
-
-      {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
+        {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
 
 
-      <FlatList
-        data={news}
-        // getItemLayout={getItemLayout}
-        // initialScrollIndex={0}
-        scrollEnabled={coinSearch === "" && true}
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <>
+        <FlatList
+          data={news}
+          // getItemLayout={getItemLayout}
+          // initialScrollIndex={0}
+          scrollEnabled={coinSearch === "" && true}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <>
 
 
+              <View style={{
+                flexDirection: "row",
+                width: SIZES.width * 0.95,
+                height: 55,
+                alignItems: "center",
+                justifyContent: "center",
+                marginVertical: 10,
+                alignSelf: "center",
+              }}>
+                <TextInput
+                  placeholder={"Search for crypto related news..."}
+                  value={coinSearch}
+                  // onChangeText={(text) => SearchFilter(text)}
+                  onChangeText={async value => {
+                    setCoinSearch(value);
+                    await GetSearchNews(value);
+                  }}
+                  placeholderTextColor={appTheme.textColor3}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  multiline={false}
+                  style={{
+                    width: SIZES.width * 0.9,
+                    height: SIZES.font1*1.5, backgroundColor: appTheme.backgroundColor,
+                    borderRadius: 8,
+                    borderWidth: isFocused ? 1 : null,
+                    borderColor: isFocused ? appTheme.textColor2 : null,
+                    paddingHorizontal: 15,
+                    left: 10,
+                    paddingRight: 30,
+                    color: appTheme.textColor,
+                  }}
+                />
+                <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
+                       source={icons.searchBarIcon} />
+              </View>
+
+
+              <FlatList
+                data={headlineNews}
+                horizontal
+                snapToAlignment={"start"}
+                snapToStart={true}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) => (
+
+
+                  <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
+                    <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
+                                     style={[styles.imgBg, { marginLeft: index === 0 ? 20 : 0 }]}
+                                     source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
+
+                      <View style={styles.bigCardDet}>
+
+                        <Text style={styles.bigCardTitle} numberOfLines={2}>{item?.title}</Text>
+                        <Text
+                          style={styles.bigCardTitle2}>{moment(item?.publishedAt).startOf("hour").fromNow()} • <Text>{item?.source.name}</Text></Text>
+
+                      </View>
+
+
+                    </ImageBackground>
+                  </Pressable>
+
+
+                )
+                } />
+
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal
+                style={styles.listTab}>
+                {constants.newsListTab.map((buttonLabel, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                    onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                    <Text
+                      style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+
+              {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+            </>
+          }
+          // ItemSeparatorComponent={Separator}
+          renderItem={({ item }) =>
+
+            <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
+                          time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
+                          onPress={() => navigation.navigate("NewsContentPage", { ...item })} />
+
+
+          }
+          ListFooterComponent={
             <View style={{
-              flexDirection: "row",
-              width: SIZES.width * 0.95,
-              height: 55,
-              alignItems: "center",
-              justifyContent: "center",
-              marginVertical: 10,
-              alignSelf: "center",
-            }}>
-              <TextInput
-                placeholder={"Search for crypto related news..."}
-                value={coinSearch}
-                // onChangeText={(text) => SearchFilter(text)}
-                onChangeText={async value => {
-                  setCoinSearch(value);
-                  await GetSearchNews(value);
-                }}
-                placeholderTextColor={appTheme.textColor3}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                multiline={false}
-                style={{
-                  width: SIZES.width * 0.9,
-                  height: 55, backgroundColor: appTheme.backgroundColor,
-                  borderRadius: 8,
-                  borderWidth: isFocused ? 1 : null,
-                  borderColor: isFocused ? appTheme.textColor2 : null,
-                  paddingHorizontal: 15,
-                  left: 10,
-                  paddingRight: 30,
-                  color: appTheme.textColor,
-                }}
-              />
-              <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
-                     source={icons.searchBarIcon} />
-            </View>
+              marginBottom: SIZES.font1 * 4,
+            }} />
+          }
+        />
 
-
-            <FlatList
-              data={headlineNews}
-              horizontal
-              snapToAlignment={"start"}
-              snapToStart={true}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
-
-
-                <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
-                  <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
-                                   style={[styles.imgBg, { marginLeft: index === 0 ? 20 : 0 }]}
-                                   source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
-
-                    <View style={styles.bigCardDet}>
-
-                      <Text style={styles.bigCardTitle} numberOfLines={2}>{item?.title}</Text>
-                      <Text
-                        style={styles.bigCardTitle2}>{moment(item?.publishedAt).startOf("hour").fromNow()} • <Text>{item?.source.name}</Text></Text>
-
-                    </View>
-
-
-                  </ImageBackground>
-                </Pressable>
-
-
-              )
-              } />
-
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              style={styles.listTab}>
-              {constants.newsListTab.map((buttonLabel, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-                  onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-                  <Text
-                    style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-
-            {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
-          </>
-        }
-        // ItemSeparatorComponent={Separator}
-        renderItem={({ item }) =>
+        {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
 
           <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
                         time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
-                        onPress={() => navigation.navigate("NewsContentPage", { ...item })} />
+                        onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
 
+      </View>
+    </>
 
-        }
-        ListFooterComponent={
-          <View style={{ marginBottom: 70 }} />
-        }
-      />
-
-      {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
-
-        <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
-                      time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
-                      onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
-
-    </SafeAreaView>
   );
 };
 
@@ -340,12 +347,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    // width: SIZES.width*0.9,
-    // height: SIZES.height
-
   },
   headerContainer: {
-    height: 55,
+    height: SIZES.font1 * 1.4,
     width: SIZES.width * 0.9,
     justifyContent: "center",
     alignItems: "center",
@@ -366,13 +370,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...FONTS.h2,
+    ...FONTS.h6,
     marginHorizontal: 5,
   },
   highlights: {
     alignSelf: "flex-start",
     paddingHorizontal: 20,
-    ...FONTS.h2,
+    ...FONTS.h7,
     // fontWeight: "500",
   },
   imgBox: {
@@ -402,13 +406,13 @@ const styles = StyleSheet.create({
   },
   bigCardTitle: {
     color: "white",
-    ...FONTS.h3,
+    ...FONTS.h8,
     lineHeight: 18,
     // fontWeight: "bold",
   },
   bigCardTitle2: {
     color: "white",
-    ...FONTS.h4,
+    ...FONTS.h9,
     lineHeight: 18,
     // fontWeight: "500",
     marginTop: 10,
@@ -442,7 +446,7 @@ const styles = StyleSheet.create({
 
   },
   textTab: {
-    ...FONTS.body4,
+    ...FONTS.body9,
     marginHorizontal: 10,
     color: COLORS.grey,
     letterSpacing: 1,

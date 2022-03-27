@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: SIZES.font1 * 1.6,
+    height: SIZES.font1 * 2,
     justifyContent: "center",
     alignItems: "center",
 
@@ -33,14 +33,14 @@ const styles = StyleSheet.create({
     height: SIZES.font1,
   },
   topMovers: {
-    ...FONTS.h5,
+    ...FONTS.h6,
   },
   last24: {
-    ...FONTS.h7,
+    ...FONTS.h8,
     fontWeight: "100",
   },
   seeAll: {
-    ...FONTS.h6,
+    ...FONTS.h7,
   },
   coinCard: {
     height: SIZES.height * 0.18,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   marketTrends: {
-    ...FONTS.h5,
+    ...FONTS.h6,
   },
   listTab: {
     flexDirection: "row",
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   btnTab: {
-    width:SIZES.font1*3,
+    width:SIZES.font1*2.8,
     height: SIZES.height * 0.05,
     marginRight: 10,
     marginVertical: 5,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 
   },
   textTab: {
-    ...FONTS.body8,
+    ...FONTS.body9,
     marginHorizontal: 10,
     color: COLORS.grey,
     letterSpacing: 1,

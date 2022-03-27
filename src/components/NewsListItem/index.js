@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    ...FONTS.h3,
+    ...FONTS.h8,
     width: SIZES.width * 0.55,
 
   },
@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
 
   },
   time: {
-    ...FONTS.h5,
+    ...FONTS.h9,
     width: SIZES.width * 0.4,
   },
   readMore: {
-    ...FONTS.h5,
+    ...FONTS.h9,
     // alignSelf: "flex-end",
     textAlign:"right"
     // width: SIZES.width * 0.2,

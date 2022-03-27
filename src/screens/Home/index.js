@@ -6,7 +6,7 @@ import {
   Image,
   Modal,
   Pressable,
-  ScrollView,
+  ScrollView, StatusBar,
   Text,
   TouchableOpacity,
   View,
@@ -305,6 +305,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   return (
 
     <>
+
+
       <NotchResponsive color={appTheme.backgroundColor2} />
 
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>

@@ -45,7 +45,7 @@ const Search = ({ appTheme, navigation }) => {
         const res = await axios.get(`https://api.coingecko.com/api/v3/search?query=${coinSearch}`);
 
         // console.log(res.data.coins, "DATAAA!");
-        setCoinResult(res.data.coins);
+        setCoinResult(res?.data?.coins);
 
 
         if (res) {
@@ -139,7 +139,7 @@ const Search = ({ appTheme, navigation }) => {
     if (coinSearch !== "" && coinResult.length !== 0) {
       return (
         <View style={{ width: SIZES.width * 0.9, marginTop: 10 }}>
-          <Text style={{ alignSelf: "flex-start", color: appTheme.textColor3, ...FONTS.body4 }}>Top Results</Text>
+          <Text style={{ alignSelf: "flex-start", color: appTheme.textColor3, ...FONTS.body8 }}>Top Results</Text>
         </View>
       );
     }

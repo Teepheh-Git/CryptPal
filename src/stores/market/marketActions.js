@@ -127,7 +127,7 @@ export const getCoinMarket = (currency = "usd", orderBy = orderBy, sparkline = t
     try {
 
       // console.log(orderBy);
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
+      const response = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
       const Data = response.data;
       if (response.status === 200) {
         dispatch(getCoinMarketSuccess(Data));
@@ -144,7 +144,7 @@ export const getCoinMarket = (currency = "usd", orderBy = orderBy, sparkline = t
 export const getCoinMarketTrend = (currency = "usd", orderBy = orderBy, sparkline = true, priceChangePerc = "24h", perPage = perPage, page = 1) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
+      const response = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
       const Data = response.data;
       if (response.status === 200) {
         dispatch(getCoinMarketTrendSuccess(Data));
@@ -162,7 +162,7 @@ export const getCoinMarketTrend = (currency = "usd", orderBy = orderBy, sparklin
 export const getNewsMarket = (keyword = "crypto", category = "publishedAt") => {
   return async dispatch => {
     try {
-      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${keyword}&searchIn=title&sortBy=${category}&language=en&sortBy=publishedAt&pageSize=10&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+      const newsRes = await axios.get(`${process.env.NEWS_BASE_URL}/v2/everything?q=${keyword}&searchIn=title&sortBy=${category}&language=en&sortBy=publishedAt&pageSize=10&apiKey=${process.env.NEWS_API_KEY}`);
 
       const Data = newsRes.data.articles;
 
@@ -181,7 +181,7 @@ export const getNewsMarket = (keyword = "crypto", category = "publishedAt") => {
 export const getHeadlineNewsMarket = () => {
   return async dispatch => {
     try {
-      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=$crypto&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+      const newsRes = await axios.get(`${process.env.NEWS_BASE_URL}/v2/everything?q=$crypto&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=${process.env.NEWS_API_KEY}`);
 
       const Data = newsRes.data.articles;
 
@@ -206,7 +206,7 @@ export const getFavouritesCoins = (currency = "usd") => {
 
       const valueGot = await AsyncStorage.getItem("FavoriteCoin");
       const coinGotten = await JSON.parse(valueGot);
-      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
+      const res = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${currency}&ids=${coinGotten[0]}%2C${coinGotten[1]}%2C${coinGotten[2]}%2C${coinGotten[3]}%2C${coinGotten[4]}%2C${coinGotten[5]}%2C${coinGotten[6]}%2C${coinGotten[7]}%2C${coinGotten[8]}%2C${coinGotten[9]}%2C${coinGotten[10]}%2C${coinGotten[11]}%2C${coinGotten[12]}%2C${coinGotten[13]}%2C${coinGotten[14]}%2C${coinGotten[15]}%2C${coinGotten[16]}%2C${coinGotten[17]}%2C${coinGotten[18]}%2C${coinGotten[19]}%2C${coinGotten[20]}%2C${coinGotten[21]}%2C${coinGotten[22]}%2C${coinGotten[23]}%2C${coinGotten[24]}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=7d`);
 
 
       const Data = res.data;
@@ -227,7 +227,7 @@ export const getFavouritesCoins = (currency = "usd") => {
 // export const getSearchMarket2 = (currency = "usd", orderBy = orderBy, sparkline = true, priceChangePerc = "24h", perPage = 250, page = 3) => {
 //   return async dispatch => {
 //     try {
-//       const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
+//       const response = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
 //       const Data = response.data;
 //       if (response.status === 200) {
 //         dispatch(getSearchMarketSuccess2(Data));
@@ -245,7 +245,7 @@ export const getCardMarket = (currency = "usd", priceChangePerc, orderBy = "mark
   return async dispatch => {
     try {
 
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
+      const response = await axios.get(`${process.env.COIN_BASE_URL}/api/v3/coins/markets?vs_currency=${currency}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
       const Data = await response.data;
 
       if (response.status === 200) {

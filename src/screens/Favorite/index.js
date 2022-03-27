@@ -86,8 +86,8 @@ const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCo
         }}>
         <Image style={{ height: SIZES.font1 * 3, width: SIZES.font1 * 3 }} resizeMode={"contain"}
                source={require("../../assets/images/Sleepy.png")} />
-        <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>It’s awfully quiet here..... </Text>
-        <Text style={{ ...FONTS.body8, textAlign: "center", color: appTheme.textColor3 }}>Explore coins and add to
+        <Text style={{ ...FONTS.h8, color: appTheme.textColor, marginVertical: 5 }}>It’s awfully quiet here..... </Text>
+        <Text style={{ ...FONTS.body9, textAlign: "center", color: appTheme.textColor3 }}>Explore coins and add to
           favorite to show here.</Text>
       </View>
 
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...FONTS.h5,
+    ...FONTS.h6,
     marginHorizontal: 5,
   },
   refreshButton: {
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   refresh: {
     color: COLORS.white,
-    ...FONTS.h5,
+    ...FONTS.h9
   },
   networkErrorContainer: {
     width: SIZES.width * 0.7,
@@ -197,11 +197,11 @@ const styles = StyleSheet.create({
     top: SIZES.height * 0.2,
   },
   networkErrorText: {
-    ...FONTS.h4,
+    ...FONTS.h8,
     marginVertical: 5,
   },
   networkErrorDesc: {
-    ...FONTS.body4,
+    ...FONTS.body8,
     textAlign: "center",
   },
 

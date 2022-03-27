@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     },
     text: {
         color: COLORS.primary,
-        ...FONTS.h3,
+        ...FONTS.h8,
     },
 })

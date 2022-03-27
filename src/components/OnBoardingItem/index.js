@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     top: 25,
   },
   title: {
-    ...FONTS.h1,
+    ...FONTS.h5,
     color: "white",
     width: SIZES.width * 0.85,
     textAlign: "center",

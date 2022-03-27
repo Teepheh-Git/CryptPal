@@ -115,7 +115,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
       try {
 
-        const res = await axios.get("https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766");
+        const res = await axios.get(`${process.env.CURRENCY_URL}/api/v2/latest?apikey=${process.env.CURRENCY_API_KEY}`);
 
         if (appCurrency.ticker === "NGN") {
           setCurrencyRate(res.data.data.NGN);
@@ -399,14 +399,13 @@ const styles = StyleSheet.create({
   },
   converterContainer: {
     width: SIZES.width * 0.9,
-    // alignItems: 'flex-start',
 
     marginVertical: SIZES.font6,
 
   },
   convertCoin: {
     alignSelf: "flex-start",
-    ...FONTS.h6,
+    ...FONTS.h7,
   },
 
 });

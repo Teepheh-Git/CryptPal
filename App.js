@@ -14,7 +14,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { COLORS } from "./src/constants";
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
@@ -75,15 +75,15 @@ const App = () => {
     success: (props) => (
       <BaseToast
         {...props}
-        style={{borderLeftColor: COLORS.primary}}
-        contentContainerStyle={{paddingHorizontal: 15}}
+        style={{ borderLeftColor: COLORS.primary }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
         text1Style={{
           fontSize: 20,
-          fontFamily: "PublicaSansRound-Rg"
+          fontFamily: "PublicaSansRound-Rg",
         }}
         text2Style={{
           fontSize: 14,
-          fontFamily: "PublicaSansRound-Rg"
+          fontFamily: "PublicaSansRound-Rg",
         }}
       />
     ),
@@ -92,10 +92,10 @@ const App = () => {
       <ErrorToast
         {...props}
         text1Style={{
-          fontSize: 17
+          fontSize: 17,
         }}
         text2Style={{
-          fontSize: 15
+          fontSize: 15,
         }}
       />
     ),
@@ -106,32 +106,27 @@ const App = () => {
   return (
 
 
-    <GestureHandlerRootView style={{flex:1}}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
 
 
-    <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
 
 
-        <StatusBar
-          translucent={true}
-          backgroundColor={"rgba(0,0,0,0.19)"}
-          animated={true}
-          showHideTransition={"fade"}
-          networkActivityIndicatorVisible={false} />
-        <BottomSheetModalProvider>
 
-        <NavigationContainer>
-          {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
-        </NavigationContainer>
-          <Toast config={toastConfig} />
+          <BottomSheetModalProvider>
 
-        </BottomSheetModalProvider>
+            <NavigationContainer>
+              {loading ? <Loading /> : viewedOnboarding ? <AppRoute /> : <OnBoardingRoute />}
+            </NavigationContainer>
+            <Toast config={toastConfig} />
 
-      </PersistGate>
+          </BottomSheetModalProvider>
+
+        </PersistGate>
 
 
-    </Provider>
+      </Provider>
 
 
     </GestureHandlerRootView>

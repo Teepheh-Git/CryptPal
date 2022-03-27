@@ -41,6 +41,7 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
 
         <View style={styles.coinPercentage}>
           {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
+                                                    resizeMode={"contain"}
                                                     style={{
                                                       width: 13,
                                                       height: 13,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   priceChange: {
-    ...FONTS.h9,
+    ...FONTS.h10,
   },
   coinPercentage: {
     flexDirection: "row",
@@ -89,10 +90,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   name: {
-    ...FONTS.h7,
+    ...FONTS.h8,
   },
   symbol: {
-    ...FONTS.body9,
+    ...FONTS.body10,
     top: 5,
   },
   pricePercContainer: {
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "green",
   },
   currentPrice: {
-    ...FONTS.h6,
+    ...FONTS.h7,
     textAlign: "right",
   },
 

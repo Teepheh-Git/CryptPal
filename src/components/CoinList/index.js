@@ -168,17 +168,17 @@ const styles = StyleSheet.create({
     height: SIZES.font1 * 1.5,
   },
   name: {
-    ...FONTS.h7,
+    ...FONTS.h8,
   },
   symbol: {
-    ...FONTS.body9,
+    ...FONTS.body10,
   },
   pricePercContainer: {
     height: SIZES.font1 * 1.5,
     justifyContent: "space-between",
   },
   currentPrice: {
-    ...FONTS.h6,
+    ...FONTS.h7,
     textAlign: "right",
   },
 });

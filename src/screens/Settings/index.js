@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
@@ -106,6 +106,9 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
 
   return (
     <>
+
+
+
       <NotchResponsive color={appTheme.backgroundColor2} />
 
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
@@ -343,7 +346,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...FONTS.h5,
+    ...FONTS.h6,
     marginHorizontal: 5,
   },
   centeredView: {

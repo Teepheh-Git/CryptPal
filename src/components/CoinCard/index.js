@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
     },
   },
   coinName: {
-    ...FONTS.h8,
+    ...FONTS.h9,
     // bottom: SIZES.font10,
   },
   coinPrice: {
-    ...FONTS.h5,
+    ...FONTS.h6,
   },
   priceChange: {
-    ...FONTS.h9,
+    ...FONTS.h10,
   },
   coinPercentage: {
     flexDirection: "row",

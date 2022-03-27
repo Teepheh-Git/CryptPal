@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, SIZES } from "../../constants";
+import NotchResponsive from "../../components/NotchResponsive";
 
 const NewsContentPage = ({ appTheme, navigation, route }) => {
 
@@ -36,26 +36,32 @@ const NewsContentPage = ({ appTheme, navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
-      <CustomHeader title="News 📄" onPress={() => navigation.goBack()} />
+    <>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.box}>
-        <Text style={[styles.source, { color: appTheme.textColor }]}>{dataFromNewsPage.source.name}</Text>
-        <Text style={[styles.title, { color: appTheme.textColor }]}>{dataFromNewsPage.title}</Text>
-        <Text style={[styles.desc, { color: appTheme.textColor }]}>{dataFromNewsPage.description}</Text>
+        <CustomHeader title="News 📄" onPress={() => navigation.goBack()} />
 
-
-        <Image style={styles.img} source={{ uri: dataFromNewsPage.urlToImage }} />
-        <Text style={[styles.content, { color: appTheme.textColor }]}>{dataFromNewsPage.content.slice(0, 200)}...</Text>
-
-        <TouchableOpacity onPress={() => navigation.navigate("NewsWebPage", dataFromNewsPage.url)}>
-          <Text style={[styles.readFull, { color: appTheme.textColor2 }]}>Read full article</Text>
-        </TouchableOpacity>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.box}>
+          <Text style={[styles.source, { color: appTheme.textColor }]}>{dataFromNewsPage.source.name}</Text>
+          <Text style={[styles.title, { color: appTheme.textColor }]}>{dataFromNewsPage.title}</Text>
+          <Text style={[styles.desc, { color: appTheme.textColor }]}>{dataFromNewsPage.description}</Text>
 
 
-      </ScrollView>
-    </SafeAreaView>
+          <Image style={styles.img} source={{ uri: dataFromNewsPage.urlToImage }} />
+          <Text
+            style={[styles.content, { color: appTheme.textColor }]}>{dataFromNewsPage.content.slice(0, 200)}...</Text>
+
+          <Pressable onPress={() => navigation.navigate("NewsWebPage", dataFromNewsPage.url)}>
+            <Text style={[styles.readFull, { color: appTheme.textColor2 }]}>Read full article</Text>
+          </Pressable>
+
+
+        </ScrollView>
+      </View>
+    </>
+
   );
 };
 
@@ -71,20 +77,20 @@ const styles = StyleSheet.create({
   },
 
   source: {
- ...FONTS.body2,
+    ...FONTS.body7,
     // fontWeight: "200",
     letterSpacing: 0.5,
 
   },
   title: {
-...FONTS.h1,
+    ...FONTS.h1,
     // fontWeight: "600",
     letterSpacing: 0.5,
     lineHeight: 34,
     marginVertical: 10,
   },
   desc: {
-    ...FONTS.body2,
+    ...FONTS.body7,
     // fontWeight: "400",
     letterSpacing: 0.5,
     lineHeight: 28,
@@ -93,7 +99,7 @@ const styles = StyleSheet.create({
     // marginVertical:10
   },
   content: {
-    ...FONTS.body3,
+    ...FONTS.body8,
     // fontWeight: "300",
     letterSpacing: 0.6,
     lineHeight: 26,
@@ -121,8 +127,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   readFull: {
-
-    ...FONTS.h3,
+    ...FONTS.h9,
     // fontWeight: "500",
     marginVertical: 20,
 

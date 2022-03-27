@@ -22,6 +22,7 @@ const OnBoardingRoute = () => {
       screenOptions={{
         headerShown: false,
       }}>
+
       <Stack.Screen name="OnBoarding" component={OnBoarding} />
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
       <Stack.Screen name="CoinDetails" component={CoinDetails} />

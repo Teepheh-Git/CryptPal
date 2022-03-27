@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    ...FONTS.h5,
+    ...FONTS.h6,
     marginHorizontal: 5,
 
   },
