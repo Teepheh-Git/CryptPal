@@ -114,7 +114,7 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
               key={index}
               style={{
                 color: appTheme.textColor3,
-                ...FONTS.body5,
+                ...FONTS.body9,
               }}
             >{appCurrency.symbol}{item}</Text>
           );

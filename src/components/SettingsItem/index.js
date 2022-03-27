@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Pressable, StyleSheet, Switch, Text } from "react-native";
+import { Image, Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
@@ -25,8 +25,9 @@ const SettingsItem = ({
 
       <Image resizeMode={"contain"} source={icon}
              style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : null }]} />
-
-      <Text style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
+      <View style={styles.titleBox}>
+        <Text style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
+      </View>
 
 
       {check ? <Switch
@@ -36,8 +37,10 @@ const SettingsItem = ({
         trackColor={trackColor}
         thumbColor={thumbColor}
         ios_backgroundColor={ios_backgroundColor}
-      /> : currencyLabel ? <Text style={[styles.currentCurrency,{color:appTheme.textColor}]}> {currentCurrency}</Text> : <Image source={icons.arr_right}
-                                                                    style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : "black" }]} />
+      /> : currencyLabel ?
+        <Text style={[styles.currentCurrency, { color: appTheme.textColor }]}> {currentCurrency}</Text> :
+        <Image source={icons.arr_right}
+               style={[styles.icon, { tintColor: appTheme.name === "dark" ? "white" : "black" }]} />
       }
 
 
@@ -50,16 +53,16 @@ const styles = StyleSheet.create({
 
   container: {
     width: SIZES.width * 0.9,
-    height: SIZES.height*0.09,
+    height: SIZES.height * 0.09,
     paddingHorizontal: 15,
     padding: 5,
     marginVertical: 10,
     alignItems: "center",
-    alignSelf: "center",
+    // alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     borderRadius: 15,
-    // elevation: 3,
+    elevation: 3,
     shadowOpacity: 0.02,
     shadowColor: "#B0B7C3",
     shadowOffset: {
@@ -69,17 +72,24 @@ const styles = StyleSheet.create({
 
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: SIZES.font4,
+    height: SIZES.font4,
+  },
+  titleBox: {
+    // backgroundColor:"cyan",
+    width: "65%",
+
+
   },
   title: {
-    ...FONTS.body3,
+    ...FONTS.body9,
+    // backgroundColor:"red",
     // fontWeight:"normal",
-    width: "70%",
+    width: "90%",
   },
-  currentCurrency:{
-    ...FONTS.body3
-  }
+  currentCurrency: {
+    ...FONTS.body8,
+  },
 
 });
 

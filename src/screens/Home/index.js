@@ -17,12 +17,12 @@ import CoinList from "../../components/CoinList";
 import { useNavigation } from "@react-navigation/native";
 import { icons, SIZES } from "../../constants";
 import { getCardMarket, getCoinMarket } from "../../stores/market/marketActions";
-import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import constants from "../../constants/constants";
 import LinearGradient from "react-native-linear-gradient";
 import styles from "./styles";
 import axios from "axios";
+import NotchResponsive from "../../components/NotchResponsive";
 
 
 const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
@@ -37,16 +37,17 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   // }), []);
 
 
-
   const navigation = useNavigation();
 
   //  SORT COIN CARD FUNCTION
   function TopMoverCoins(a, b) {
     return b.price_change_percentage_24h - a.price_change_percentage_24h;
   }
-  function FilterCoin (item){
-    return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
+
+  function FilterCoin(item) {
+    return item.sparkline_in_7d.price != [] && item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != "";
   }
+
   const [homePageLoading, setHomePageLoading] = useState(true);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [tabStatus, setTabStatus] = useState("Popular");
@@ -56,7 +57,6 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   const [modalCoin, setModalCoin] = useState("");
   const [modalLoading, setModalLoading] = useState(false);
   const [modalCoinInfo, setModalCoinInfo] = useState({});
-
 
 
   if (coins?.length > 0 && coinCard?.length > 0) {
@@ -84,15 +84,12 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
   useEffect((currency, orderBy) => {
 
 
-
-
     // console.log((coins.filter(FilterCoin)), "FFFFFFF");
 
     // const arrFiltered = coins.filter(item => {
     //   return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
     // });
     // console.log(arrFiltered, "ARRRR");
-
 
 
     if (orderByCoin === "market_cap_desc") {
@@ -164,7 +161,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
         symbol={item?.symbol?.toUpperCase()}
         currentPrice={item?.current_price?.toLocaleString("en-US")}
         priceChangePercentage24h={item?.price_change_percentage_24h}
-        chartData={item?.sparkline_in_7d?.price!==[]&&item?.sparkline_in_7d?.price}
+        chartData={item?.sparkline_in_7d?.price !== [] && item?.sparkline_in_7d?.price}
         onPress={() => navigation.navigate("CoinDetails", { ...item })}
         // onLongPress={() => {
         //   setModalVisible(true);
@@ -306,93 +303,107 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
 
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-      {/*<StatusBar translucent={true} backgroundColor={"transparent"} />*/}
+
+    <>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+
+      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
 
-      {/* HEADER SECTION */}
-      <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
-        <Image resizeMode="cover" style={[styles.imgHeader, { tintColor: appTheme.tintColor }]}
-               source={require("../../assets/images/logo.png")} />
-      </View>
+        {/* HEADER SECTION */}
+        <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
+          <Image resizeMode="cover" style={[styles.imgHeader, { tintColor: appTheme.tintColor }]}
+                 source={require("../../assets/images/logo.png")} />
+        </View>
 
-      {/* MARKET COIN LIST */}
-      {coins == null || coinCard == null ? NetworkError() :
+        {/* MARKET COIN LIST */}
+        {coins == null || coinCard == null ? NetworkError() :
 
-        <FlatList
-          data={coins.filter(FilterCoin)}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          initialNumToRender={20}
-          // getItemLayout={getItemLayout}
-          // ItemSeparatorComponent={renderSeparator}
-          removeClippedSubviews={true}
-          renderItem={CoinListRenderItem}
-          ListFooterComponent={
-            <TouchableOpacity style={styles.listSeeAllContainer} onPress={() => navigation.navigate("MarketTrends")}>
-              <Text style={[styles.listSeeAll, { color: appTheme.textColor2 }]}>See all </Text>
-              <Image style={{ width: 16, height: 16, tintColor: appTheme.textColor2 }} source={icons.arrowRight} />
-            </TouchableOpacity>
-          }
-          ListHeaderComponent={
-            <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-              {/* TOP MOVERS SECTION */}
-              <View style={styles.topMoversContainer}>
-                <View style={styles.topMoversContainer2}>
-                  <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers{" "}
-                    <Image resizeMode="cover" style={{ width: 20, height: 20 }}
-                           source={require("../../assets/icons/checkMark.png")} />
-                  </Text>
-                  <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
-                </View>
-                <TouchableOpacity onPress={() => navigation.navigate("TopMovers", { ...item })}>
-                  <Text style={[styles.seeAll, { color: appTheme.textColor2 }]}>See all</Text>
-                </TouchableOpacity>
-              </View>
+          <FlatList
+            data={coins.filter(FilterCoin)}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={20}
+            // getItemLayout={getItemLayout}
+            // ItemSeparatorComponent={renderSeparator}
+            removeClippedSubviews={true}
+            renderItem={CoinListRenderItem}
+            ListFooterComponent={
 
-              {/* COIN CARD SECTION */}
-              <View style={styles.coinCard}>
-                <FlatList
-                  data={coinCard?.sort(TopMoverCoins)?.slice(0, 7)}
-                  keyExtractor={(_, index) => index.toString()}
-                  horizontal
-                  removeClippedSubviews={true}
-                  showsHorizontalScrollIndicator={false}
-                  initialNumToRender={10}
-                  renderItem={CoinCardRenderItem} />
-              </View>
+              <>
+                <Pressable style={styles.listSeeAllContainer} onPress={() => navigation.navigate("MarketTrends")}>
+                  <Text style={[styles.listSeeAll, { color: appTheme.textColor2 }]}>See all </Text>
+                  <Image style={{ width: 16, height: 16, tintColor: appTheme.textColor2 }} source={icons.arrowRight} />
+                </Pressable>
 
+                <View style={{
+                  height: SIZES.font1,
+                }} />
+              </>
 
-              {CoinModal()}
-
-              {/* MARKET TRENDS  */}
-              <View style={styles.marketTrendsContainer}>
-                <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends </Text>
-                <Image resizeMode="cover" style={{ width: 20, height: 20 }}
-                       source={require("../../assets/icons/moneyBag.png")} />
-
-              </View>
-
-              {/* MARKET TREND TABS */}
-              <ScrollView
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                style={styles.listTab}>
-                {constants.listTab.map((buttonLabel, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-                    onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-                    <Text
-                      style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+            }
+            ListHeaderComponent={
+              <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+                {/* TOP MOVERS SECTION */}
+                <View style={styles.topMoversContainer}>
+                  <View style={styles.topMoversContainer2}>
+                    <Text style={[styles.topMovers, { color: appTheme.textColor }]}>Top Movers{" "}
+                      <Image resizeMode="cover" style={{ width: 20, height: 20 }}
+                             source={require("../../assets/icons/checkMark.png")} />
+                    </Text>
+                    <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => navigation.navigate("TopMovers", { ...item })}>
+                    <Text style={[styles.seeAll, { color: appTheme.textColor2 }]}>See all</Text>
                   </TouchableOpacity>
-                ))}
-              </ScrollView>
-              {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+                </View>
 
-            </View>}
-        />}
-    </SafeAreaView>
+                {/* COIN CARD SECTION */}
+                <View style={styles.coinCard}>
+                  <FlatList
+                    data={coinCard?.sort(TopMoverCoins)?.slice(0, 7)}
+                    keyExtractor={(_, index) => index.toString()}
+                    horizontal
+                    decelerationRate={"fast"}
+                    // removeClippedSubviews={true}
+                    showsHorizontalScrollIndicator={false}
+                    // initialNumToRender={10}
+                    renderItem={CoinCardRenderItem} />
+                </View>
+
+
+                {CoinModal()}
+
+                {/* MARKET TRENDS  */}
+                <View style={styles.marketTrendsContainer}>
+                  <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends </Text>
+                  <Image resizeMode="cover" style={{ width: 20, height: 20 }}
+                         source={require("../../assets/icons/moneyBag.png")} />
+
+                </View>
+
+                {/* MARKET TREND TABS */}
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  style={styles.listTab}>
+                  {constants.listTab.map((buttonLabel, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                      onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                      <Text
+                        style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+                {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+
+              </View>}
+          />}
+      </View>
+    </>
+
   );
 };
 

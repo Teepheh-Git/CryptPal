@@ -9,21 +9,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerContainer: {
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
     width: "100%",
+    height: SIZES.font1 * 1.6,
     justifyContent: "center",
     alignItems: "center",
-    // elevation: 3,
-    // shadowOpacity: 0.1,
-    // shadowOffset: {
-    //   width: 0.5,
-    //   height: 0.3,
-    // },
+
   },
   imgHeader: {
-    width: 85.84,
-    height: 74,
+    width: SIZES.font1 * 2.5,
+    height: SIZES.font1 * 2.5,
     top: 5,
   },
   topMoversContainer: {
@@ -31,32 +25,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: SIZES.width * 0.9,
-    height: 63,
+    paddingVertical: SIZES.font10,
+    // height: 63,
   },
   topMoversContainer2: {
     justifyContent: "space-between",
-    height: 43,
+    height: SIZES.font1,
   },
   topMovers: {
-    ...FONTS.h2,
-    // fontWeight: "bold",
-    // lineHeight: 24,
+    ...FONTS.h5,
   },
   last24: {
-    ...FONTS.h4,
-
+    ...FONTS.h7,
     fontWeight: "100",
   },
   seeAll: {
-
-    ...FONTS.h3,
-    // fontWeight: "bold",
-
+    ...FONTS.h6,
   },
   coinCard: {
-    height: 150,
-    marginBottom: -15,
-    marginLeft: 25,
+    height: SIZES.height * 0.18,
+    paddingLeft: SIZES.width * 0.05,
+
+    // marginBottom: -15,
+    // marginLeft: 25,
   },
   marketTrendsContainer: {
     width: SIZES.width * 0.9,
@@ -65,28 +56,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   marketTrends: {
-    ...FONTS.h2,
-    // fontWeight: "bold",
-    // fontFamily:"PublicaSansRound-Thin"
-    // lineHeight: 24,
+    ...FONTS.h5,
   },
   listTab: {
     flexDirection: "row",
-    // justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    // alignItems: "flex-end",
-    // backgroundColor:'red',
     marginBottom: 10,
-    // elevation: 0.3,
-    // shadowOpacity: 0.1,
-    // shadowOffset: {
-    //   width: 5,
-    //   height: 3,
-    // },
   },
   btnTab: {
+    width:SIZES.font1*3,
     height: SIZES.height * 0.05,
-    // marginHorizontal: 5,
     marginRight: 10,
     marginVertical: 5,
     borderWidth: 0.25,
@@ -97,7 +76,7 @@ const styles = StyleSheet.create({
 
   },
   textTab: {
-    ...FONTS.body4,
+    ...FONTS.body8,
     marginHorizontal: 10,
     color: COLORS.grey,
     letterSpacing: 1,
@@ -118,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   listSeeAll: {
-    ...FONTS.body3,
+    ...FONTS.body8,
     // fontWeight: "bold",
 
   },
@@ -164,8 +143,8 @@ const styles = StyleSheet.create({
 
   },
   modalView: {
-    width:SIZES.width*0.9,
-    height:SIZES.width*0.9,
+    width: SIZES.width * 0.9,
+    height: SIZES.width * 0.9,
     margin: 20,
     borderRadius: 20,
     padding: 35,

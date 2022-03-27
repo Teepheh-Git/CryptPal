@@ -42,11 +42,11 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
         <View style={styles.coinPercentage}>
           {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
                                                     style={{
-                                                     width: 13,
-                                                     height: 13,
-                                                     tintColor: priceChangeColor,
-                                                     transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                   }} />}
+                                                      width: 13,
+                                                      height: 13,
+                                                      tintColor: priceChangeColor,
+                                                      transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                    }} />}
 
           <Text
             style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString("en-US")}%</Text>
@@ -61,11 +61,9 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
 
 
 const styles = StyleSheet.create({
-
-
   container: {
     width: SIZES.width * 0.9,
-    height: 75,
+    height: SIZES.font1*2,
     padding: 5,
     marginVertical: 1,
     alignItems: "center",
@@ -74,9 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   priceChange: {
-    ...FONTS.h5,
-
-
+    ...FONTS.h9,
   },
   coinPercentage: {
     flexDirection: "row",
@@ -86,28 +82,26 @@ const styles = StyleSheet.create({
   nameLogoSymbol: {
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: 'center',
-    // backgroundColor: 'red',
-    height: 65,
+    height: SIZES.font1 * 1.5,
     width: SIZES.width * 0.3,
   },
   nameSymbolContainer: {
     marginLeft: 5,
-
   },
   name: {
-    ...FONTS.h4,
+    ...FONTS.h7,
   },
   symbol: {
-    ...FONTS.body6,
+    ...FONTS.body9,
     top: 5,
-
   },
   pricePercContainer: {
-    // backgroundColor: 'green'
+    height: SIZES.font1 * 1.5,
+    justifyContent: "space-between",
+    // backgroundColor: "green",
   },
   currentPrice: {
-    ...FONTS.h2,
+    ...FONTS.h6,
     textAlign: "right",
   },
 

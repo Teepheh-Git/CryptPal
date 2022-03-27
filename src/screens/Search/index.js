@@ -3,9 +3,9 @@ import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, Toucha
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, icons, SIZES } from "../../constants";
-import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 import FastImage from "react-native-fast-image";
+import NotchResponsive from "../../components/NotchResponsive";
 
 
 const Search = ({ appTheme, navigation }) => {
@@ -113,8 +113,8 @@ const Search = ({ appTheme, navigation }) => {
             cache: FastImage.cacheControl.immutable,
           }}
           style={{
-            width: 34,
-            height: 34,
+            width: SIZES.font1,
+            height: SIZES.font1,
             borderRadius: 30,
             marginRight: 5,
           }} />
@@ -150,9 +150,9 @@ const Search = ({ appTheme, navigation }) => {
     return (
       <View style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
         <Image style={{}} source={require("../../assets/images/Thinking.png")} />
-        <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
+        <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
         <Text style={{
-          ...FONTS.body4,
+          ...FONTS.body8,
           textAlign: "center",
           color: appTheme.textColor3,
         }}>
@@ -165,8 +165,8 @@ const Search = ({ appTheme, navigation }) => {
     return (
       <View style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
         <Image style={{}} source={require("../../assets/images/Sad.png")} />
-        <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>No result found</Text>
-        <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Sorry, we couldn't find any
+        <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>No result found</Text>
+        <Text style={{ ...FONTS.body8, textAlign: "center", color: appTheme.textColor3 }}>Sorry, we couldn't find any
           result in our database</Text>
       </View>
     );
@@ -174,67 +174,72 @@ const Search = ({ appTheme, navigation }) => {
 
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+        <CustomHeader title="Search" image={icons.search} onPress={() => navigation.goBack()} />
+        <View style={{
+          flexDirection: "row",
+          width: SIZES.width * 0.9,
+          height: SIZES.font1 * 1.4,
+          alignItems: "center",
+          justifyContent: "center",
+          // marginTop: 10,
+        }}>
+          <TextInput
+            placeholder={"Search any crypto coin..."}
+            value={coinSearch}
+            // onChangeText={(text) => SearchFilter(text)}
+            onChangeText={value => setCoinSearch(value)}
+            placeholderTextColor={appTheme.textColor3}
+            onFocus={() => setIsFocused(true)}
+            multiline={false}
+            style={{
+              width: SIZES.width * 0.9,
+              height: SIZES.font1 * 1.7,
+              backgroundColor: appTheme.backgroundColor,
+              borderRadius: 8,
+              borderWidth: isFocused ? 1 : null,
+              borderColor: isFocused ? appTheme.textColor2 : null,
+              paddingHorizontal: 15,
+              left: 10,
+              paddingRight: 30,
+              color: appTheme.textColor,
+            }}>
+          </TextInput>
+          <Image
+            resizeMode={"contain"}
+            style={{ width: SIZES.font8, height: SIZES.font8, tintColor: appTheme.textColor3, right: 15 }}
+            source={icons.searchBarIcon} />
+        </View>
 
 
-      <CustomHeader title="Search" image={icons.search} onPress={() => navigation.goBack()} />
-      <View style={{
-        flexDirection: "row",
-        width: SIZES.width * 0.9,
-        height: 55,
-        alignItems: "center",
-        justifyContent: "center",
-        // marginTop: 10,
-      }}>
-        <TextInput
-          placeholder={"Search any crypto coin..."}
-          value={coinSearch}
-          // onChangeText={(text) => SearchFilter(text)}
-          onChangeText={value => setCoinSearch(value)}
-          placeholderTextColor={appTheme.textColor3}
-          onFocus={() => setIsFocused(true)}
-          multiline={false}
-          style={{
-            width: SIZES.width * 0.9,
-            height: 55, backgroundColor: appTheme.backgroundColor,
-            borderRadius: 8,
-            borderWidth: isFocused ? 1 : null,
-            borderColor: isFocused ? appTheme.textColor2 : null,
-            paddingHorizontal: 15,
-            left: 10,
-            paddingRight: 30,
-            color: appTheme.textColor,
-          }}>
-        </TextInput>
-        <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
-               source={icons.searchBarIcon} />
+        {/*{searchCoin === "" && AboutToSearch()}*/}
+
+        {/*{searchCoin !== "" && TopResults()}*/}
+        {coinSearch !== "" && TopResults()}
+
+        {coinSearch === "" ? AboutToSearch() : (loading ?
+            <ActivityIndicator style={{ marginVertical: 15 }} color={appTheme.textColor2} size={"large"} /> :
+            <FlatList
+              data={coinResult}
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
+              initialNumToRender={10}
+              removeClippedSubviews={true}
+              ListEmptyComponent={Notfound}
+              // getItemLayout={getItemLayout}
+              renderItem={CoinListRenderItem}
+              // ListHeaderComponent={
+              // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
+              // coinSearch !== "" && coinResult.length === 0 && Notfound()
+              // }
+            />
+
+        )}
       </View>
-
-
-      {/*{searchCoin === "" && AboutToSearch()}*/}
-
-      {/*{searchCoin !== "" && TopResults()}*/}
-      {coinSearch !== "" && TopResults()}
-
-      {coinSearch === "" ? AboutToSearch() : (loading ?
-          <ActivityIndicator style={{ marginVertical: 15 }} color={appTheme.textColor2} size={"large"} /> :
-          <FlatList
-            data={coinResult}
-            keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
-            initialNumToRender={10}
-            removeClippedSubviews={true}
-            ListEmptyComponent={Notfound}
-            // getItemLayout={getItemLayout}
-            renderItem={CoinListRenderItem}
-            // ListHeaderComponent={
-            // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
-            // coinSearch !== "" && coinResult.length === 0 && Notfound()
-            // }
-          />
-
-      )}
-    </SafeAreaView>
+    </>
 
   );
 };
@@ -248,40 +253,35 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    height: SIZES.height*0.1,
+    height: SIZES.height * 0.1,
     width: SIZES.width * 0.9,
     paddingHorizontal: 10,
     paddingVertical: 5,
     flexDirection: "row",
-    // justifyContent: "space-between",
     marginVertical: 5,
     alignItems: "center",
   },
   textContainer: {
-    // backgroundColor: "red",x
     marginLeft: 5,
     width: "90%",
     height: 45,
     justifyContent: "space-between",
     flexDirection: "row",
     paddingHorizontal: 10,
-
   },
   name: {
-    ...SIZES.font3,
+    ...SIZES.font6,
   },
   symbol: {
-    ...FONTS.body5,
-    top: 15,
-
+    ...FONTS.body9,
+    top: SIZES.font6,
   },
   rank: {
-    ...FONTS.body5,
+    ...FONTS.body9,
     top: 5,
     textDecorationLine: "underline",
     fontStyle: "italic",
     alignSelf: "center",
-
   },
 
 });

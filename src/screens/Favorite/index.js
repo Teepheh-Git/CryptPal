@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useCallback, useState } from "react";
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CoinList from "../../components/CoinList";
 import { COLORS, FONTS, SIZES } from "../../constants";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
 import { getFavouritesCoins } from "../../stores/market/marketActions";
+import NotchResponsive from "../../components/NotchResponsive";
 
 
-const Favorite = ({ appTheme, navigation, appCurrency,getFavouritesCoins, favCoins }) => {
+const Favorite = ({ appTheme, navigation, appCurrency, getFavouritesCoins, favCoins }) => {
 
   const [favs, setFavs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +32,6 @@ const Favorite = ({ appTheme, navigation, appCurrency,getFavouritesCoins, favCoi
 
     }, [appCurrency]),
   );
-
 
 
   // const GetFavorites = async () => {
@@ -81,10 +78,16 @@ const Favorite = ({ appTheme, navigation, appCurrency,getFavouritesCoins, favCoi
   const EmptyFavorite = () => {
     return (
       <View
-        style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center",  height:SIZES.height*0.5 }}>
-        <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/Sleepy.png")} />
-        <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>It’s awfully quiet here..... </Text>
-        <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Explore coins and add to
+        style={{
+          width: SIZES.width * 0.7,
+          alignItems: "center",
+          justifyContent: "center",
+          height: SIZES.height * 0.5,
+        }}>
+        <Image style={{ height: SIZES.font1 * 3, width: SIZES.font1 * 3 }} resizeMode={"contain"}
+               source={require("../../assets/images/Sleepy.png")} />
+        <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>It’s awfully quiet here..... </Text>
+        <Text style={{ ...FONTS.body8, textAlign: "center", color: appTheme.textColor3 }}>Explore coins and add to
           favorite to show here.</Text>
       </View>
 
@@ -120,29 +123,32 @@ const Favorite = ({ appTheme, navigation, appCurrency,getFavouritesCoins, favCoi
 
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
-      <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
-        <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: appTheme.textColor }]}>Favorite 🌟</Text>
+        <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
+          <View style={styles.titleContainer}>
+            <Text style={[styles.title, { color: appTheme.textColor }]}>Favorite 🌟</Text>
+          </View>
         </View>
+        {/*{EmptyFavorite()}*/}
+
+        <FlatList
+          data={favCoins}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={CoinListRenderItem}
+          showsVerticalScrollIndicator={false}
+          // initialNumToRender={6}
+          ListEmptyComponent={EmptyFavorite}
+          // maxToRenderPerBatch={2}
+          // windowSize={3}
+
+        />
+
+
       </View>
-      {/*{EmptyFavorite()}*/}
-
-              <FlatList
-                data={favCoins}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={CoinListRenderItem}
-                showsVerticalScrollIndicator={false}
-                // initialNumToRender={6}
-                ListEmptyComponent={EmptyFavorite}
-                // maxToRenderPerBatch={2}
-                // windowSize={3}
-
-              />
-
-
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -152,12 +158,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     width: SIZES.width,
-    height:SIZES.height,
-    justifyContent:"center"
+    height: SIZES.height,
+    justifyContent: "center",
 
   },
   headerContainer: {
-    height: 55,
+    height: SIZES.font1 * 1.4,
     width: SIZES.width * 0.9,
     justifyContent: "center",
     alignItems: "center",
@@ -169,7 +175,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...FONTS.h2,
+    ...FONTS.h5,
     marginHorizontal: 5,
   },
   refreshButton: {

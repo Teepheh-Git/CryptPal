@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
@@ -12,8 +12,8 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
   const priceChangeColor = priceChangePercentage24h > 0 ? "#34C759" : "#EB0000";
 
   return (
-    <TouchableOpacity activeOpacity={0.6} onPress={onPress}
-                      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+    <Pressable onPress={onPress}
+               style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
       <FastImage
         resizeMode={FastImage.resizeMode.contain}
         source={{
@@ -21,25 +21,29 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.immutable,
         }}
-        style={{ width: 24, height: 24, bottom: 5, borderRadius: 15 }}
+        style={{ width: SIZES.font3, height: SIZES.font3, bottom: 5, borderRadius: 15 }}
       />
-      <Text style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
-      <Text numberOfLines={1}
-            style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ""} {currentPrice.toLocaleString("en-US")}</Text>
+      <Text
+        numberOfLines={1}
+        style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
+      <Text
+        numberOfLines={1}
+        style={[styles.coinPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + ""} {currentPrice.toLocaleString("en-US")}</Text>
       <View style={styles.coinPercentage}>
         {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
+                                                  resizeMode={"contain"}
                                                   style={{
-                                                   width: 13,
-                                                   height: 13,
-                                                   tintColor: priceChangeColor,
-                                                   transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                 }} />}
+                                                    width: 13,
+                                                    height: 13,
+                                                    tintColor: priceChangeColor,
+                                                    transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                  }} />}
 
         <Text
           style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h.toLocaleString("en-US")}%</Text>
       </View>
 
-    </TouchableOpacity>
+    </Pressable>
 
   );
 };
@@ -47,45 +51,35 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
 
 const styles = StyleSheet.create({
   container: {
-    width: SIZES.width * 0.3,
-    height: SIZES.height * 0.15,
+    width: SIZES.width * 0.37,
+    height: SIZES.height * 0.16,
     borderRadius: 8,
-    padding: 15,
+    padding: SIZES.font10,
     justifyContent: "space-between",
-    // marginVertical: 5,
-    marginVertical:10,
-    marginRight:15,
+    marginVertical: SIZES.font10,
+    marginRight: SIZES.font10,
     elevation: 0.5,
     shadowOpacity: 0.02,
-    shadowColor:'#B0B7C3',
+    shadowColor: "#B0B7C3",
     shadowOffset: {
       width: 0.05,
       height: 0.05,
     },
   },
   coinName: {
-
-    ...FONTS.h5,
-    // fontWeight: "normal",
-    bottom: 5,
+    ...FONTS.h8,
+    // bottom: SIZES.font10,
   },
   coinPrice: {
-
-    ...FONTS.h2,
-    // fontWeight: "bold",
-
+    ...FONTS.h5,
   },
   priceChange: {
-
-    ...FONTS.h5,
-
-
+    ...FONTS.h9,
   },
   coinPercentage: {
     flexDirection: "row",
     alignItems: "center",
   },
-
 });
 
 

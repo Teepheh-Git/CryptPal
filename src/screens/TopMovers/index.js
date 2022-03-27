@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, SIZES } from "../../constants";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CoinList from "../../components/CoinList";
 import { getCardMarket } from "../../stores/market/marketActions";
-import LottieView from "lottie-react-native";
 import constants from "../../constants/constants";
-import LinearGradient from "react-native-linear-gradient";
+import NotchResponsive from "../../components/NotchResponsive";
 
 
 function TopMoverCoins(a, b) {
@@ -165,43 +163,47 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
 
   return (
-    <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
-      <CustomHeader title="Top Movers ✅" onPress={() => navigation.goBack()} />
-      <View>
-        <View style={styles.listTab}>
-          {constants.topMoversListTab.map((buttonLabel, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-              onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-              <Text
-                style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
-            </TouchableOpacity>
-          ))
-          }
-        </View>
+    <>
+      <NotchResponsive color={appTheme.backgroundColor2} />
+      <View style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
+        <CustomHeader title="Top Movers ✅" onPress={() => navigation.goBack()} />
+        <View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.listTab}>
+            {constants.topMoversListTab.map((buttonLabel, index) => (
+              <Pressable
+                key={index}
+                style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                <Text
+                  style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+              </Pressable>
+            ))
+            }
+
+          </ScrollView>
 
 
-        {searchLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+          {searchLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
 
-        {/*{coinCard == null ? NetworkErrorPage() :*/}
+          {/*{coinCard == null ? NetworkErrorPage() :*/}
           <FlatList
             // data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
             data={coinCard?.sort(TopMoverCoins)?.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={CoinListRenderItem}
             showsVerticalScrollIndicator={false}
-            initialNumToRender={20}
-
-            // getItemLayout={getItemLayout}
             ListFooterComponent={
-              <View style={{ marginBottom: 50 }} />
+              <View style={{
+                height: SIZES.font1*4,
+              }} />
             }
           />
 
-        {/*}*/}
+          {/*}*/}
+        </View>
       </View>
-    </SafeAreaView>
+    </>
+
   );
 };
 
@@ -216,12 +218,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    alignItems: "center",
+    // marginHorizontal:0.05,
+    // alignItems: "center",
   },
   btnTab: {
     height: 40,
-    width:45,
-    marginHorizontal: 5,
+    width: SIZES.font1 * 1.6,
+    marginRight: 5,
     marginVertical: 5,
     borderWidth: 0.25,
     alignItems: "center",
@@ -230,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textTab: {
-    ...FONTS.body5,
+    ...FONTS.body9,
     paddingHorizontal: 5,
     color: COLORS.grey,
     marginHorizontal: 5,

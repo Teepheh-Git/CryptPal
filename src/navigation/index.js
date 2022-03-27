@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, Pressable, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Favorite from "../screens/Favorite";
 import Home from "../screens/Home";
@@ -8,16 +8,14 @@ import News from "../screens/News";
 import Search from "../screens/Search";
 import Settings from "../screens/Settings";
 import { connect } from "react-redux";
-import { COLORS, FONTS } from "../constants";
+import { COLORS, FONTS, SIZES } from "../constants";
 import LinearGradient from "react-native-linear-gradient";
-import { toggleLaunch } from "../stores/launch/launchActions";
 
 
 const TabBarCustomButton = ({ children, onPress, appTheme }) => {
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.6}
+    <Pressable
       style={{
         flex: 1,
         justifyContent: "center",
@@ -27,7 +25,7 @@ const TabBarCustomButton = ({ children, onPress, appTheme }) => {
 
       {children}
 
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -61,7 +59,7 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
           },
           backgroundColor: appTheme.backgroundColor2,
           borderTopColor: "transparent",
-          height: Platform.OS === "android" ? 75 : 90,
+          height: Platform.OS === "android" ? SIZES.font1 * 2.3 : SIZES.font1 * 3,
         },
 
 
@@ -74,11 +72,11 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                           <View
                             style={{
                               alignItems: "center",
-                              height: 50,
+                              height: SIZES.font1 * 1.3,
                               justifyContent: "space-around",
                             }}>
                             <Text
-                              style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
+                              style={{ ...FONTS.h9, color: appTheme.textColor2, top: SIZES.font9 }}>
                               Home
                             </Text>
                             <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
@@ -90,10 +88,10 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                         return (
                           <Image
                             source={icons.home}
-                            resizeMode="contain"
+                            resizeMode="cover"
                             style={{
-                              width: 30,
-                              height: 30,
+                              width: SIZES.font2,
+                              height: SIZES.font2,
                               tintColor: COLORS.grey,
                             }}
                           />
@@ -112,11 +110,11 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                 <View
                   style={{
                     alignItems: "center",
-                    height: 50,
+                    height: SIZES.font1 * 1.3,
                     justifyContent: "space-around",
                   }}>
                   <Text
-                    style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
+                    style={{ ...FONTS.h9, color: appTheme.textColor2, top: SIZES.font9 }}>
                     Favorite
                   </Text>
                   <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
@@ -130,8 +128,8 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                   source={icons.star}
                   resizeMode="contain"
                   style={{
-                    width: 25,
-                    height: 25,
+                    width: SIZES.font4,
+                    height: SIZES.font4,
                     tintColor: COLORS.grey,
                   }}
                 />
@@ -147,7 +145,7 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                         <View
                           style={{
                             alignItems: "center",
-                            height: 50,
+                            // height: 50,
                             justifyContent: "space-around",
                             elevation: 7,
                             shadowOpacity: 0.1,
@@ -158,18 +156,18 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                           }}>
                           <LinearGradient
                             style={{
-                              width: 70,
-                              height: 70,
+                              width: SIZES.font1 * 2,
+                              height: SIZES.font1 * 2,
                               alignItems: "center",
                               justifyContent: "center",
-                              bottom: 20,
+                              bottom: SIZES.font6,
                               borderRadius: 35,
 
                             }}
                             colors={["#6B55D0", "#8572D8"]}>
                             <Image
                               source={icons.search}
-                              style={{ width: 20, height: 20, tintColor: COLORS.white }}
+                              style={{ width: SIZES.font6, height: SIZES.font6, tintColor: COLORS.white }}
                             />
                           </LinearGradient>
                         </View>
@@ -196,11 +194,11 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                 <View
                   style={{
                     alignItems: "center",
-                    height: 50,
+                    height: SIZES.font1 * 1.3,
                     justifyContent: "space-around",
                   }}>
                   <Text
-                    style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
+                    style={{ ...FONTS.h9, color: appTheme.textColor2, top: SIZES.font9 }}>
                     News
                   </Text>
                   <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
@@ -214,8 +212,8 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                   source={icons.news}
                   resizeMode="contain"
                   style={{
-                    width: 25,
-                    height: 25,
+                    width: SIZES.font4,
+                    height: SIZES.font4,
                     tintColor: COLORS.grey,
                   }}
                 />
@@ -231,11 +229,11 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
               <View
                 style={{
                   alignItems: "center",
-                  height: 50,
+                  height: SIZES.font1 * 1.3,
                   justifyContent: "space-around",
                 }}>
                 <Text
-                  style={{ ...FONTS.h4, color: appTheme.textColor2, top: 20 }}>
+                  style={{ ...FONTS.h9, color: appTheme.textColor2, top: SIZES.font9 }}>
                   Settings
                 </Text>
                 <Text style={{ ...FONTS.largeTitle, color: appTheme.textColor2 }}>
@@ -249,8 +247,8 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                 source={icons.settings}
                 resizeMode="contain"
                 style={{
-                  width: 25,
-                  height: 25,
+                  width: SIZES.font4,
+                  height: SIZES.font4,
                   tintColor: COLORS.grey,
                 }}
               />
@@ -272,9 +270,7 @@ export function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-
-  };
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BottomTabs);

@@ -7,7 +7,7 @@ const CoinDetailsInfo = ({ appTheme, title, value }) => {
   return (
     <View style={styles.detailsText}>
       <Text style={[styles.title, { color: appTheme.textColor3 }]}>{title}</Text>
-      <Text style={{...FONTS.h4, color: appTheme.textColor }}>{value}</Text>
+      <Text style={{...FONTS.h7, color: appTheme.textColor }}>{value}</Text>
     </View>
   );
 };
@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
-    ...FONTS.h3
+    ...FONTS.h6
 
   },
   title: {
-    ...FONTS.body4,
+    ...FONTS.body7,
 
   },
 });

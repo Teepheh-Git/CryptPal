@@ -62,12 +62,16 @@ export const SIZES = {
 
   // font sizes
   largeTitle: 36,
-  font1: 24,
-  font2: 18,
-  font3: 16,
-  font4: 14,
-  font5: 12,
-  font6: 10,
+  font1: width * 0.08,
+  font2: width * 0.076,
+  font3: width * 0.068,
+  font4: width * 0.062,
+  font5: width * 0.056,
+  font6: width * 0.048,
+  font7: width * 0.042,
+  font8: width * 0.038,
+  font9: width * 0.035,
+  font10: width * 0.03,
 
   // app dimensions
   width,
@@ -80,12 +84,21 @@ export const FONTS = {
   h3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
   h4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
   h5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
+  h6: { fontSize: SIZES.font6, fontFamily: "PublicaSansRound-Rg" },
+  h7: { fontSize: SIZES.font7, fontFamily: "PublicaSansRound-Rg" },
+  h8: { fontSize: SIZES.font8, fontFamily: "PublicaSansRound-Rg" },
+  h9: { fontSize: SIZES.font9, fontFamily: "PublicaSansRound-Rg" },
+  h10: { fontSize: SIZES.font10, fontFamily: "PublicaSansRound-Rg" },
   body1: { fontSize: SIZES.font1, fontFamily: "PublicaSansRound-Rg" },
   body2: { fontSize: SIZES.font2, fontFamily: "PublicaSansRound-Rg" },
   body3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
   body4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
   body5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
   body6: { fontSize: SIZES.font6, fontFamily: "PublicaSansRound-Rg" },
+  body7: { fontSize: SIZES.font7, fontFamily: "PublicaSansRound-Rg" },
+  body8: { fontSize: SIZES.font8, fontFamily: "PublicaSansRound-Rg" },
+  body9: { fontSize: SIZES.font9, fontFamily: "PublicaSansRound-Rg" },
+  body10: { fontSize: SIZES.font10, fontFamily: "PublicaSansRound-Rg" },
 };
 
 export const darkTheme = {

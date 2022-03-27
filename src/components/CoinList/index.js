@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { connect } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
@@ -29,9 +29,10 @@ const CoinList = ({
 
 
   return (
-    <TouchableOpacity onLongPress={onLongPress} activeOpacity={0.9}
-                      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
-                      onPress={onPress}>
+    <Pressable
+      onLongPress={onLongPress}
+      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+      onPress={onPress}>
 
 
       {/* CoinName Logo Symbol */}
@@ -44,10 +45,9 @@ const CoinList = ({
             cache: FastImage.cacheControl.immutable,
           }}
           style={{
-            width: 30,
-            height: 30,
+            width: SIZES.font1,
+            height: SIZES.font1,
             borderRadius: 30,
-            marginRight: 5,
           }} />
         <View style={styles.nameSymbolContainer}>
           <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
@@ -119,7 +119,7 @@ const CoinList = ({
       </View>
 
 
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 
   container: {
     width: SIZES.width * 0.9,
-    height: 75,
+    height: SIZES.font1 * 2.3,
     paddingHorizontal: 15,
     padding: 5,
     marginVertical: 1,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
 
   },
   priceChange: {
-    ...FONTS.h5,
+    ...FONTS.h8,
     fontWeight: "400",
 
   },
@@ -159,33 +159,27 @@ const styles = StyleSheet.create({
   nameLogoSymbol: {
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: 'center',
-    // backgroundColor: 'red',
-    height: 65,
+    height: SIZES.font1 * 1.5,
     width: SIZES.width * 0.3,
   },
   nameSymbolContainer: {
-    marginLeft: 5,
-
+    marginLeft: SIZES.font10,
+    justifyContent: "space-between",
+    height: SIZES.font1 * 1.5,
   },
   name: {
-    ...FONTS.h4,
-    // fontWeight:"400"
-
+    ...FONTS.h7,
   },
   symbol: {
-    ...FONTS.body6,
-    top: 5,
-
+    ...FONTS.body9,
   },
   pricePercContainer: {
-    // backgroundColor: 'green'
+    height: SIZES.font1 * 1.5,
+    justifyContent: "space-between",
   },
   currentPrice: {
-    ...FONTS.h2,
+    ...FONTS.h6,
     textAlign: "right",
-    // fontWeight:"300"
-
   },
 });
 

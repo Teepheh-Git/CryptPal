@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 
@@ -8,12 +8,12 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
   return (
     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
-      <TouchableOpacity activeOpacity={0.6}
-                        style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]}
-                        onPress={onPress}>
+      <Pressable
+        style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]}
+        onPress={onPress}>
         <Image style={[styles.backArrow, { tintColor: appTheme.textColor2 }]} source={icons.backArrow} />
 
-      </TouchableOpacity>
+      </Pressable>
 
 
       <View style={styles.overviewContainer}>
@@ -33,39 +33,26 @@ const styles = StyleSheet.create({
     width: SIZES.width,
     height: SIZES.height * 0.07,
     alignItems: "center",
-    // borderBottomRightRadius: 5,
-    // borderBottomLeftRadius: 5,
     justifyContent: "space-between",
     flexDirection: "row",
-    // paddingVertical: 10,
     paddingHorizontal: 20,
-    // elevation: 4,
-    // shadowOpacity: 0.1,
-    // shadowOffset: {
-    //   width: 0.3,
-    //   height: 0.3,
-    // },
-
-
   },
   backArrowContainer: {
-    width: 40,
-    height: 40,
+    width: SIZES.font1 * 1.2,
+    height: SIZES.font1 * 1.2,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    // borderWidth: 0.6,
     borderColor: COLORS.grey,
 
   },
   backArrow: {
-    width: 24,
-    height: 24,
+    width: SIZES.font3,
+    height: SIZES.font3,
 
   },
   title: {
-    ...FONTS.h3,
-    // lineHeight:38,
+    ...FONTS.h5,
     marginHorizontal: 5,
 
   },
