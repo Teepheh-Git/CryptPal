@@ -112,6 +112,12 @@ const App = () => {
 
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
+          <StatusBar
+            translucent={true}
+            showHideTransition={"fade"}
+            backgroundColor={"transparent"}
+            // barStyle={appTheme.name === "light" ? "dark-content" : "light-content"}
+          />
 
 
           <BottomSheetModalProvider>

@@ -234,7 +234,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
                 CryptPal features, users can create price notifications of any crypto asset of their choice.</Text>
 
               <Text style={[styles.about, { marginVertical: 10, alignSelf: "flex-end", color: appTheme.textColor }]}>Version:
-                1.1.0</Text>
+                1.5.0</Text>
 
             </View>
           </BottomSheetScrollView>
