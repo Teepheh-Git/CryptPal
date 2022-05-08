@@ -6,7 +6,7 @@ import {
   Image,
   Modal,
   Pressable,
-  ScrollView, StatusBar,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -328,7 +328,7 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
             initialNumToRender={20}
             // getItemLayout={getItemLayout}
             // ItemSeparatorComponent={renderSeparator}
-            removeClippedSubviews={true}
+            // removeClippedSubviews={true}
             renderItem={CoinListRenderItem}
             ListFooterComponent={
 
@@ -367,6 +367,8 @@ const Home = ({ appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, c
                     keyExtractor={(_, index) => index.toString()}
                     horizontal
                     decelerationRate={"fast"}
+                    snapToInterval={SIZES.width * 0.4}
+                    snapToAlignment={"start"}
                     // removeClippedSubviews={true}
                     showsHorizontalScrollIndicator={false}
                     // initialNumToRender={10}

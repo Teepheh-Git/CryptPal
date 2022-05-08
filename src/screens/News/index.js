@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -21,72 +21,20 @@ import constants from "../../constants/constants";
 import { getHeadlineNewsMarket, getNewsMarket } from "../../stores/market/marketActions";
 import SearchDropdown from "../../components/SearchDropdown";
 import NotchResponsive from "../../components/NotchResponsive";
+import LottieView from "lottie-react-native";
 
 
-const data = [
-  {
-    "author": "Cointelegraph By Cointelegraph Brasil",
-    "content": "In 2021, the Brazilian cryptocurrency market gained more investors, reached the Brazilian stock exchange and punctured the bubble of the mainstream, becoming an important part of the investment portf… [+6108 chars]",
-    "description": "Cointelegraph Brasil has picked out the top players in the Brazilian crypto and blockchain space in 2021.",
-    "publishedAt": "2022-02-23T16:11:00Z",
-    "source": {
-      "id": null,
-      "name": "Cointelegraph",
-    },
-    "title": "Cointelegraph Brasil’s top 10 people in crypto and blockchain in 2021",
-    "url": "https://cointelegraph.com/news/cointelegraph-brasil-s-top-10-people-in-crypto-and-blockchain-in-2021",
-    "urlToImage": "https://images.cointelegraph.com/images/1200_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjItMDIvNDMzYWIxNjktNDU5OC00NmI0LTgxYTItZTU5YmM3MDgwMTNlLmpwZw==.jpg",
-  },
-  {
-    "author": "Shomik Sen Bhattacharjee",
-    "content": "Crypto exchange FTX is launching a new division to encourage the onset of digital currencies, blockchain technology, and non-fungible tokens (NFTs) in the gaming world. FTX Gaming, a \"crypto as a ser… [+2833 chars]",
-    "description": "Crypto exchange FTX is starting a new gaming unit aimed at encouraging game publishers to embrace cryptocurrencies, NFT, and blockchain technology in general.",
-    "publishedAt": "2022-02-22T09:36:35Z",
-    "source": {
-      "id": null,
-      "name": "Gadgets360.com",
-    },
-    "title": "FTX Launches Gaming Unit to Promote Crypto, Blockchain Adoption Among Game Publishers",
-    "url": "https://gadgets360.com/cryptocurrency/news/ftx-crypto-gaming-unit-web3-exchange-blockchain-2782331",
-    "urlToImage": "https://i.gadgets360cdn.com/large/FTX_crypto_exchange_cover_large_1645522570845.jpg",
-  }, {
-    "author": "Cointelegraph By Cointelegraph Brasil",
-    "content": "In 2021, the Brazilian cryptocurrency market gained more investors, reached the Brazilian stock exchange and punctured the bubble of the mainstream, becoming an important part of the investment portf… [+6108 chars]",
-    "description": "Cointelegraph Brasil has picked out the top players in the Brazilian crypto and blockchain space in 2021.",
-    "publishedAt": "2022-02-23T16:11:00Z",
-    "source": {
-      "id": null,
-      "name": "Cointelegraph",
-    },
-    "title": "Cointelegraph Brasil’s top 10 people in crypto and blockchain in 2021",
-    "url": "https://cointelegraph.com/news/cointelegraph-brasil-s-top-10-people-in-crypto-and-blockchain-in-2021",
-    "urlToImage": "https://images.cointelegraph.com/images/1200_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjItMDIvNDMzYWIxNjktNDU5OC00NmI0LTgxYTItZTU5YmM3MDgwMTNlLmpwZw==.jpg",
-  }, {
-    "author": "Shomik Sen Bhattacharjee",
-    "content": "Crypto exchange FTX is launching a new division to encourage the onset of digital currencies, blockchain technology, and non-fungible tokens (NFTs) in the gaming world. FTX Gaming, a \"crypto as a ser… [+2833 chars]",
-    "description": "Crypto exchange FTX is starting a new gaming unit aimed at encouraging game publishers to embrace cryptocurrencies, NFT, and blockchain technology in general.",
-    "publishedAt": "2022-02-22T09:36:35Z",
-    "source": {
-      "id": null,
-      "name": "Gadgets360.com",
-    },
-    "title": "FTX Launches Gaming Unit to Promote Crypto, Blockchain Adoption Among Game Publishers",
-    "url": "https://gadgets360.com/cryptocurrency/news/ftx-crypto-gaming-unit-web3-exchange-blockchain-2782331",
-    "urlToImage": "https://i.gadgets360cdn.com/large/FTX_crypto_exchange_cover_large_1645522570845.jpg",
-  }];
+const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news, newsLoading }) => {
 
 
-const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news }) => {
-
-
-  const ITEM_HEIGHT = 75;
-
-  const getItemLayout = useCallback((data, index) => ({
-    length: ITEM_HEIGHT,
-    offset: ITEM_HEIGHT,
-    index,
-
-  }), []);
+  // const ITEM_HEIGHT = 75;
+  //
+  // const getItemLayout = useCallback((data, index) => ({
+  //   length: ITEM_HEIGHT,
+  //   offset: ITEM_HEIGHT,
+  //   index,
+  //
+  // }), []);
 
 
   // const [myNews, setMyNews] = useState([]);
@@ -198,149 +146,193 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
 
   return (
-    <>
+    newsLoading.length < 0 || news.length < 0
+      ?
+      <View style={{
+        backgroundColor: appTheme.backgroundColor5, flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
 
-      <NotchResponsive color={appTheme.backgroundColor2} />
-      <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
-        <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
-          <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: appTheme.textColor }]}>News 📄</Text>
+        {appTheme.name === "light" ? <LottieView style={{ width: 80, height: 80 }}
+                                                 source={require("../../assets/images/pupr.mp4.lottie.json")} autoPlay
+                                                 loop />
+          : <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
+                        autoPlay loop />}
+      </View>
+      :
+      <>
+
+        <NotchResponsive color={appTheme.backgroundColor2} />
+        <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+
+          <View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
+            <View style={styles.titleContainer}>
+              <Text style={[styles.title, { color: appTheme.textColor }]}>News 📄</Text>
+            </View>
+            {/*<TouchableOpacity style={styles.filterButtonContainer}>*/}
+            {/*  <Image style={styles.filterButton} source={icons.filterButton} />*/}
+            {/*</TouchableOpacity>*/}
+
           </View>
-          {/*<TouchableOpacity style={styles.filterButtonContainer}>*/}
-          {/*  <Image style={styles.filterButton} source={icons.filterButton} />*/}
-          {/*</TouchableOpacity>*/}
 
-        </View>
-
-        {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
+          {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
 
 
-        <FlatList
-          data={news}
-          // getItemLayout={getItemLayout}
-          // initialScrollIndex={0}
-          scrollEnabled={coinSearch === "" && true}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            <>
+          <FlatList
+            data={news}
+            // getItemLayout={getItemLayout}
+            // initialScrollIndex={0}
+            scrollEnabled={coinSearch === "" && true}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={
+              <>
 
 
+                <View style={{
+                  flexDirection: "row",
+                  width: SIZES.width * 0.95,
+                  height: 55,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginVertical: 10,
+                  alignSelf: "center",
+                }}>
+                  <TextInput
+                    placeholder={"Search for crypto related news..."}
+                    value={coinSearch}
+                    // onChangeText={(text) => SearchFilter(text)}
+                    onChangeText={async value => {
+                      setCoinSearch(value);
+                      await GetSearchNews(value);
+                    }}
+                    placeholderTextColor={appTheme.textColor3}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    multiline={false}
+                    style={{
+                      width: SIZES.width * 0.9,
+                      height: SIZES.font1 * 1.5, backgroundColor: appTheme.backgroundColor,
+                      borderRadius: 8,
+                      borderWidth: isFocused ? 1 : null,
+                      borderColor: isFocused ? appTheme.textColor2 : null,
+                      paddingHorizontal: 15,
+                      left: 10,
+                      paddingRight: 30,
+                      color: appTheme.textColor,
+                    }}
+                  />
+                  <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
+                         source={icons.searchBarIcon} />
+                </View>
+
+
+                <FlatList
+                  data={headlineNews}
+                  horizontal
+                  decelerationRate={"fast"}
+                  snapToInterval={SIZES.width * 0.8}
+                  snapToAlignment={"start"}
+                  snapToStart={true}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+
+
+                    <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
+                      <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
+                                       style={[styles.imgBg, { marginLeft: index === 0 ? 20 : 0 }]}
+                                       source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
+
+                        <View style={styles.bigCardDet}>
+
+                          <Text style={styles.bigCardTitle} numberOfLines={2}>{item?.title}</Text>
+                          <Text
+                            style={styles.bigCardTitle2}>{moment(item?.publishedAt).startOf("hour").fromNow()} • <Text>{item?.source.name}</Text></Text>
+
+                        </View>
+
+
+                      </ImageBackground>
+                    </Pressable>
+
+
+                  )
+                  } />
+
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  style={styles.listTab}>
+                  {constants.newsListTab.map((buttonLabel, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                      onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                      <Text
+                        style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+
+                {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+              </>
+            }
+            // ItemSeparatorComponent={Separator}
+            renderItem={({ item }) =>
+
+              <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
+                            time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
+                            onPress={() => navigation.navigate("NewsContentPage", { ...item })} />
+
+
+            }
+            ListFooterComponent={
               <View style={{
-                flexDirection: "row",
-                width: SIZES.width * 0.95,
-                height: 55,
-                alignItems: "center",
-                justifyContent: "center",
-                marginVertical: 10,
-                alignSelf: "center",
-              }}>
-                <TextInput
-                  placeholder={"Search for crypto related news..."}
-                  value={coinSearch}
-                  // onChangeText={(text) => SearchFilter(text)}
-                  onChangeText={async value => {
-                    setCoinSearch(value);
-                    await GetSearchNews(value);
-                  }}
-                  placeholderTextColor={appTheme.textColor3}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  multiline={false}
-                  style={{
-                    width: SIZES.width * 0.9,
-                    height: SIZES.font1*1.5, backgroundColor: appTheme.backgroundColor,
-                    borderRadius: 8,
-                    borderWidth: isFocused ? 1 : null,
-                    borderColor: isFocused ? appTheme.textColor2 : null,
-                    paddingHorizontal: 15,
-                    left: 10,
-                    paddingRight: 30,
-                    color: appTheme.textColor,
-                  }}
-                />
-                <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
-                       source={icons.searchBarIcon} />
-              </View>
+                marginBottom: SIZES.font1 * 4,
+              }} />
+            }
+          />
 
-
-              <FlatList
-                data={headlineNews}
-                horizontal
-                snapToAlignment={"start"}
-                snapToStart={true}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
-
-
-                  <Pressable onPress={() => navigation.navigate("NewsContentPage", { ...item })}>
-                    <ImageBackground imageStyle={{ borderRadius: 15 }} resizeMode={"cover"}
-                                     style={[styles.imgBg, { marginLeft: index === 0 ? 20 : 0 }]}
-                                     source={item?.urlToImage !== null ? { uri: item?.urlToImage } : icons.imgPlacehholder}>
-
-                      <View style={styles.bigCardDet}>
-
-                        <Text style={styles.bigCardTitle} numberOfLines={2}>{item?.title}</Text>
-                        <Text
-                          style={styles.bigCardTitle2}>{moment(item?.publishedAt).startOf("hour").fromNow()} • <Text>{item?.source.name}</Text></Text>
-
-                      </View>
-
-
-                    </ImageBackground>
-                  </Pressable>
-
-
-                )
-                } />
-
-              <ScrollView
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                style={styles.listTab}>
-                {constants.newsListTab.map((buttonLabel, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-                    onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-                    <Text
-                      style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-
-              {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
-            </>
-          }
-          // ItemSeparatorComponent={Separator}
-          renderItem={({ item }) =>
+          {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
 
             <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
                           time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
-                          onPress={() => navigation.navigate("NewsContentPage", { ...item })} />
+                          onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
 
-
-          }
-          ListFooterComponent={
-            <View style={{
-              marginBottom: SIZES.font1 * 4,
-            }} />
-          }
-        />
-
-        {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
-
-          <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
-                        time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
-                        onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
-
-      </View>
-    </>
+        </View>
+      </>
 
   );
 };
+
+
+export function mapStateToProps(state) {
+  return {
+    appTheme: state.themeReducer.appTheme,
+    error: state.themeReducer.error,
+    news: state.marketReducer.news,
+    headlineNews: state.marketReducer.headlineNews,
+    newsLoading: state.marketReducer.newsLoading,
+
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getNewsMarket: (keyword, category) => {
+      return dispatch(getNewsMarket(keyword, category));
+    },
+
+    getHeadlineNewsMarket: () => {
+      return dispatch(getHeadlineNewsMarket());
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(News);
 
 
 const styles = StyleSheet.create({
@@ -462,27 +454,3 @@ const styles = StyleSheet.create({
 
 });
 
-
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    news: state.marketReducer.news,
-    headlineNews: state.marketReducer.headlineNews,
-
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getNewsMarket: (keyword, category) => {
-      return dispatch(getNewsMarket(keyword, category));
-    },
-
-    getHeadlineNewsMarket: () => {
-      return dispatch(getHeadlineNewsMarket());
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(News);

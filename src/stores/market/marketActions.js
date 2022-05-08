@@ -182,8 +182,10 @@ export const getNewsMarket = (keyword = "crypto", category = "publishedAt") => {
 export const getHeadlineNewsMarket = () => {
   return async dispatch => {
     try {
-      const newsRes = await axios.get(`${config.REACT_APP_NEWS_BASE_URL}/v2/everything?q=$crypto&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=${config.REACT_APP_NEWS_API_KEY}`);
 
+      // dispatch(getHeadlineNewsBegin());
+
+      const newsRes = await axios.get(`${config.REACT_APP_NEWS_BASE_URL}/v2/everything?q=$crypto&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=${config.REACT_APP_NEWS_API_KEY}`);
       const Data = newsRes.data.articles;
 
       // console.log(Data, "DOYYYY");

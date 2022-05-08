@@ -12,6 +12,7 @@ const initialState = {
   // coinSearch2: [],
   error: null,
   loading: false,
+  newsLoading: false,
 };
 
 
@@ -78,7 +79,7 @@ const marketReducer = (state = initialState, action) => {
     case marketActions.GET_NEWS_BEGIN:
       return {
         ...state,
-        loading: true,
+        newsLoading: true,
       };
 
     case marketActions.GET_NEWS_SUCCESS: {
@@ -98,7 +99,7 @@ const marketReducer = (state = initialState, action) => {
     case marketActions.GET_HEADLINE_NEWS_BEGIN:
       return {
         ...state,
-        loading: true,
+        newsLoading: true,
       };
 
     case marketActions.GET_HEADLINE_NEWS_SUCCESS: {

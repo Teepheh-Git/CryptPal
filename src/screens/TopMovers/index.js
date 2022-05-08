@@ -66,6 +66,11 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
 
     getCardMarket(currency = appCurrency.ticker, priceChangePerc = coinPriceChangePerc);
+    return () => {
+      setTabStatus("24H");
+      setSearchLoading(true);
+      setCoinPriceChangePerc("24h");
+    };
 
 
   }, [coinPriceChangePerc]);
@@ -194,7 +199,7 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
             showsVerticalScrollIndicator={false}
             ListFooterComponent={
               <View style={{
-                height: SIZES.font1*4,
+                height: SIZES.font1 * 4,
               }} />
             }
           />

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import CoinList from "../../components/CoinList";
 import constants from "../../constants/constants";
 import LottieView from "lottie-react-native";
-import LinearGradient from "react-native-linear-gradient";
-import { getCoinMarket, getCoinMarketTrend } from "../../stores/market/marketActions";
+import { getCoinMarketTrend } from "../../stores/market/marketActions";
 import styles from "./styles";
 
 
-const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, navigation,coinTrend }) => {
+const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, navigation, coinTrend }) => {
 
 
   // const ITEM_HEIGHT = 75;
@@ -33,9 +32,8 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
   const [retry, setRetry] = useState("");
 
 
-
-  function FilterCoin (item){
-    return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
+  function FilterCoin(item) {
+    return item.sparkline_in_7d.price != [] && item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != "";
   }
 
   if (coinTrend?.length > 0) {
@@ -152,40 +150,57 @@ const MarketTrends = ({ appTheme, getCoinMarketTrend, coins, appCurrency, naviga
   // }
 
   return (
-    <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
-      <CustomHeader title="Market Trends 💰" onPress={() => navigation.goBack()} />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        style={styles.listTab}>
-        {constants.listTab.map((buttonLabel, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-            onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-            <Text
-              style={[styles.textTab, tabStatus === buttonLabel.status && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
-          </TouchableOpacity>
-        ))
-        }
-      </ScrollView>
-      {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+    coinTrend.length < 0
+      ?
+      <View style={{
+        backgroundColor: appTheme.backgroundColor5, flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
 
 
-      {coinTrend == null ? NetworkErrorPage() :
-        <FlatList
-        data={coinTrend.filter(FilterCoin)}
-        keyExtractor={(item) => item.id}
-        renderItem={CoinListRenderItem}
-        showsVerticalScrollIndicator={false}
-        // initialNumToRender={20}
-        // getItemLayout={getItemLayout}
-        // maxToRenderPerBatch={3}
-        ListFooterComponent={
-          <View style={{ marginBottom: 50 }} />
-        }
-      />}
-    </SafeAreaView>
+        {appTheme.name === "light" ? <LottieView style={{ width: 80, height: 80 }}
+                                                 source={require("../../assets/images/pupr.mp4.lottie.json")} autoPlay
+                                                 loop />
+          : <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
+                        autoPlay loop />}
+      </View>
+      :
+
+      <SafeAreaView style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
+        <CustomHeader title="Market Trends 💰" onPress={() => navigation.goBack()} />
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          style={styles.listTab}>
+          {constants.listTab.map((buttonLabel, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+              onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+              <Text
+                style={[styles.textTab, tabStatus === buttonLabel.status && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+            </TouchableOpacity>
+          ))
+          }
+        </ScrollView>
+        {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
+
+
+        {coinTrend == null ? NetworkErrorPage() :
+          <FlatList
+            data={coinTrend.filter(FilterCoin)}
+            keyExtractor={(item) => item.id}
+            renderItem={CoinListRenderItem}
+            showsVerticalScrollIndicator={false}
+            // initialNumToRender={20}
+            // getItemLayout={getItemLayout}
+            // maxToRenderPerBatch={3}
+            ListFooterComponent={
+              <View style={{ marginBottom: 50 }} />
+            }
+          />}
+      </SafeAreaView>
   );
 };
 
