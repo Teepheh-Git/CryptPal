@@ -2,12 +2,17 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { FONTS, SIZES } from "../../constants";
 import { connect } from "react-redux";
+import * as Animatable from "react-native-animatable";
+
 
 const OnBoardingItem = ({ item, appTheme }) => {
   return (
     <View style={styles.wrapper}>
-      <Image style={styles.img} resizeMode={"cover"} source={item.image} />
-      <Text style={styles.title}>{item.title}</Text>
+      <Animatable.View  useNativeDriver={true} duration={1000} animation={"fadeInLeft"}>
+        <Image style={styles.img} resizeMode={"cover"} source={item.image} />
+      </Animatable.View>
+
+      <Animatable.Text delay={300}  useNativeDriver={true} duration={1000} animation={"fadeInRight"} style={styles.title}>{item.title}</Animatable.Text>
     </View>
   );
 };

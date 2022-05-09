@@ -5,6 +5,8 @@ import { COLORS, FONTS, SIZES } from "../../constants";
 import { connect } from "react-redux";
 import { LineChart } from "react-native-chart-kit";
 import styles from "../../screens/Home/styles";
+import * as Animatable from "react-native-animatable";
+
 
 
 const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }) => {
@@ -88,7 +90,7 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
 
 
   return (
-    <View style={{ ...containerStyle }}>
+    <Animatable.View useNativeDriver={true} duration={400} animation={"slideInLeft"} style={{ ...containerStyle }}>
 
 
       {/*Y axis label*/}
@@ -184,7 +186,7 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
         />
       }
 
-    </View>
+    </Animatable.View>
   );
 };
 

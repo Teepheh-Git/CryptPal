@@ -24,10 +24,10 @@ import CoinDetailsChart from "../../components/Chart/CoinDetailsChart";
 import axios from "axios";
 import NotchResponsive from "../../components/NotchResponsive";
 import config from "../../../config";
+import * as Animatable from "react-native-animatable";
+
 
 const CoinDetails = ({ appTheme, appCurrency, route }) => {
-
-
 
 
   const navigation = useNavigation();
@@ -194,15 +194,16 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
               />
 
 
-              <Text style={{
+              <Animatable.Text  useNativeDriver={true} duration={400} animation={"zoomIn"} style={{
                 ...FONTS.body9,
                 color: appTheme.textColor2,
                 alignSelf: "flex-end",
                 margin: 5,
                 paddingHorizontal: 20,
-              }}>Updated: {moment(dataFromHome.last_updated).fromNow()}</Text>
+              }}>Updated: {moment(dataFromHome.last_updated).fromNow()}</Animatable.Text>
 
-              <View style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
+              <Animatable.View useNativeDriver={true} duration={400} animation={"slideInRight"}
+                               style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
 
                 <Text style={[styles.coinDetails, { color: appTheme.textColor }]}>Coin Details</Text>
 
@@ -226,7 +227,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
                                  value={appCurrency.symbol + " " + dataFromHome?.circulating_supply?.toLocaleString("en-US")} />
                 <CoinDetailsInfo title={"TOTAL SUPPLY"}
                                  value={appCurrency.symbol + " " + dataFromHome?.total_supply?.toLocaleString("en-US")} />
-              </View>
+              </Animatable.View>
 
 
               <View style={styles.converterContainer}>

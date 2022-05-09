@@ -19,6 +19,7 @@ const AppRoute = () => {
       detachInactiveScreens
       screenOptions={{
         headerShown: false,
+        animation:"none"
         // animationEnabled: false
       }}>
       <Stack.Screen name="BottomTabs" component={BottomTabs} />

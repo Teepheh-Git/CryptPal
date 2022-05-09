@@ -42,6 +42,7 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        lazy: false,
         tabBarStyle: {
           position: "absolute",
           bottom: 0,

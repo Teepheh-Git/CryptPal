@@ -4,16 +4,22 @@ import { connect } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
 import { toggleTheme } from "../../stores/theme/themeActions";
+import * as Animatable from "react-native-animatable";
 
 
-const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress }) => {
+
+const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress ,delay}) => {
 
 
   const priceChangeColor = priceChangePercentage24h > 0 ? "#34C759" : "#EB0000";
 
   return (
+    <Animatable.View delay={delay} duration={600} useNativeDriver={false} animation={"flipInY"}>
+
     <Pressable onPress={onPress}
                style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
+
+      <Animatable.View useNativeDriver={true} duration={3000} iterationCount={10} animation={"pulse"}>
       <FastImage
         resizeMode={FastImage.resizeMode.contain}
         source={{
@@ -23,6 +29,8 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
         }}
         style={{ width: SIZES.font3, height: SIZES.font3, bottom: 5, borderRadius: 15 }}
       />
+      </Animatable.View>
+
       <Text
         numberOfLines={1}
         style={[styles.coinName, { color: appTheme.textColor3 }]}>{name}/{appCurrency.ticker}</Text>
@@ -44,6 +52,8 @@ const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercen
       </View>
 
     </Pressable>
+    </Animatable.View>
+
 
   );
 };

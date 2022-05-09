@@ -4,6 +4,8 @@ import { LineChart } from "react-native-chart-kit";
 import { connect } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
+import * as Animatable from "react-native-animatable";
+
 
 const CoinList = ({
                     appTheme,
@@ -17,6 +19,7 @@ const CoinList = ({
                     chartData,
                     onPress,
                     onLongPress,
+                    delay
                   }) => {
 
 
@@ -29,97 +32,103 @@ const CoinList = ({
 
 
   return (
-    <Pressable
-      onLongPress={onLongPress}
-      style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
-      onPress={onPress}>
+
+    <Animatable.View duration={500} useNativeDriver={true} delay={delay} animation={"slideInLeft"}>
+
+      <Pressable
+        onLongPress={onLongPress}
+        style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}
+        onPress={onPress}>
 
 
-      {/* CoinName Logo Symbol */}
-      <View style={styles.nameLogoSymbol}>
-        <FastImage
-          resizeMode={FastImage.resizeMode.contain}
-          source={{
-            uri: logoUrl,
-            priority: FastImage.priority.normal,
-            cache: FastImage.cacheControl.immutable,
+        {/* CoinName Logo Symbol */}
+        <View style={styles.nameLogoSymbol}>
+          <FastImage
+            resizeMode={FastImage.resizeMode.contain}
+            source={{
+              uri: logoUrl,
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
+            }}
+            style={{
+              width: SIZES.font1,
+              height: SIZES.font1,
+              borderRadius: 30,
+            }} />
+          <View style={styles.nameSymbolContainer}>
+            <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
+            <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{symbol}</Text>
+          </View>
+        </View>
+
+
+        {/* Coin Chart */}
+        <LineChart
+          withVerticalLabels={false}
+          withHorizontalLabels={false}
+          withDots={false}
+          withInnerLines={false}
+          withVerticalLines={false}
+          withOuterLines={false}
+          bezier
+          data={{
+            datasets: [{ data: chartData !== [] && chartData }],
+          }}
+          width={80}
+          height={73}
+          chartConfig={{
+            color: () => priceChangeColorForChart,
+            backgroundColor: "#ffffff",
+            backgroundGradientFrom: appTheme.backgroundColor,
+            backgroundGradientTo: appTheme.backgroundColor,
+            strokeWidth: 1,
+            fillShadowGradient: COLORS.primary,
+            fillShadowGradientOpacity: 0.4,
           }}
           style={{
-            width: SIZES.font1,
-            height: SIZES.font1,
-            borderRadius: 30,
-          }} />
-        <View style={styles.nameSymbolContainer}>
-          <Text style={[styles.name, { color: appTheme.textColor }]}>{name}</Text>
-          <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{symbol}</Text>
+            paddingRight: 0,
+            paddingLeft: 0,
+          }}
+        />
+
+        {/* Price and percentage price change */}
+        <View style={styles.pricePercContainer}>
+          <Text
+            style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + " "}{currentPrice?.toLocaleString("en-US")}</Text>
+
+          {priceChangePercentage24h ? <View style={styles.coinPercentage}>
+              {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
+                                                        style={{
+                                                          width: 13,
+                                                          height: 13,
+                                                          tintColor: priceChangeColor,
+                                                          transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                        }} />}
+              <Text
+                style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString("en-US")}%</Text>
+            </View> :
+
+            <View style={styles.coinPercentage}>
+              {priceChangePercentageInCurrency !== 0 && <Image source={icons.arrowUp}
+                                                               style={{
+                                                                 width: 13,
+                                                                 height: 13,
+                                                                 tintColor: priceChangeColorInCurrency,
+                                                                 transform: priceChangePercentageInCurrency > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
+                                                               }} />}
+              <Text
+                style={[styles.priceChange, { color: priceChangeColorInCurrency }]}> {priceChangePercentageInCurrency?.toLocaleString("en-US")}%</Text>
+
+            </View>}
+
+
         </View>
-      </View>
 
 
-      {/* Coin Chart */}
-      <LineChart
-        withVerticalLabels={false}
-        withHorizontalLabels={false}
-        withDots={false}
-        withInnerLines={false}
-        withVerticalLines={false}
-        withOuterLines={false}
-        bezier
-        data={{
-          datasets: [{ data: chartData !== [] && chartData }],
-        }}
-        width={80}
-        height={73}
-        chartConfig={{
-          color: () => priceChangeColorForChart,
-          backgroundColor: "#ffffff",
-          backgroundGradientFrom: appTheme.backgroundColor,
-          backgroundGradientTo: appTheme.backgroundColor,
-          strokeWidth: 1,
-          fillShadowGradient: COLORS.primary,
-          fillShadowGradientOpacity: 0.4,
-        }}
-        style={{
-          paddingRight: 0,
-          paddingLeft: 0,
-        }}
-      />
+      </Pressable>
 
-      {/* Price and percentage price change */}
-      <View style={styles.pricePercContainer}>
-        <Text
-          style={[styles.currentPrice, { color: appTheme.textColor }]}>{appCurrency.symbol + " "}{currentPrice?.toLocaleString("en-US")}</Text>
+    </Animatable.View>
 
-        {priceChangePercentage24h ? <View style={styles.coinPercentage}>
-            {priceChangePercentage24h !== 0 && <Image source={icons.arrowUp}
-                                                      style={{
-                                                        width: 13,
-                                                        height: 13,
-                                                        tintColor: priceChangeColor,
-                                                        transform: priceChangePercentage24h > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                      }} />}
-            <Text
-              style={[styles.priceChange, { color: priceChangeColor }]}> {priceChangePercentage24h?.toLocaleString("en-US")}%</Text>
-          </View> :
-
-          <View style={styles.coinPercentage}>
-            {priceChangePercentageInCurrency !== 0 && <Image source={icons.arrowUp}
-                                                             style={{
-                                                               width: 13,
-                                                               height: 13,
-                                                               tintColor: priceChangeColorInCurrency,
-                                                               transform: priceChangePercentageInCurrency > 0 ? [{ rotate: "0deg" }] : [{ rotate: "180deg" }],
-                                                             }} />}
-            <Text
-              style={[styles.priceChange, { color: priceChangeColorInCurrency }]}> {priceChangePercentageInCurrency?.toLocaleString("en-US")}%</Text>
-
-          </View>}
-
-
-      </View>
-
-
-    </Pressable>
   );
 };
 

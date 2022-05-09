@@ -8,11 +8,13 @@ import OnBoardingItem from "../../components/OnBoardingItem";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Animatable from "react-native-animatable";
+
 
 
 const Paginator = ({ data, scrollX }) => {
   return (
-    <View style={styles.pagination}>
+    <Animatable.View animation={"zoomIn"} useNativeDriver={true} duration={600} style={styles.pagination}>
       {data.map((_, index) => {
         const inputRange = [
           (index - 1) * SIZES.width,
@@ -39,7 +41,7 @@ const Paginator = ({ data, scrollX }) => {
           />
         );
       })}
-    </View>
+    </Animatable.View>
   );
 };
 
@@ -96,9 +98,9 @@ const OnBoarding = ({ appTheme }) => {
 
       <StatusBar translucent={true} backgroundColor={"transparent"} />
 
-      <View style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
+      <Animatable.View useNativeDriver={true} delay={3000} duration={2000} animation={"shake"} style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
         <Image style={styles.img} source={require("../../assets/images/logo.png")} />
-      </View>
+      </Animatable.View>
 
       <FlatList
         data={constants.slides}
@@ -124,9 +126,9 @@ const OnBoarding = ({ appTheme }) => {
 
       <Paginator data={constants.slides} scrollX={scrollX} />
 
-      <View style={styles.buttonContainer}>
+      <Animatable.View useNativeDriver={true} duration={1000} animation={"fadeInUp"} style={styles.buttonContainer}>
         <CustomButton text={"Get Started 😎"} onPress={scrollTo} containerStyle={{ top: 30 }} />
-      </View>
+      </Animatable.View>
 
 
     </ImageBackground>

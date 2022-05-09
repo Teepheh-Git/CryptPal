@@ -2,11 +2,13 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
+import * as Animatable from "react-native-animatable";
+
 
 
 const CustomHeader = ({ appTheme, title, onPress, image }) => {
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+    <Animatable.View useNativeDriver={true} duration={500} animation={"slideInRight"} style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
       <Pressable
         style={[styles.backArrowContainer, { backgroundColor: appTheme.backgroundColor }]}
@@ -23,7 +25,7 @@ const CustomHeader = ({ appTheme, title, onPress, image }) => {
       </View>
 
 
-    </View>
+    </Animatable.View>
   );
 };
 

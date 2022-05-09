@@ -6,6 +6,7 @@ import { FONTS, icons, SIZES } from "../../constants";
 import axios from "axios";
 import FastImage from "react-native-fast-image";
 import NotchResponsive from "../../components/NotchResponsive";
+import * as Animatable from "react-native-animatable";
 
 
 const Search = ({ appTheme, navigation }) => {
@@ -96,39 +97,43 @@ const Search = ({ appTheme, navigation }) => {
   // };
 
 
-  const CoinListRenderItem = ({ item }) => {
+  const CoinListRenderItem = ({ item, index }) => {
     return (
 
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("SearchCoinDetails", item.id);
+      <Animatable.View animation={"zoomIn"} delay={index * 100} useNativeDriver={true} duration={500}>
 
-        }}
-        style={[styles.box, { backgroundColor: appTheme.backgroundColor }]}>
-        <FastImage
-          resizeMode={FastImage.resizeMode.contain}
-          source={{
-            uri: item?.large,
-            priority: FastImage.priority.normal,
-            cache: FastImage.cacheControl.immutable,
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SearchCoinDetails", item.id);
+
           }}
-          style={{
-            width: SIZES.font1,
-            height: SIZES.font1,
-            borderRadius: 30,
-            marginRight: 5,
-          }} />
+          style={[styles.box, { backgroundColor: appTheme.backgroundColor }]}>
+          <FastImage
+            resizeMode={FastImage.resizeMode.contain}
+            source={{
+              uri: item?.large,
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
+            }}
+            style={{
+              width: SIZES.font1,
+              height: SIZES.font1,
+              borderRadius: 30,
+              marginRight: 5,
+            }} />
 
-        <View style={styles.textContainer}>
-          <View>
-            <Text style={[styles.name, { color: appTheme.textColor }]}>{item?.name}</Text>
-            <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{item.symbol}</Text>
+          <View style={styles.textContainer}>
+            <View>
+              <Text style={[styles.name, { color: appTheme.textColor }]}>{item?.name}</Text>
+              <Text style={[styles.symbol, { color: appTheme.textColor3 }]}>{item.symbol}</Text>
+            </View>
+            <Text style={[styles.rank, { color: appTheme.textColor3 }]}>Rank: #{item?.market_cap_rank}</Text>
+
           </View>
-          <Text style={[styles.rank, { color: appTheme.textColor3 }]}>Rank: #{item?.market_cap_rank}</Text>
 
-        </View>
+        </TouchableOpacity>
+      </Animatable.View>
 
-      </TouchableOpacity>
     );
 
   };
@@ -148,7 +153,12 @@ const Search = ({ appTheme, navigation }) => {
 
   const AboutToSearch = () => {
     return (
-      <View style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
+      <Animatable.View useNativeDriver={true} duration={500} animation={"slideInUp"} style={{
+        width: SIZES.width * 0.7,
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 30,
+      }}>
         <Image style={{}} source={require("../../assets/images/Thinking.png")} />
         <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>What are you searching for?</Text>
         <Text style={{
@@ -157,18 +167,23 @@ const Search = ({ appTheme, navigation }) => {
           color: appTheme.textColor3,
         }}>
           Sorry, you'll have to make a search to get any result here.</Text>
-      </View>
+      </Animatable.View>
 
     );
   };
   const Notfound = () => {
     return (
-      <View style={{ width: SIZES.width * 0.7, alignItems: "center", justifyContent: "center", marginVertical: 30 }}>
+      <Animatable.View useNativeDriver={true} duration={500} animation={"zoomIn"} style={{
+        width: SIZES.width * 0.7,
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 30,
+      }}>
         <Image style={{}} source={require("../../assets/images/Sad.png")} />
         <Text style={{ ...FONTS.h7, color: appTheme.textColor, marginVertical: 5 }}>No result found</Text>
         <Text style={{ ...FONTS.body8, textAlign: "center", color: appTheme.textColor3 }}>Sorry, we couldn't find any
           result in our database</Text>
-      </View>
+      </Animatable.View>
     );
   };
 
@@ -179,7 +194,7 @@ const Search = ({ appTheme, navigation }) => {
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
         <CustomHeader title="Search" image={icons.search} onPress={() => navigation.goBack()} />
-        <View style={{
+        <Animatable.View useNativeDriver={true} duration={500} animation={"slideInLeft"} style={{
           flexDirection: "row",
           width: SIZES.width * 0.9,
           height: SIZES.font1 * 1.4,
@@ -212,7 +227,7 @@ const Search = ({ appTheme, navigation }) => {
             resizeMode={"contain"}
             style={{ width: SIZES.font8, height: SIZES.font8, tintColor: appTheme.textColor3, right: 15 }}
             source={icons.searchBarIcon} />
-        </View>
+        </Animatable.View>
 
 
         {/*{searchCoin === "" && AboutToSearch()}*/}

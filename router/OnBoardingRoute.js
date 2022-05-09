@@ -21,6 +21,8 @@ const OnBoardingRoute = () => {
       detachInactiveScreens
       screenOptions={{
         headerShown: false,
+        animation:"none"
+
       }}>
 
       <Stack.Screen name="OnBoarding" component={OnBoarding} />
