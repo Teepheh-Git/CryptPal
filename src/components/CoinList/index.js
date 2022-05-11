@@ -33,7 +33,7 @@ const CoinList = ({
 
   return (
 
-    <Animatable.View duration={500} useNativeDriver={true} delay={delay} animation={"slideInLeft"}>
+    <Animatable.View duration={700} useNativeDriver={true}  animation={"slideInLeft"}>
 
       <Pressable
         onLongPress={onLongPress}

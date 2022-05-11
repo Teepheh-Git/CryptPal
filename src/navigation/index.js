@@ -10,6 +10,7 @@ import Settings from "../screens/Settings";
 import { connect } from "react-redux";
 import { COLORS, FONTS, SIZES } from "../constants";
 import LinearGradient from "react-native-linear-gradient";
+import * as Animatable from "react-native-animatable";
 
 
 const TabBarCustomButton = ({ children, onPress, appTheme }) => {
@@ -143,18 +144,18 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                   options={{
                     tabBarIcon: ({ focused }) => {
                       return (
-                        <View
-                          style={{
-                            alignItems: "center",
-                            // height: 50,
-                            justifyContent: "space-around",
-                            elevation: 7,
-                            shadowOpacity: 0.1,
-                            shadowOffset: {
-                              width: 4,
-                              height: 5,
-                            },
-                          }}>
+                        <Animatable.View animation={"slideInUp"} useNativeDriver={true}
+                                         style={{
+                                           alignItems: "center",
+                                           // height: 50,
+                                           justifyContent: "space-around",
+                                           elevation: 7,
+                                           shadowOpacity: 0.1,
+                                           shadowOffset: {
+                                             width: 4,
+                                             height: 5,
+                                           },
+                                         }}>
                           <LinearGradient
                             style={{
                               width: SIZES.font1 * 2,
@@ -171,7 +172,7 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
                               style={{ width: SIZES.font6, height: SIZES.font6, tintColor: COLORS.white }}
                             />
                           </LinearGradient>
-                        </View>
+                        </Animatable.View>
                       );
                     },
 

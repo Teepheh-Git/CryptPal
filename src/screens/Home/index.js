@@ -69,7 +69,7 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
       setHomePageLoading(false);
       setCategoryLoading(false);
 
-    }, 3000);
+    }, 300);
   }
 
   if (coins == null || coinCard == null) {
@@ -179,7 +179,6 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
       <CoinCard
         name={item.name}
         logoUrl={item.image}
-        delay={index * 200}
         currentPrice={item?.current_price.toLocaleString("en-US")}
         priceChangePercentage24h={item?.price_change_percentage_24h}
         onPress={() => {
@@ -198,7 +197,6 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
       <CoinList
         name={item?.name}
         logoUrl={item?.image}
-        delay={index * 200}
         symbol={item?.symbol?.toUpperCase()}
         currentPrice={item?.current_price?.toLocaleString("en-US")}
         priceChangePercentage24h={item?.price_change_percentage_24h}
@@ -391,13 +389,13 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
             ListHeaderComponent={
               <>
                 {/* HEADER SECTION */}
-                <Animatable.View delay={3000} useNativeDriver={true} animation={"tada"}
+                <Animatable.View useNativeDriver={true} animation={"tada"}
                                  style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>
                   <Image resizeMode="cover" style={[styles.imgHeader, { tintColor: appTheme.tintColor }]}
                          source={require("../../assets/images/logo.png")} />
                 </Animatable.View>
-                <Animatable.View useNativeDriver={true} duration={400} animation={"zoomIn"}
-                                 style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
+                <View useNativeDriver={true} duration={400} animation={"zoomIn"}
+                      style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
                   {/* TOP MOVERS SECTION */}
                   <View style={styles.topMoversContainer}>
                     <View style={styles.topMoversContainer2}>
@@ -431,36 +429,34 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
                   {CoinModal()}
 
                   {/* MARKET TRENDS  */}
-                  <Animatable.View useNativeDriver={true} duration={400} animation={"zoomIn"}
-                                   style={styles.marketTrendsContainer}>
+                  <View
+                    style={styles.marketTrendsContainer}>
                     <Text style={[styles.marketTrends, { color: appTheme.textColor }]}>Market Trends </Text>
                     <Image resizeMode="cover" style={{ width: 20, height: 20 }}
                            source={require("../../assets/icons/moneyBag.png")} />
 
-                  </Animatable.View>
+                  </View>
 
                   {/* MARKET TREND TABS */}
 
-                  <Animatable.View useNativeDriver={true} duration={400} animation={"zoomIn"}>
-                    <ScrollView
-                      showsHorizontalScrollIndicator={false}
-                      horizontal
-                      style={styles.listTab}>
-                      {constants.listTab.map((buttonLabel, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
-                          onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
-                          <Text
-                            style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </ScrollView>
-                  </Animatable.View>
+                  <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    horizontal
+                    style={styles.listTab}>
+                    {constants.listTab.map((buttonLabel, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
+                        onPress={() => setTabStatusFilter(buttonLabel.tabStatus)}>
+                        <Text
+                          style={[styles.textTab, tabStatus === buttonLabel.tabStatus && styles.textTabActive]}>{buttonLabel.tabStatus}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
 
                   {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
 
-                </Animatable.View>
+                </View>
               </>
 
             }

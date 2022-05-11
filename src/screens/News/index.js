@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -22,6 +22,7 @@ import { getHeadlineNewsMarket, getNewsMarket } from "../../stores/market/market
 import SearchDropdown from "../../components/SearchDropdown";
 import NotchResponsive from "../../components/NotchResponsive";
 import LottieView from "lottie-react-native";
+import { debounce } from "lodash";
 
 
 const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news, newsLoading }) => {
@@ -45,7 +46,7 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
   const [searchResult, setSearchResult] = useState([]);
 
 
-  const [coinSearch, setCoinSearch] = useState("");
+  const [newsSearch, setNewsSearch] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
@@ -100,22 +101,24 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
     }, 1000);
   }
 
-  const GetSearchNews = async (searchWord) => {
+  const handleNewsSearch = useCallback(debounce(() => GetSearchNews(), 2000), [newsSearch]);
+
+
+  const GetSearchNews = async () => {
 
 
     try {
-      setIsSearching(true);
 
 
-      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${searchWord.toLowerCase()}&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
+      const newsRes = await axios.get(`https://newsapi.org/v2/everything?q=${newsSearch.toLowerCase()}&searchIn=title&sortBy=publishedAt&language=en&sortBy=publishedAt&pageSize=5&apiKey=72d2a0865ac740eb860785c920c9f54e`);
 
-      await setSearchResult(newsRes.data.articles);
+      setSearchResult(newsRes.data.articles);
       // console.log(newsRes.data.articles);
-      await setIsSearching(false);
+      setIsSearching(false);
 
     } catch (e) {
       console.log(e, "GetSearchNewsERR");
-      await setIsSearching(false);
+      setIsSearching(false);
 
     }
 
@@ -177,14 +180,14 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
           </View>
 
-          {coinSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
+          {newsSearch === "" && <Text style={[styles.highlights, { color: appTheme.textColor }]}>Highlights</Text>}
 
 
           <FlatList
             data={news}
             // getItemLayout={getItemLayout}
             // initialScrollIndex={0}
-            scrollEnabled={coinSearch === "" && true}
+            scrollEnabled={newsSearch === "" && true}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={
@@ -200,13 +203,20 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                   marginVertical: 10,
                   alignSelf: "center",
                 }}>
+
+
                   <TextInput
                     placeholder={"Search for crypto related news..."}
-                    value={coinSearch}
+                    value={newsSearch}
                     // onChangeText={(text) => SearchFilter(text)}
-                    onChangeText={async value => {
-                      setCoinSearch(value);
-                      await GetSearchNews(value);
+                    onChangeText={value => {
+                      setNewsSearch(value);
+                      setIsSearching(true);
+
+                      if (value.length >= 3) {
+                        handleNewsSearch();
+
+                      }
                     }}
                     placeholderTextColor={appTheme.textColor3}
                     onFocus={() => setIsFocused(true)}
@@ -227,6 +237,9 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                   <Image style={{ width: 17, height: 17, tintColor: appTheme.textColor3, right: 15 }}
                          source={icons.searchBarIcon} />
                 </View>
+                {/*{!isSearching&&  <ActivityIndicator style={{ marginVertical: 15 }} color={appTheme.textColor2} size={"small"} />}*/}
+
+
 
 
                 <FlatList
@@ -296,11 +309,23 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
             }
           />
 
-          {coinSearch !== "" && <SearchDropdown data={searchResult} renderItem={({ item }) =>
+          {newsSearch !== "" &&
+            <>
+              <SearchDropdown data={searchResult} renderItem={({ item }) =>
+                <NewsListItem image={item?.urlToImage}
+                              title={item?.title}
+                              source={item?.source.name}
+                              time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
+                              onPress={() => navigation.navigate("NewsContentPage", { ...item })}
+                />
+              }
+              />
 
-            <NewsListItem image={item?.urlToImage} title={item?.title} source={item?.source.name}
-                          time={moment(item?.publishedAt).startOf("hour").fromNow()} link={"read more"}
-                          onPress={() => navigation.navigate("NewsContentPage", { ...item })} />} />}
+            </>
+
+
+
+          }
 
         </View>
       </>

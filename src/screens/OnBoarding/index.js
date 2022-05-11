@@ -98,7 +98,7 @@ const OnBoarding = ({ appTheme }) => {
 
       <StatusBar translucent={true} backgroundColor={"transparent"} />
 
-      <Animatable.View useNativeDriver={true} delay={3000} duration={2000} animation={"shake"} style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
+      <Animatable.View useNativeDriver={true}  duration={200} animation={"shake"} style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
         <Image style={styles.img} source={require("../../assets/images/logo.png")} />
       </Animatable.View>
 
@@ -126,7 +126,7 @@ const OnBoarding = ({ appTheme }) => {
 
       <Paginator data={constants.slides} scrollX={scrollX} />
 
-      <Animatable.View useNativeDriver={true} duration={1000} animation={"fadeInUp"} style={styles.buttonContainer}>
+      <Animatable.View useNativeDriver={true} duration={200} animation={"fadeInUp"} style={styles.buttonContainer}>
         <CustomButton text={"Get Started 😎"} onPress={scrollTo} containerStyle={{ top: 30 }} />
       </Animatable.View>
 

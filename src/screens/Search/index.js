@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, icons, SIZES } from "../../constants";
-import axios from "axios";
 import FastImage from "react-native-fast-image";
 import NotchResponsive from "../../components/NotchResponsive";
 import * as Animatable from "react-native-animatable";
+import { debounce } from "lodash";
+import axios from "axios";
 
 
 const Search = ({ appTheme, navigation }) => {
-
-
-  // const [searchCoin, setSearchCoin] = useState("");
-  // const [masterData, setMasterData] = useState([]);
-  // const [filteredData, setFilteredData] = useState([]);
-
 
   const [coinSearch, setCoinSearch] = useState("");
   const [coinResult, setCoinResult] = useState("");
@@ -23,84 +18,28 @@ const Search = ({ appTheme, navigation }) => {
   const [isFocused, setIsFocused] = useState(false);
 
 
-  // const SearchFilter = (text) => {
-  //   if (text) {
-  //     const newData = masterData?.filter((item) => {
-  //       const itemData = item?.name ? item?.name.toUpperCase() : " ".toUpperCase();
-  //       const textData = text.toUpperCase();
-  //       return itemData.indexOf(textData) > -1;
-  //     });
-  //     setFilteredData(newData);
-  //     setSearchCoin(text);
-  //   } else {
-  //     setFilteredData(coins);
-  //     setSearchCoin(text);
-  //   }
-  // };
+
+  const handleSearch = useCallback(debounce(() => Search(), 2000), [coinSearch]);
 
 
-  useEffect(() => {
-    const SearchExample = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(`https://api.coingecko.com/api/v3/search?query=${coinSearch}`);
-
-        // console.log(res.data.coins, "DATAAA!");
-        setCoinResult(res?.data?.coins);
-
-
-        if (res) {
-          setLoading(false);
-        }
-
-
-      } catch (e) {
-        console.error(e, "SearchExampleError");
+  const Search = async () => {
+    try {
+      const res = await axios.get(`https://api.coingecko.com/api/v3/search?query=${coinSearch}`);
+      setCoinResult(res?.data?.coins);
+      if (res) {
         setLoading(false);
-
       }
-
-    };
-
-    if (coinSearch !== "") {
-      SearchExample();
-
-    } else {
-      // if (coinSearch === "") {
-      setCoinResult([]);
-
-      // }
+    } catch (e) {
+      console.error(e, "SearchExampleError");
+      setLoading(false);
     }
-
-  }, [coinSearch]);
-
-
-  // useEffect((currency) => {
-  //   getCoinMarket(currency = appCurrency.ticker);
-  //
-  //   // getSearchMarket(currency = appCurrency.ticker)
-  //   // getSearchMarket2(currency = appCurrency.ticker)
-  //
-  //
-  //   setFilteredData(coins);
-  //   setMasterData(coins);
-  //
-  //
-  // }, [appCurrency]);
-
-  // const FilteredDataCondition = () => {
-  //   if (searchCoin === "") {
-  //     return [];
-  //   } else {
-  //     return filteredData;
-  //   }
-  // };
+  };
 
 
   const CoinListRenderItem = ({ item, index }) => {
     return (
 
-      <Animatable.View animation={"zoomIn"} delay={index * 100} useNativeDriver={true} duration={500}>
+      <Animatable.View animation={"zoomIn"} delay={index * 50} useNativeDriver={true} duration={300}>
 
         <TouchableOpacity
           onPress={() => {
@@ -206,7 +145,14 @@ const Search = ({ appTheme, navigation }) => {
             placeholder={"Search any crypto coin..."}
             value={coinSearch}
             // onChangeText={(text) => SearchFilter(text)}
-            onChangeText={value => setCoinSearch(value)}
+            onChangeText={value => {
+              setCoinSearch(value);
+              setLoading(true);
+
+              if (value.length >= 2) {
+                handleSearch();
+              }
+            }}
             placeholderTextColor={appTheme.textColor3}
             onFocus={() => setIsFocused(true)}
             multiline={false}
