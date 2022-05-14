@@ -1,5 +1,5 @@
 import { selectedLaunch } from "../../constants";
-import * as launchActionTypes from "./launchActions";
+import * as launchActionTypes from "./launchTypes";
 
 
 const initialState = {

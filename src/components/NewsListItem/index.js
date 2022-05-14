@@ -1,10 +1,13 @@
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { connect } from "react-redux";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
 
-const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) => {
+const NewsListItem = ({ title, time, link, onPress, image, source }) => {
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+
   return (
     <Pressable onPress={onPress} style={[styles.container, { backgroundColor: appTheme.backgroundColor }]}>
       <Image style={[styles.img, { backgroundColor: appTheme.backgroundColor2 }]} resizeMode={"cover"}
@@ -22,7 +25,7 @@ const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) =
             style={[styles.time, { color: appTheme.textColor3 }]}>{source} - </Text>{time}</Text>
 
           {/*<TouchableOpacity style={{width:50}} onPress={onPress}>*/}
-            <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
+          <Text style={[styles.readMore, { color: appTheme.textColor2 }]}>{link}</Text>
           {/*</TouchableOpacity>*/}
 
         </View>
@@ -38,37 +41,29 @@ const NewsListItem = ({ appTheme, title, time, link, onPress, image, source }) =
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     width: SIZES.width * 0.9,
     height: SIZES.width * 0.25,
     alignSelf: "center",
     justifyContent: "space-around",
     paddingVertical: 10,
-    paddingHorizontal:5,
+    paddingHorizontal: 5,
     flexDirection: "row",
     marginVertical: 2,
-
   },
   img: {
     width: SIZES.width * 0.2,
     height: SIZES.width * 0.2,
     borderRadius: 10,
-
-
   },
   titleBox: {
     width: SIZES.width * 0.63,
-    // backgroundColor:"cyan",
     height: SIZES.width * 0.2,
     justifyContent: "space-between",
     padding: 5,
-
-
   },
   title: {
     ...FONTS.h8,
     width: SIZES.width * 0.55,
-
   },
 
   timeLinkContainer: {
@@ -76,8 +71,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor:"yellow",
-
   },
   time: {
     ...FONTS.h9,
@@ -85,23 +78,9 @@ const styles = StyleSheet.create({
   },
   readMore: {
     ...FONTS.h9,
-    // alignSelf: "flex-end",
-    textAlign:"right"
-    // width: SIZES.width * 0.2,
-
+    textAlign: "right",
   },
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewsListItem);
+export default NewsListItem;

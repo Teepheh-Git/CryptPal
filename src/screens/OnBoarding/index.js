@@ -3,18 +3,16 @@ import { ActivityIndicator, Animated, FlatList, Image, ImageBackground, StatusBa
 import { constants } from "../../constants";
 import CustomButton from "../../components/CustomButton";
 import { SIZES } from "../../constants/theme";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import OnBoardingItem from "../../components/OnBoardingItem";
 import styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Animatable from "react-native-animatable";
 
 
-
 const Paginator = ({ data, scrollX }) => {
   return (
-    <Animatable.View animation={"zoomIn"} useNativeDriver={true} duration={600} style={styles.pagination}>
+    <View style={styles.pagination}>
       {data.map((_, index) => {
         const inputRange = [
           (index - 1) * SIZES.width,
@@ -41,17 +39,13 @@ const Paginator = ({ data, scrollX }) => {
           />
         );
       })}
-    </Animatable.View>
+    </View>
   );
 };
 
 
-const OnBoarding = ({ appTheme }) => {
-
-
-  const navigation = useNavigation();
-
-
+const OnBoarding = ({ navigation }) => {
+  const { appTheme } = useSelector(state => state.themeReducer);
   const scrollTo = async () => {
     if (currentIndex < constants.slides.length - 1) {
       slidesRef.current.scrollToIndex({
@@ -64,27 +58,21 @@ const OnBoarding = ({ appTheme }) => {
       } catch (error) {
         console.log("Error @setItem", error);
       }
-
     }
   };
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
-
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
-
   const slidesRef = useRef(null);
-
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
 
   useEffect(() => {
 
-
     setTimeout(() => {
-
       <ActivityIndicator size="small" color={appTheme.textColor2} />;
     }, 3000);
 
@@ -95,13 +83,11 @@ const OnBoarding = ({ appTheme }) => {
   return (
     <ImageBackground source={require("../../assets/images/bg_gradient.png")}
                      style={[styles.root, { backgroundColor: appTheme.backgroundColor }]}>
-
       <StatusBar translucent={true} backgroundColor={"transparent"} />
-
-      <Animatable.View useNativeDriver={true}  duration={200} animation={"shake"} style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
+      <Animatable.View useNativeDriver={true} animation={"shake"}
+                       style={[styles.headerContainer, { backgroundColor: "transparent" }]}>
         <Image style={styles.img} source={require("../../assets/images/logo.png")} />
       </Animatable.View>
-
       <FlatList
         data={constants.slides}
         keyExtractor={item => item.id}
@@ -123,28 +109,13 @@ const OnBoarding = ({ appTheme }) => {
         scrollEventThrottle={32}
         ref={slidesRef}
       />
-
       <Paginator data={constants.slides} scrollX={scrollX} />
-
       <Animatable.View useNativeDriver={true} duration={200} animation={"fadeInUp"} style={styles.buttonContainer}>
         <CustomButton text={"Get Started 😎"} onPress={scrollTo} containerStyle={{ top: 30 }} />
       </Animatable.View>
-
-
     </ImageBackground>
   );
 };
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(OnBoarding);
+export default OnBoarding;

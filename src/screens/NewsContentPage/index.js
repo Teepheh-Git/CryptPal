@@ -1,39 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import LottieView from "lottie-react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, SIZES } from "../../constants";
 import NotchResponsive from "../../components/NotchResponsive";
 
-const NewsContentPage = ({ appTheme, navigation, route }) => {
+const NewsContentPage = ({ navigation, route }) => {
 
-  const dataFromNewsPage = route.params;
+  const { urlToImage, content, source, description, title, url } = route.params;
+  const { appTheme } = useSelector(state => state.themeReducer);
 
-  // console.log(dataFromNewsPage);
-
-  const [visible, setVisible] = useState(false);
-
-
-  const Loading = () => {
-
-
-    return (
-      <View style={[styles.loadingIndicator, { backgroundColor: "transparent" }]}>
-
-        {appTheme.name === "light" ?
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
-                      autoPlay loop /> :
-          <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
-                      autoPlay loop />}
-
-
-      </View>
-
-    );
-
-
-  };
 
   return (
 
@@ -44,20 +20,18 @@ const NewsContentPage = ({ appTheme, navigation, route }) => {
         <CustomHeader title="News 📄" onPress={() => navigation.goBack()} />
 
         <ScrollView showsVerticalScrollIndicator={false} style={styles.box}>
-          <Text style={[styles.source, { color: appTheme.textColor }]}>{dataFromNewsPage.source.name}</Text>
-          <Text style={[styles.title, { color: appTheme.textColor }]}>{dataFromNewsPage.title}</Text>
-          <Text style={[styles.desc, { color: appTheme.textColor }]}>{dataFromNewsPage.description}</Text>
+          <Text style={[styles.source, { color: appTheme.textColor }]}>{source.name}</Text>
+          <Text style={[styles.title, { color: appTheme.textColor }]}>{title}</Text>
+          <Text style={[styles.desc, { color: appTheme.textColor }]}>{description}</Text>
 
 
-          <Image style={styles.img} source={{ uri: dataFromNewsPage.urlToImage }} />
+          <Image style={styles.img} source={{ uri: urlToImage }} />
           <Text
-            style={[styles.content, { color: appTheme.textColor }]}>{dataFromNewsPage.content.slice(0, 200)}...</Text>
+            style={[styles.content, { color: appTheme.textColor }]}>{content.slice(0, 200)}...</Text>
 
-          <Pressable onPress={() => navigation.navigate("NewsWebPage", dataFromNewsPage.url)}>
+          <Pressable onPress={() => navigation.navigate("NewsWebPage", url)}>
             <Text style={[styles.readFull, { color: appTheme.textColor2 }]}>Read full article</Text>
           </Pressable>
-
-
         </ScrollView>
       </View>
     </>
@@ -136,15 +110,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewsContentPage);
+export default NewsContentPage;

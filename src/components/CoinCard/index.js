@@ -1,12 +1,14 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
-import { toggleTheme } from "../../stores/theme/themeActions";
 
 
-const CoinCard = ({ appTheme, appCurrency, name, currentPrice, priceChangePercentage24h, logoUrl, onPress, delay }) => {
+const CoinCard = ({ name, currentPrice, priceChangePercentage24h, logoUrl, onPress, delay }) => {
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
 
 
   const priceChangeColor = priceChangePercentage24h > 0 ? "#34C759" : "#EB0000";
@@ -87,21 +89,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleTheme: themeType => {
-      return dispatch(toggleTheme(themeType));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoinCard);
+export default CoinCard;

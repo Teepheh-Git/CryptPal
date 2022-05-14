@@ -2,9 +2,12 @@
 import React from "react";
 import { Platform, SafeAreaView, StatusBar, View } from "react-native";
 import * as Safety from "react-native-safe-area-context";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-const NotchResponsive = ({ color, appTheme }) => {
+const NotchResponsive = ({ color }) => {
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+
   return (
     <View>
       <StatusBar
@@ -19,18 +22,4 @@ const NotchResponsive = ({ color, appTheme }) => {
 };
 
 
-export function mapStateToProps(state) {
-  return {
-    // coins: state.marketReducer.coins,
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotchResponsive);
+export default NotchResponsive;

@@ -1,10 +1,12 @@
 import React from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { FONTS, SIZES } from "../../constants";
 
 
-const SearchDropdown = ({ appTheme, navigation, data, renderItem }) => {
+const SearchDropdown = ({ data, renderItem }) => {
+
+  const { appTheme } = useSelector(state => state.themeReducer);
 
 
   const Notfound = () => {
@@ -27,7 +29,6 @@ const SearchDropdown = ({ appTheme, navigation, data, renderItem }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-
 
       <FlatList
         data={data}

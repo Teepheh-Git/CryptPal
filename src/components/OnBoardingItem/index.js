@@ -4,7 +4,7 @@ import { FONTS, SIZES } from "../../constants";
 import { connect } from "react-redux";
 
 
-const OnBoardingItem = ({ item, appTheme }) => {
+const OnBoardingItem = ({ item }) => {
   return (
     <View style={styles.wrapper}>
       <View useNativeDriver={true}>

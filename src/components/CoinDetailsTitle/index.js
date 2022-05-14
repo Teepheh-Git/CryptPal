@@ -1,13 +1,15 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
 
 
-const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, logoUrl, name, symbol, currentPrice }) => {
+const CoinDetailsTitle = ({ priceChangePercentage24h, logoUrl, name, symbol, currentPrice }) => {
 
 
+  const { appTheme } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
   const priceChangeColor = priceChangePercentage24h > 0 ? "#34C759" : "#FF3B30";
 
 
@@ -64,7 +66,7 @@ const CoinDetailsTitle = ({ appTheme, appCurrency, priceChangePercentage24h, log
 const styles = StyleSheet.create({
   container: {
     width: SIZES.width * 0.9,
-    height: SIZES.font1*2,
+    height: SIZES.font1 * 2,
     padding: 5,
     marginVertical: 1,
     alignItems: "center",
@@ -109,17 +111,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoinDetailsTitle);
+export default CoinDetailsTitle;

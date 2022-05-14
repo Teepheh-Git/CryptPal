@@ -21,7 +21,7 @@ const OnBoardingRoute = () => {
       detachInactiveScreens
       screenOptions={{
         headerShown: false,
-        animation:"none"
+        animation: "none",
 
       }}>
 

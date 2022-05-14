@@ -1,10 +1,9 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { FONTS, icons, SIZES } from "../../constants";
 
 const SettingsItem = ({
-                        appTheme,
                         icon,
                         title,
                         onPress,
@@ -17,6 +16,9 @@ const SettingsItem = ({
                         currencyLabel,
                         currentCurrency,
                       }) => {
+
+
+  const { appTheme } = useSelector(state => state.themeReducer);
 
 
   return (
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
     padding: 5,
     marginVertical: 10,
     alignItems: "center",
-    // alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     borderRadius: 15,
@@ -69,22 +70,16 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-
   },
   icon: {
     width: SIZES.font4,
     height: SIZES.font4,
   },
   titleBox: {
-    // backgroundColor:"cyan",
     width: "65%",
-
-
   },
   title: {
     ...FONTS.body9,
-    // backgroundColor:"red",
-    // fontWeight:"normal",
     width: "90%",
   },
   currentCurrency: {
@@ -93,17 +88,5 @@ const styles = StyleSheet.create({
 
 });
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsItem);
+export default SettingsItem;

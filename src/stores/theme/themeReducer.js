@@ -1,5 +1,5 @@
 import { selectedTheme } from "../../constants";
-import * as themeActionTypes from "./themeActions";
+import * as themeActionTypes from "./themeTypes";
 
 const initialState = {
   appTheme: selectedTheme,

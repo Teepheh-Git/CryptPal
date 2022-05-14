@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { connect } from "react-redux";
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../../stores/theme/themeActions";
 import { toggleCurrency } from "../../stores/currency/currencyActions";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
@@ -13,7 +13,13 @@ import { toggleLaunch } from "../../stores/launch/launchActions";
 import NotchResponsive from "../../components/NotchResponsive";
 
 
-const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLaunch, appLaunch }) => {
+const Settings = () => {
+
+  const { appTheme, error } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
+  const { appLaunch } = useSelector(state => state.launchReducer);
+
+  const dispatch = useDispatch();
 
 
   const [togSwitch, setTogSwitch] = useState(false);
@@ -31,7 +37,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
 
 
   function toggleThemeHandler() {
-    toggleTheme(appTheme.name === "light" ? "dark" : "light");
+    dispatch(toggleTheme(appTheme.name === "light" ? "dark" : "light"));
   }
 
 
@@ -108,7 +114,6 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
     <>
 
 
-
       <NotchResponsive color={appTheme.backgroundColor2} />
 
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
@@ -165,7 +170,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
                 style={[styles.btnTab, tabStatus === buttonLabel.tabStatus && styles.btnTabActive]}
                 onPress={() => {
                   setTabStatusFilter(buttonLabel.label);
-                  toggleCurrency(buttonLabel.value);
+                  dispatch(toggleCurrency(buttonLabel.value));
                   bottomSheetModalRef.current?.close();
                   // console.log(buttonLabel.value);
                 }}>
@@ -197,7 +202,7 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
                 style={[styles.btnTab, launchStatus === buttonLabel.launchStatus && styles.btnTabActive]}
                 onPress={() => {
                   setTabStatusLaunch(buttonLabel.label);
-                  toggleLaunch(buttonLabel.value);
+                  dispatch(toggleLaunch(buttonLabel.value));
                   launchScreenSheetModalRef.current?.close();
                   // console.log(buttonLabel.value);
                 }}>
@@ -267,12 +272,8 @@ const Settings = ({ appTheme, appCurrency, toggleTheme, toggleCurrency, toggleLa
                 us
                 a coffee ☕️ through any of our wallet address below. Sipping our hot coffee in advance.
                 Thanks❤️.</Text>
-
-
               <View style={{ marginTop: SIZES.height * 0.02 }}>
-
                 <Text style={{ ...FONTS.body9, color: appTheme.textColor3 }}>Tap to Copy</Text>
-
                 <Text style={[styles.address, { color: appTheme.textColor }]}
                       onPress={() => copyToClipboard("bc1qpvc2kl02s3rv94aakg83e2kvlksuuj6xssmzp8")}>BTC:
                   bc1qpvc2kl02s3rv94aakg83e2kvlksuuj6xssmzp8 </Text>
@@ -331,7 +332,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     width: SIZES.width,
-
   },
   headerContainer: {
     height: SIZES.font1 * 1.4,
@@ -344,7 +344,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   title: {
     ...FONTS.h6,
     marginHorizontal: 5,
@@ -356,8 +355,6 @@ const styles = StyleSheet.create({
     marginTop: 22,
     alignSelf: "center",
     backgroundColor: "rgba(107,85,208,0.16)",
-    // zIndex:100
-
   },
   modalView: {
     width: SIZES.width * 0.9,
@@ -365,7 +362,6 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 20,
     padding: 10,
-    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -374,8 +370,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    // zIndex: 1000000000,
-
   },
   changeCurrencyContainer: {
     flexDirection: "row",
@@ -395,17 +389,8 @@ const styles = StyleSheet.create({
   },
   listTab: {
     flexDirection: "row",
-    // justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    // alignItems: "flex-end",
-    // backgroundColor:'red',
     marginBottom: 10,
-    // elevation: 0.3,
-    // shadowOpacity: 0.1,
-    // shadowOffset: {
-    //   width: 5,
-    //   height: 3,
-    // },
   },
   btnTab: {
     height: SIZES.height * 0.07,
@@ -419,7 +404,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: SIZES.font8,
     justifyContent: "center",
-
   },
   textTab: {
     ...FONTS.body7,
@@ -428,10 +412,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   btnTabActive: {
-    // backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
     borderWidth: 2,
-
   },
   modalInnerBox: {
     width: "99%",
@@ -448,7 +430,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
-
   },
   about: {
     ...FONTS.body9,
@@ -460,34 +441,6 @@ const styles = StyleSheet.create({
     marginVertical: SIZES.height * 0.009,
     textDecorationLine: "underline",
   },
-
-
 });
 
-
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    appLaunch: state.launchReducer.appLaunch,
-
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleTheme: themeType => {
-      return dispatch(toggleTheme(themeType));
-    },
-    toggleCurrency: currencyType => {
-      return dispatch(toggleCurrency(currencyType));
-    },
-    toggleLaunch: launchType => {
-      return dispatch(toggleLaunch(launchType));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default Settings;

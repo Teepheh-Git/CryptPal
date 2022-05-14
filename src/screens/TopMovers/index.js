@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, SIZES } from "../../constants";
 import CoinList from "../../components/CoinList";
@@ -21,58 +21,33 @@ function TopMoverCoins(a, b) {
 }
 
 
-const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard, route }) => {
+const TopMovers = ({ navigation }) => {
 
-  // const ITEM_HEIGHT = 75;
-  //
-  // const getItemLayout = useCallback((data, index) => ({
-  //
-  //   length: ITEM_HEIGHT,
-  //   offset: ITEM_HEIGHT * index,
-  //   index,
-  //
-  //
-  // }), []);
+  const { appTheme } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
+  const { coinCard } = useSelector(state => state.marketReducer);
+
+
+  const dispatch = useDispatch();
 
 
   const [tabStatus, setTabStatus] = useState("24H");
   const [coinPriceChangePerc, setCoinPriceChangePerc] = useState("24h");
-  // const [coinFetched, setCoinFetched] = useState([]);
   const [searchLoading, setSearchLoading] = useState(true);
-  // const [retry, setRetry] = useState("");
 
   if (coinCard?.length > 0) {
     setTimeout(() => {
       setSearchLoading(false);
     }, 3000);
   }
-  // if (coinCard == null) {
-  //   setTimeout(() => {
-  //     setSearchLoading(false);
-  //   }, 3000);
-  // }
-
-  // const GetMarketData = async (orderBy = "market_cap_desc", sparkline = true, perPage = 250, page = 1) => {
-  //   try {
-  //     const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${appCurrency.ticker}&order=${orderBy}&per_page=${perPage}&page=${page}&sparkline=${sparkline}&price_change_percentage=${priceChangePerc}`);
-  //     const data = response.data;
-  //     return data;
-  //   } catch (e) {
-  //     console.log(e.message);
-  //   }
-  // };
-
   useEffect((currency, priceChangePerc) => {
 
-
-    getCardMarket(currency = appCurrency.ticker, priceChangePerc = coinPriceChangePerc);
+    dispatch(getCardMarket(currency = appCurrency.ticker, priceChangePerc = coinPriceChangePerc));
     return () => {
       setTabStatus("24H");
       setSearchLoading(true);
-      setCoinPriceChangePerc("24h");
+      // setCoinPriceChangePerc("24h");
     };
-
-
   }, [coinPriceChangePerc]);
 
 
@@ -124,56 +99,13 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
   };
 
 
-  // const Retry = () => {
-  //   setSearchLoading(true);
-  //   let r = Math.random().toString(36).substr(2, 5);
-  //   setRetry(r);
-  // };
-
-  // const NetworkErrorPage = () => {
-  //   return (
-  //     <View style={{
-  //       width: SIZES.width * 0.7,
-  //       alignItems: "center",
-  //       justifyContent: "center",
-  //       top: SIZES.height * 0.2,
-  //       alignSelf: "center",
-  //     }}>
-  //       <Image style={{ height: 98, width: 98 }} source={require("../../assets/images/Sleepy.png")} />
-  //       <Text style={{ ...FONTS.h4, color: appTheme.textColor, marginVertical: 5 }}>Network error!! </Text>
-  //       <Text style={{ ...FONTS.body4, textAlign: "center", color: appTheme.textColor3 }}>Your network is asleep, please
-  //         check your internet connections and click refresh.</Text>
-  //       <TouchableOpacity activeOpacity={0.6} onPress={() => Retry()}>
-  //         <LinearGradient style={styles.refreshButton} colors={["#4F36C4", "#4F36C4"]}>
-  //           <Text style={styles.refresh}>Refresh</Text>
-  //         </LinearGradient>
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // };
-
-
-  // if (searchLoading) {
-  //   return (
-  //     <View
-  //       style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: appTheme.backgroundColor }}>
-  //       {appTheme.name === "light" ?
-  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/pupr.mp4.lottie.json")}
-  //                     autoPlay loop /> :
-  //         <LottieView style={{ width: 80, height: 80 }} source={require("../../assets/images/black.mp4.lottie.json")}
-  //                     autoPlay loop />}
-  //     </View>
-  //   );
-  // }
-
-
   return (
     <>
       <NotchResponsive color={appTheme.backgroundColor2} />
       <View style={[styles.Container, { backgroundColor: appTheme.backgroundColor2 }]}>
         <CustomHeader title="Top Movers ✅" onPress={() => navigation.goBack()} />
         <View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.listTab}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.listTab}>
             {constants.topMoversListTab.map((buttonLabel, index) => (
               <Pressable
                 key={index}
@@ -190,9 +122,7 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
 
           {searchLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
 
-          {/*{coinCard == null ? NetworkErrorPage() :*/}
           <FlatList
-            // data={coinCard?.sort(TopMoverCoins).slice(0, 31)}
             data={coinCard?.sort(TopMoverCoins)?.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={CoinListRenderItem}
@@ -203,8 +133,6 @@ const TopMovers = ({ appTheme, appCurrency, navigation, getCardMarket, coinCard,
               }} />
             }
           />
-
-          {/*}*/}
         </View>
       </View>
     </>
@@ -221,10 +149,7 @@ const styles = StyleSheet.create({
   },
   listTab: {
     flexDirection: "row",
-    justifyContent: "flex-start",
     width: SIZES.width * 0.9,
-    // marginHorizontal:0.05,
-    // alignItems: "center",
   },
   btnTab: {
     height: 40,
@@ -265,23 +190,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    // coins: state.marketReducer.coins,
-    coinCard: state.marketReducer.coinCard,
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getCardMarket: (currency, priceChangePerc, orderBy, perPage, page, sparkline) => {
-      return dispatch(getCardMarket(currency, priceChangePerc, orderBy, perPage, page, sparkline));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopMovers);
+export default TopMovers;

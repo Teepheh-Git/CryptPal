@@ -1,3 +1,7 @@
+import { BaseToast, ErrorToast } from "react-native-toast-message";
+import { COLORS } from "./theme";
+import React from "react";
+
 const slides = [
   {
     id: 1,
@@ -152,6 +156,36 @@ const currencyToggle = [
 ];
 
 
+const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: COLORS.primary }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 20,
+        fontFamily: "PublicaSansRound-Rg",
+      }}
+      text2Style={{
+        fontSize: 14,
+        fontFamily: "PublicaSansRound-Rg",
+      }}
+    />
+  ),
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      text1Style={{
+        fontSize: 17,
+      }}
+      text2Style={{
+        fontSize: 15,
+      }}
+    />
+  ),
+};
+
+
 let constants = {
   slides,
   categoryList,
@@ -161,6 +195,7 @@ let constants = {
   currencyToggle,
   currencyList,
   launchList,
+  toastConfig
 };
 
 export default constants;

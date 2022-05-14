@@ -1,12 +1,14 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import * as Animatable from "react-native-animatable";
 
 
 
-const CustomHeader = ({ appTheme, title, onPress, image }) => {
+const CustomHeader = ({ title, onPress, image }) => {
+  const { appTheme } = useSelector(state => state.themeReducer);
+
   return (
     <Animatable.View useNativeDriver={true} duration={500} animation={"slideInRight"} style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
 
@@ -74,15 +76,5 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomHeader);
+export default CustomHeader;

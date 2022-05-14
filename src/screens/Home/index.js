@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   Image,
-  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -12,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CoinCard from "../../components/CoinCard";
 import CoinList from "../../components/CoinList";
 import { icons, SIZES } from "../../constants";
@@ -21,7 +19,6 @@ import LottieView from "lottie-react-native";
 import constants from "../../constants/constants";
 import LinearGradient from "react-native-linear-gradient";
 import styles from "./styles";
-import axios from "axios";
 import NotchResponsive from "../../components/NotchResponsive";
 import * as Animatable from "react-native-animatable";
 
@@ -31,7 +28,16 @@ function wait(timeout) {
 
 }
 
-const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket, coinCard, coins, item }) => {
+const Home = ({ navigation }) => {
+
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
+  const { coinCard, coins } = useSelector(state => state.marketReducer);
+
+
+  const dispatch = useDispatch();
+
 
   // const ITEM_HEIGHT = 75;
   //
@@ -57,10 +63,6 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
   const [tabStatus, setTabStatus] = useState("Popular");
   const [orderByCoin, setOrderByCoin] = useState("market_cap_desc");
   const [retry, setRetry] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalCoin, setModalCoin] = useState("");
-  const [modalLoading, setModalLoading] = useState(false);
-  const [modalCoinInfo, setModalCoinInfo] = useState({});
   const [refreshing, setRefreshing] = useState(false);
 
 
@@ -92,26 +94,26 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
 
 
     if (orderByCoin === "market_cap_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "volume_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
 
     }
 
     if (orderByCoin === "volume_asc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "id_asc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "id_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
-    getCardMarket(currency = appCurrency.ticker);
+    dispatch(getCardMarket(currency = appCurrency.ticker));
 
     wait(3000).then(() => setRefreshing(false));
 
@@ -120,41 +122,32 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
 
   useEffect((currency, orderBy) => {
 
-
-    // console.log((coins.filter(FilterCoin)), "FFFFFFF");
-
-    // const arrFiltered = coins.filter(item => {
-    //   return item.sparkline_in_7d.price != [] &&item.sparkline_in_7d.price != null && item.sparkline_in_7d.price != '';
-    // });
-    // console.log(arrFiltered, "ARRRR");
-
-
     if (orderByCoin === "market_cap_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "volume_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "volume_asc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "id_asc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
     if (orderByCoin === "id_desc") {
-      getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin);
+      dispatch(getCoinMarket(currency = appCurrency.ticker, orderBy = orderByCoin));
     }
 
-    getCardMarket(currency = appCurrency.ticker);
+    dispatch(getCardMarket(currency = appCurrency.ticker));
   }, [appCurrency, orderByCoin, retry]);
 
 
   useEffect((currency) => {
-    getCardMarket(currency = appCurrency.ticker);
+    dispatch(getCardMarket(currency = appCurrency.ticker));
   }, [appCurrency]);
 
 
@@ -202,12 +195,6 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
         priceChangePercentage24h={item?.price_change_percentage_24h}
         chartData={item?.sparkline_in_7d?.price !== [] && item?.sparkline_in_7d?.price}
         onPress={() => navigation.navigate("CoinDetails", { ...item })}
-        // onLongPress={() => {
-        //   setModalVisible(true);
-        //   setModalCoin(item?.id);
-        // }}
-
-
       />
     );
   };
@@ -259,101 +246,15 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
     );
   };
 
-  const renderSeparator = () => (
-    <View
-      style={{
-        backgroundColor: "#EEF1F5",
-        height: 0.5,
-        width: SIZES.width * 0.9,
-        alignSelf: "center",
-
-      }}
-    />
-  );
-
-
-  function CoinModal() {
-
-
-    const getModalCoinInfo = async () => {
-
-      try {
-
-        setModalLoading(true);
-
-        const getCoin = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${modalCoin}&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24`);
-
-        // console.log(getCoin.data[0]);
-        setModalCoinInfo(getCoin.data[0]);
-        setModalLoading(false);
-
-      } catch (e) {
-        console.log(e, "getModalCoinInfoErr");
-        setModalLoading(false);
-      }
-
-
-    };
-
-
-    return (
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          onShow={getModalCoinInfo}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <Pressable onPress={() => setModalVisible(!modalVisible)}
-                     style={styles.centeredView}>
-
-
-            <View style={[styles.modalView, { backgroundColor: appTheme.backgroundColor }]}>
-
-              {modalLoading ? <ActivityIndicator size={"small"} color={appTheme.textColor3} /> :
-                <View>
-                  <Image
-                    resizeMode={"contain"}
-                    source={{ uri: modalCoinInfo.image }}
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 30,
-                      marginRight: 5,
-                    }} />
-
-
-                  <Text>{modalCoinInfo.name}</Text>
-                </View>
-
-              }
-
-
-            </View>
-          </Pressable>
-        </Modal>
-      </View>
-    );
-  }
-
 
   return (
 
     <>
-
-
       <NotchResponsive color={appTheme.backgroundColor2} />
-
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-
 
         {/* MARKET COIN LIST */}
         {coins == null || coinCard == null ? NetworkError() :
-
           <FlatList
             data={coins.filter(FilterCoin)}
             keyExtractor={(_, index) => index.toString()}
@@ -405,7 +306,7 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
                       </Text>
                       <Text style={[styles.last24, { color: appTheme.textColor }]}>Last 24hrs</Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate("TopMovers", { ...item })}>
+                    <TouchableOpacity onPress={() => navigation.navigate("TopMovers")}>
                       <Text style={[styles.seeAll, { color: appTheme.textColor2 }]}>See all</Text>
                     </TouchableOpacity>
                   </View>
@@ -425,8 +326,6 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
                       renderItem={CoinCardRenderItem} />
                   </Animatable.View>
 
-
-                  {CoinModal()}
 
                   {/* MARKET TRENDS  */}
                   <View
@@ -453,48 +352,17 @@ const Home = ({ navigation, appTheme, appCurrency, getCoinMarket, getCardMarket,
                       </TouchableOpacity>
                     ))}
                   </ScrollView>
-
                   {categoryLoading && <ActivityIndicator size={"small"} color={appTheme.textColor2} />}
-
                 </View>
               </>
-
             }
           />
-
         }
-
       </View>
-
     </>
-
   );
-
-
 };
 
 
-export function mapStateToProps(state) {
-  return {
-    coins: state.marketReducer.coins,
-    coinCard: state.marketReducer.coinCard,
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getCoinMarket: (currency, orderBy, sparkline, priceChangePerc, perPage, page) => {
-      return dispatch(getCoinMarket(currency, orderBy, sparkline, priceChangePerc, perPage = 6, page));
-    },
-    getCardMarket: (currency, orderBy, priceChangePerc, perPage, page, sparkline) => {
-      return dispatch(getCardMarket(currency, orderBy, sparkline, priceChangePerc, perPage, page));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
 

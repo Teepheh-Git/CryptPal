@@ -3,15 +3,12 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WebView from "react-native-webview";
 import LottieView from "lottie-react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 
-const NewsWebPage = ({ appTheme, navigation, route }) => {
+const NewsWebPage = ({ navigation, route }) => {
 
-  const dataFromNewsPage = route.params;
-
-  // console.log(dataFromNewsPage);
-
+  const { appTheme } = useSelector(state => state.themeReducer);
   const [visible, setVisible] = useState(false);
 
 
@@ -41,7 +38,7 @@ const NewsWebPage = ({ appTheme, navigation, route }) => {
       <CustomHeader title="News 📄" onPress={() => navigation.goBack()} />
 
       <WebView
-        source={{ uri: dataFromNewsPage }}
+        source={{ uri: route.params }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         onLoadStart={() => setVisible(true)}
@@ -73,15 +70,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewsWebPage);
+export default NewsWebPage;

@@ -53,7 +53,7 @@ const BottomTabs = ({ appTheme, navigation, appLaunch }) => {
           borderTopLeftRadius: 40,
           borderTopRightRadius: 40,
           elevation: 4,
-          shadowOpacity: 0.04,
+          shadowOpacity: 0.02,
           shadowColor: appTheme.textColor,
           shadowOffset: {
             width: 0,

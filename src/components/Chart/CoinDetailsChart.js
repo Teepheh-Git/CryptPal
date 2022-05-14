@@ -2,14 +2,16 @@ import React from "react";
 import { Image, Text, View } from "react-native";
 import moment from "moment";
 import { COLORS, FONTS, SIZES } from "../../constants";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { LineChart } from "react-native-chart-kit";
 import styles from "../../screens/Home/styles";
 import * as Animatable from "react-native-animatable";
 
 
+const CoinDetailsChart = ({ containerStyle, chartPrices }) => {
 
-const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }) => {
+  const { appTheme, error } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
 
   let startUnixTimeStamp = moment().subtract(7, "day").unix();
   let data = chartPrices ? chartPrices?.map((item, index) => {
@@ -90,12 +92,8 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
 
 
   return (
-    <Animatable.View useNativeDriver={true} duration={400} animation={"slideInLeft"} style={{ ...containerStyle }}>
-
-
+    <Animatable.View useNativeDriver={true} duration={300} animation={"slideInLeft"} style={{ ...containerStyle }}>
       {/*Y axis label*/}
-
-
       <View style={{
         // position: 'absolute',
         left: SIZES.padding,
@@ -109,7 +107,6 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
       }}>
 
         {/*get Y axis label values*/}
-
         {getYAxisLabelValues().map((item, index) => {
           return (
             <Text
@@ -146,12 +143,8 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
                 alignItems: "center",
                 justifyContent: "center",
               }}>
-                {/*<View style={[styles.headerContainer, { backgroundColor: appTheme.backgroundColor2 }]}>*/}
                 <Image resizeMode="contain" style={[styles.imgHeader, { tintColor: appTheme.tintColor, opacity: 0.1 }]}
                        source={require("../../assets/images/logo.png")} />
-                {/*</View>*/}
-
-
               </View>
             );
           }
@@ -164,44 +157,23 @@ const CoinDetailsChart = ({ containerStyle, chartPrices, appTheme, appCurrency }
           height={SIZES.height * 0.39}
           chartConfig={{
             color: () => COLORS.primary,
-            // backgroundColor: "cyan",
             backgroundGradientFrom: appTheme.backgroundColor2,
             backgroundGradientTo: appTheme.backgroundColor2,
             strokeWidth: 2,
             fillShadowGradient: COLORS.primary,
             fillShadowGradientOpacity: 0.2,
-
-
           }}
 
           style={{
             paddingRight: 15,
             paddingLeft: 0,
-
             height: SIZES.height * 0.35,
-            // backgroundColor:'green'
-
-            // marginTop: SIZES.padding,
           }}
         />
       }
-
     </Animatable.View>
   );
 };
 
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoinDetailsChart);
+export default CoinDetailsChart;

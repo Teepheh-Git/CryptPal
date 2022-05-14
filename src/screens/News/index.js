@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NewsListItem from "../../components/NewsListItem";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import axios from "axios";
@@ -25,21 +25,16 @@ import LottieView from "lottie-react-native";
 import { debounce } from "lodash";
 
 
-const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, headlineNews, news, newsLoading }) => {
+const News = ({ navigation }) => {
 
 
-  // const ITEM_HEIGHT = 75;
-  //
-  // const getItemLayout = useCallback((data, index) => ({
-  //   length: ITEM_HEIGHT,
-  //   offset: ITEM_HEIGHT,
-  //   index,
-  //
-  // }), []);
+  const { appTheme, error } = useSelector(state => state.themeReducer);
+  const { headlineNews, news, newsLoading } = useSelector(state => state.marketReducer);
 
 
-  // const [myNews, setMyNews] = useState([]);
-  // const [highlights, setHighlights] = useState([]);
+  const dispatch = useDispatch();
+
+
   const [tabStatus, setTabStatus] = useState("Latest");
   const [category, setCategory] = useState("popularity");
   const [keyword, setKeyword] = useState("bitcoin");
@@ -50,44 +45,34 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
   const [isFocused, setIsFocused] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
-  // console.log(news, "JJJJJ");
 
   const [categoryLoading, setCategoryLoading] = useState(false);
-
-
-  const Separator = () => {
-    return (
-      <View
-        style={{ width: SIZES.width * 0.9, backgroundColor: appTheme.textColor3, height: 0.4 }} />
-    );
-
-  };
 
 
   useEffect((keyword, category) => {
 
     // GetNews();
-    getHeadlineNewsMarket();
+    dispatch(getHeadlineNewsMarket());
 
     if (tabStatus === "Popular") {
-      getNewsMarket(keyword = "blockchain+bitcoin", category = "popularity");
+      dispatch(getNewsMarket(keyword = "blockchain+bitcoin", category = "popularity"));
     }
 
     if (tabStatus === "Latest") {
-      getNewsMarket(keyword = "crypto+blockchain", category = "publishedAt");
+      dispatch(getNewsMarket(keyword = "crypto+blockchain", category = "publishedAt"));
     }
 
     if (tabStatus === "Solana") {
-      getNewsMarket(keyword = "solana", category = "publishedAt");
+      dispatch(getNewsMarket(keyword = "solana", category = "publishedAt"));
     }
 
     if (tabStatus === "NFT") {
-      getNewsMarket(keyword = "nft", category = "publishedAt");
+      dispatch(getNewsMarket(keyword = "nft", category = "publishedAt"));
 
     }
 
     if (tabStatus === "Ethereum") {
-      getNewsMarket(keyword = "ethereum", category = "publishedAt");
+      dispatch(getNewsMarket(keyword = "ethereum", category = "publishedAt"));
 
     }
 
@@ -185,15 +170,11 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
 
           <FlatList
             data={news}
-            // getItemLayout={getItemLayout}
-            // initialScrollIndex={0}
             scrollEnabled={newsSearch === "" && true}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={
               <>
-
-
                 <View style={{
                   flexDirection: "row",
                   width: SIZES.width * 0.95,
@@ -203,8 +184,6 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                   marginVertical: 10,
                   alignSelf: "center",
                 }}>
-
-
                   <TextInput
                     placeholder={"Search for crypto related news..."}
                     value={newsSearch}
@@ -212,10 +191,8 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                     onChangeText={value => {
                       setNewsSearch(value);
                       setIsSearching(true);
-
                       if (value.length >= 3) {
                         handleNewsSearch();
-
                       }
                     }}
                     placeholderTextColor={appTheme.textColor3}
@@ -238,8 +215,6 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
                          source={icons.searchBarIcon} />
                 </View>
                 {/*{!isSearching&&  <ActivityIndicator style={{ marginVertical: 15 }} color={appTheme.textColor2} size={"small"} />}*/}
-
-
 
 
                 <FlatList
@@ -324,7 +299,6 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
             </>
 
 
-
           }
 
         </View>
@@ -333,31 +307,33 @@ const News = ({ appTheme, navigation, getNewsMarket, getHeadlineNewsMarket, head
   );
 };
 
+//
+// export function mapStateToProps(state) {
+//   return {
+//     appTheme: state.themeReducer.appTheme,
+//     error: state.themeReducer.error,
+//     news: state.marketReducer.news,
+//     headlineNews: state.marketReducer.headlineNews,
+//     newsLoading: state.marketReducer.newsLoading,
+//
+//   };
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     getNewsMarket: (keyword, category) => {
+//       return dispatch(getNewsMarket(keyword, category));
+//     },
+//
+//     getHeadlineNewsMarket: () => {
+//       return dispatch(getHeadlineNewsMarket());
+//     },
+//   };
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(News);
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    news: state.marketReducer.news,
-    headlineNews: state.marketReducer.headlineNews,
-    newsLoading: state.marketReducer.newsLoading,
-
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getNewsMarket: (keyword, category) => {
-      return dispatch(getNewsMarket(keyword, category));
-    },
-
-    getHeadlineNewsMarket: () => {
-      return dispatch(getHeadlineNewsMarket());
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(News);
+export default News;
 
 
 const styles = StyleSheet.create({

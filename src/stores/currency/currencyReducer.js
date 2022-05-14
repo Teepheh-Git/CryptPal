@@ -1,5 +1,5 @@
 import { selectedCurrency } from "../../constants";
-import * as currencyActionTypes from "./currencyActions";
+import * as currencyActionTypes from "./currencyTypes";
 
 
 const initialState = {

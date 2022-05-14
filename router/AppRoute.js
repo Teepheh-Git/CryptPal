@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import BottomTabs from "../src/navigation";
 import CoinDetails from "../src/screens/CoinDetails";
 import Search from "../src/screens/Search";
@@ -19,7 +18,7 @@ const AppRoute = () => {
       detachInactiveScreens
       screenOptions={{
         headerShown: false,
-        animation:"none"
+        animation: "none",
         // animationEnabled: false
       }}>
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
@@ -36,4 +35,3 @@ const AppRoute = () => {
 
 export default AppRoute;
 
-const styles = StyleSheet.create({});

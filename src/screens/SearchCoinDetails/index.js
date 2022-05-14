@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import CoinDetailsInfo from "../../components/CoinDetailsInfo";
@@ -25,11 +25,12 @@ import CoinDetailsTitle from "../../components/CoinDetailsTitle";
 import NotchResponsive from "../../components/NotchResponsive";
 import config from "../../../config";
 
-const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
+const SearchCoinDetails = ({ route, navigation }) => {
 
 
+  const { appTheme, error } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
   const coinId = route.params;
-  // console.log(coinId);
 
 
   const [favAdded, setFavAdded] = useState(false);
@@ -43,36 +44,21 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
 
   useEffect(() => {
-
-
-    // getCoinMarket();
-
-
     const CoinCheck = async () => {
       try {
         const fav = await AsyncStorage.getItem("FavoriteCoin");
-
-        const savedCoin = fav == null ? [] : JSON.parse(fav);
-
-
-        // console.log(fullDetails.id,"FDD");
-        function findSaved(item) {
+        const savedCoin = !fav ? [] : JSON.parse(fav);
+        const CoinStoredCheck = savedCoin.find((item) => {
           return item === coinId;
-        }
-
-        const CoinStoredCheck = savedCoin.find(findSaved);
-
-        if (CoinStoredCheck !== undefined) {
+        });
+        if (!CoinStoredCheck) {
           setFavAdded(true);
         }
       } catch (e) {
         console.log(e, "CheckCoin");
       }
-
     };
-
     CoinCheck();
-
   }, []);
 
 
@@ -89,13 +75,9 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
         console.log(e, "getDetailsError");
         setLoading(false);
       }
-
     };
-
     getDetails();
     CurrencyRates();
-
-
   }, []);
 
 
@@ -122,7 +104,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
   const SaveToFavorites = async () => {
     try {
       const fav = await AsyncStorage.getItem("FavoriteCoin");
-      const favCoin = await fav == null ? [] : JSON.parse(fav);
+      const favCoin = !fav ? [] : JSON.parse(fav);
       favCoin.push(fullDetails.id);
       setFavAdded(true);
       AsyncStorage.setItem("FavoriteCoin", JSON.stringify(favCoin));
@@ -137,26 +119,19 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
       const fav = await AsyncStorage.getItem("FavoriteCoin");
       const favCoin = JSON.parse(fav);
       const filterFav = favCoin.filter(item => item !== fullDetails.id);
-
       console.log(filterFav);
       AsyncStorage.removeItem("FavoriteCoin");
       AsyncStorage.setItem("FavoriteCoin", JSON.stringify(filterFav));
       setFavAdded(false);
-
-
     } catch (e) {
       console.log(e);
     }
-
-
   };
 
 
   const CurrencyRates = async () => {
-
     try {
       const res = await axios.get(`${config.REACT_APP_CURRENCY_URL}/api/v2/latest?apikey=${config.REACT_APP_CURRENCY_API_KEY}`);
-
       if (appCurrency.ticker === "NGN") {
         setCurrencyRate(res.data.data.NGN);
       }
@@ -166,56 +141,21 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
       if (appCurrency.ticker === "EUR") {
         setCurrencyRate(res.data.data.EUR);
       }
-
-      // console.log(res.data.data.EUR, "currencyvvv");
     } catch (e) {
       console.log(e, "Error currency");
     }
-
-
   };
-
-
-  function toggleSwapButton() {
-    if (swap) {
-      setSwap(false);
-    } else {
-      setSwap(true);
-    }
-  }
-
-  // const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
 
 
   return (
     <>
       <NotchResponsive color={appTheme.backgroundColor2} />
-
-
       <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-
-
-        {/*{console.log(fullDetails.symbol, "Full Details")}*/}
-
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-
-
           <CustomHeader title="Overview" image={icons.overviewGraph} onPress={() => navigation.goBack()} />
-
           {loading ? <ActivityIndicator size={"large"} color={appTheme.textColor2} /> :
-
             <ScrollView showsVerticalScrollIndicator={false}>
-
-
               <View style={[styles.container, { backgroundColor: appTheme.backgroundColor2 }]}>
-
-                {/*<CoinDetailsTitle*/}
-                {/*  name={dataFromHome?.name}*/}
-                {/*  logoUrl={dataFromHome?.image}*/}
-                {/*  symbol={dataFromHome?.symbol.toUpperCase()}*/}
-                {/*  currentPrice={dataFromHome?.current_price}*/}
-                {/*  priceChangePercentage24h={dataFromHome?.price_change_percentage_24h}*/}
-                {/*/>*/}
                 <CoinDetailsTitle
                   name={fullDetails?.name}
                   logoUrl={fullDetails?.image}
@@ -223,44 +163,17 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
                   currentPrice={fullDetails?.current_price}
                   priceChangePercentage24h={fullDetails?.price_change_percentage_24h}
                 />
-
-
-                {/*{console.log(dataFromHome?.sparkline_in_7d?.price,"DARAAA")}*/}
-                {/*<Chart*/}
-                {/*  chartPrices={dataFromHome?.sparkline_in_7d?.price}*/}
-                {/*  containerStyle={{*/}
-                {/*    marginTop: SIZES.padding,*/}
-                {/*    marginHorizontal: 15,*/}
-                {/*    flexDirection: "row",*/}
-                {/*  }} />*/}
-
-
                 <CoinDetailsChart
-                  // chartPrices={dataFromHome?.sparkline_in_7d?.price}
-                  // chartPrices={fullDetails?.sparkline_in_7d?.price}
                   chartPrices={(fullDetails?.sparkline_in_7d?.price)?.map((item, index) => (item * currencyRate))}
-
-                  containerStyle={{
-                    // marginTop: SIZES.padding,
-                    // marginHorizontal: 10,
-                    // paddingHorizonta,
-
-                    flexDirection: "row",
-                  }}
-
+                  containerStyle={{ flexDirection: "row" }}
                 />
-
-
                 <Text style={{
                   color: appTheme.textColor2,
                   alignSelf: "flex-end",
                   margin: 15,
                 }}>Updated: {moment(fullDetails.last_updated).fromNow()}</Text>
-
                 <View style={[styles.coinDetailsContainer, { backgroundColor: appTheme.backgroundColor3 }]}>
-
                   <Text style={[styles.coinDetails, { color: appTheme.textColor }]}>Coin Details</Text>
-
                   <CoinDetailsInfo title={"MARKET CAP"}
                                    value={appCurrency.symbol + " " + fullDetails?.market_cap?.toLocaleString("en-US")} />
                   <CoinDetailsInfo title={"TRADING VOLUME"}
@@ -282,11 +195,8 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
                   <CoinDetailsInfo title={"TOTAL SUPPLY"}
                                    value={appCurrency.symbol + " " + fullDetails?.total_supply?.toLocaleString("en-US")} />
                 </View>
-
-
                 <View style={styles.converterContainer}>
                   <Text style={[styles.convertCoin, { color: appTheme.textColor }]}>Convert Coin</Text>
-
 
                   <View style={{
                     flexDirection: "row",
@@ -314,7 +224,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
                     </View>
 
-                    <TouchableOpacity onPress={toggleSwapButton}
+                    <TouchableOpacity onPress={() => setSwap(prevState => !prevState)}
                                       style={{
                                         width: 44,
                                         height: 44,
@@ -358,15 +268,10 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
 
                     <Text
                       style={{ color: appTheme.textColor, ...FONTS.h1 }}>{swap ? appCurrency.symbol + " " + fiatValue?.toLocaleString("en-US") : tokenValue?.toLocaleString("en-US")}</Text>
-
-
                     <Text
                       style={{ color: appTheme.textColor, ...FONTS.body7 }}>{swap ? appCurrency.ticker : fullDetails.symbol.toUpperCase()}</Text>
                   </View>
-
                   <Text style={{ color: appTheme.textColor, ...FONTS.body7, marginVertical: 10 }}>Enter Unit</Text>
-
-
                   <TextInput
                     placeholder="Enter preferred unit"
                     placeholderTextColor={appTheme.textColor3}
@@ -383,9 +288,7 @@ const SearchCoinDetails = ({ appTheme, appCurrency, route, navigation }) => {
                       paddingHorizontal: 10,
                     }}
                   />
-
                 </View>
-
                 <Pressable onPress={favAdded ? RemoveFromFavorites : SaveToFavorites}>
                   {favAdded ? <LinearGradient style={[styles.root2, { borderColor: appTheme.textColor2 }]}
                                               colors={[appTheme.backgroundColor2, appTheme.backgroundColor2]}>
@@ -474,18 +377,4 @@ const styles = StyleSheet.create({
 });
 
 
-export function mapStateToProps(state) {
-  return {
-    // coins: state.marketReducer.coins,
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCoinDetails);
+export default SearchCoinDetails;

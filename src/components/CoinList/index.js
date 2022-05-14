@@ -1,15 +1,13 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
 import * as Animatable from "react-native-animatable";
 
 
 const CoinList = ({
-                    appTheme,
-                    appCurrency,
                     priceChangePercentage24h,
                     priceChangePercentageInCurrency,
                     logoUrl,
@@ -19,8 +17,11 @@ const CoinList = ({
                     chartData,
                     onPress,
                     onLongPress,
-                    delay
                   }) => {
+
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
 
 
   const priceChangeColorForChart = priceChangePercentage24h > 0 ? COLORS.primary : COLORS.primary;
@@ -33,7 +34,7 @@ const CoinList = ({
 
   return (
 
-    <Animatable.View duration={700} useNativeDriver={true}  animation={"slideInLeft"}>
+    <Animatable.View duration={200} useNativeDriver={true} animation={"slideInLeft"}>
 
       <Pressable
         onLongPress={onLongPress}
@@ -192,17 +193,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoinList);
+export default CoinList;

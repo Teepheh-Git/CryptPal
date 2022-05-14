@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CoinDetailsTitle from "../../components/CoinDetailsTitle";
 import CustomHeader from "../../components/CustomHeader";
 import { COLORS, FONTS, icons, SIZES } from "../../constants";
@@ -27,10 +27,12 @@ import config from "../../../config";
 import * as Animatable from "react-native-animatable";
 
 
-const CoinDetails = ({ appTheme, appCurrency, route }) => {
+const CoinDetails = ({ route,navigation }) => {
+
+  const { appTheme, error } = useSelector(state => state.themeReducer);
+  const { appCurrency } = useSelector(state => state.currencyReducer);
 
 
-  const navigation = useNavigation();
   const dataFromHome = route.params;
 
 
@@ -118,7 +120,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
       try {
 
-        // const res = await axios.get(`https://freecurrencyapi.net/api/v2/latest?apikey=4d5a3c60-7b0b-11ec-8d51-c1a173f93766`);
         const res = await axios.get(`${config.REACT_APP_CURRENCY_URL}/api/v2/latest?apikey=${config.REACT_APP_CURRENCY_API_KEY}`);
 
 
@@ -141,15 +142,6 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
     CurrencyRates();
 
   }, []);
-
-
-  function toggleSwapButton() {
-    if (swap) {
-      setSwap(false);
-    } else {
-      setSwap(true);
-    }
-  }
 
 
   return (
@@ -194,7 +186,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
               />
 
 
-              <Animatable.Text  useNativeDriver={true} duration={400} animation={"zoomIn"} style={{
+              <Animatable.Text useNativeDriver={true} duration={400} animation={"zoomIn"} style={{
                 ...FONTS.body9,
                 color: appTheme.textColor2,
                 alignSelf: "flex-end",
@@ -260,7 +252,7 @@ const CoinDetails = ({ appTheme, appCurrency, route }) => {
 
                   </View>
 
-                  <TouchableOpacity onPress={toggleSwapButton}
+                  <TouchableOpacity onPress={() => setSwap(prev => !prev)}
                                     style={{
                                       width: 44,
                                       height: 44,
@@ -416,19 +408,4 @@ const styles = StyleSheet.create({
 
 });
 
-
-export function mapStateToProps(state) {
-  return {
-    // coins: state.marketReducer.coins,
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-    // error: state.currencyReducer.error,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoinDetails);
+export default CoinDetails;

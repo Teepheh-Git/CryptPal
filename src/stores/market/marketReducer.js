@@ -1,4 +1,4 @@
-import * as marketActions from "./marketActions";
+import * as marketActions from "./marketTypes";
 
 
 const initialState = {
@@ -8,8 +8,6 @@ const initialState = {
   news: [],
   headlineNews: [],
   favCoins: [],
-  // searchCoin: [],
-  // coinSearch2: [],
   error: null,
   loading: false,
   newsLoading: false,

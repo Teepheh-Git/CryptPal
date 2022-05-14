@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CustomHeader from "../../components/CustomHeader";
 import { FONTS, icons, SIZES } from "../../constants";
 import FastImage from "react-native-fast-image";
@@ -10,13 +10,15 @@ import { debounce } from "lodash";
 import axios from "axios";
 
 
-const Search = ({ appTheme, navigation }) => {
+const Search = ({ navigation }) => {
+
+  const { appTheme } = useSelector(state => state.themeReducer);
+
 
   const [coinSearch, setCoinSearch] = useState("");
   const [coinResult, setCoinResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-
 
 
   const handleSearch = useCallback(debounce(() => Search(), 2000), [coinSearch]);
@@ -39,7 +41,7 @@ const Search = ({ appTheme, navigation }) => {
   const CoinListRenderItem = ({ item, index }) => {
     return (
 
-      <Animatable.View animation={"zoomIn"} delay={index * 50} useNativeDriver={true} duration={300}>
+      <Animatable.View animation={"zoomIn"} delay={index * 10} useNativeDriver={true} duration={200}>
 
         <TouchableOpacity
           onPress={() => {
@@ -79,7 +81,6 @@ const Search = ({ appTheme, navigation }) => {
 
 
   const TopResults = () => {
-    // if (searchCoin !== "" && FilteredDataCondition().length !== 0) {
     if (coinSearch !== "" && coinResult.length !== 0) {
       return (
         <View style={{ width: SIZES.width * 0.9, marginTop: 10 }}>
@@ -139,16 +140,13 @@ const Search = ({ appTheme, navigation }) => {
           height: SIZES.font1 * 1.4,
           alignItems: "center",
           justifyContent: "center",
-          // marginTop: 10,
         }}>
           <TextInput
             placeholder={"Search any crypto coin..."}
             value={coinSearch}
-            // onChangeText={(text) => SearchFilter(text)}
             onChangeText={value => {
               setCoinSearch(value);
               setLoading(true);
-
               if (value.length >= 2) {
                 handleSearch();
               }
@@ -190,12 +188,7 @@ const Search = ({ appTheme, navigation }) => {
               initialNumToRender={10}
               removeClippedSubviews={true}
               ListEmptyComponent={Notfound}
-              // getItemLayout={getItemLayout}
               renderItem={CoinListRenderItem}
-              // ListHeaderComponent={
-              // searchCoin !== "" && FilteredDataCondition().length === 0 && Notfound()c
-              // coinSearch !== "" && coinResult.length === 0 && Notfound()
-              // }
             />
 
         )}
@@ -204,6 +197,8 @@ const Search = ({ appTheme, navigation }) => {
 
   );
 };
+
+export default Search;
 
 
 const styles = StyleSheet.create({
@@ -247,16 +242,4 @@ const styles = StyleSheet.create({
 
 });
 
-export function mapStateToProps(state) {
-  return {
-    appTheme: state.themeReducer.appTheme,
-    error: state.themeReducer.error,
-    appCurrency: state.currencyReducer.appCurrency,
-  };
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
