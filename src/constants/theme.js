@@ -1,56 +1,57 @@
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native';
 
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get('window');
+
+const fontFamily = 'PublicaSansRound-Rg';
 
 export const COLORS = {
   // primary colors
-  primary: "#6B55D0",
-  primary2: "#B1BBCD",
-  black: "#0e0c0c",
-  black2: "#121212",
-  white: "#FFF",
-  white2: "#f9f6fc",
-  white3: "#F0F0F0",
-  white4: "#EEF1F5",
-  grey: "#B1BBCD",
-
+  primary: '#6B55D0',
+  primary2: '#B1BBCD',
+  black: '#0e0c0c',
+  black2: '#121212',
+  white: '#FFF',
+  white2: '#f9f6fc',
+  white3: '#F0F0F0',
+  white4: '#EEF1F5',
+  grey: '#B1BBCD',
 
   // SPECIAL COLORS
   // orange
-  CustomOrange: "#F15223",
-  CustomOrange1: "rgba(241, 82, 35, 0.8)",
-  CustomOrange2: "rgba(241, 82, 35, 0.6)",
-  CustomOrange3: "rgba(241, 82, 35, 0.4)",
-  CustomOrange4: "rgba(241, 82, 35, 0.2)",
-  CustomOrange5: "rgba(241, 82, 35, 0.1)",
+  CustomOrange: '#F15223',
+  CustomOrange1: 'rgba(241, 82, 35, 0.8)',
+  CustomOrange2: 'rgba(241, 82, 35, 0.6)',
+  CustomOrange3: 'rgba(241, 82, 35, 0.4)',
+  CustomOrange4: 'rgba(241, 82, 35, 0.2)',
+  CustomOrange5: 'rgba(241, 82, 35, 0.1)',
 
   // Purple
-  CustomPurple: "#5041AB",
-  CustomPurple1: "rgba(80, 65, 171, 0.8)",
-  CustomPurple2: "rgba(80, 65, 171, 0.6)",
-  CustomPurple3: "rgba(80, 65, 171, 0.4)",
-  CustomPurple4: "rgba(80, 65, 171, 0.2)",
-  CustomPurple5: "rgba(80, 65, 171, 0.1)",
+  CustomPurple: '#5041AB',
+  CustomPurple1: 'rgba(80, 65, 171, 0.8)',
+  CustomPurple2: 'rgba(80, 65, 171, 0.6)',
+  CustomPurple3: 'rgba(80, 65, 171, 0.4)',
+  CustomPurple4: 'rgba(80, 65, 171, 0.2)',
+  CustomPurple5: 'rgba(80, 65, 171, 0.1)',
 
   // Black
-  CustomBlack: "#040415",
-  CustomBlack1: "rgba(4, 4, 21, 0.8)",
-  CustomBlack2: "rgba(4, 4, 21, 0.6)",
-  CustomBlack3: "rgba(4, 4, 21, 0.4)",
-  CustomBlack4: "rgba(4, 4, 21, 0.2)",
-  CustomBlack5: "rgba(4, 4, 21, 0.1)",
+  CustomBlack: '#040415',
+  CustomBlack1: 'rgba(4, 4, 21, 0.8)',
+  CustomBlack2: 'rgba(4, 4, 21, 0.6)',
+  CustomBlack3: 'rgba(4, 4, 21, 0.4)',
+  CustomBlack4: 'rgba(4, 4, 21, 0.2)',
+  CustomBlack5: 'rgba(4, 4, 21, 0.1)',
 
   // Green
-  CustomGreen: "#65CF58",
-  CustomGreen1: "rgba(101, 207, 88, 0.8)",
-  CustomGreen2: "rgba(101, 207, 88, 0.6)",
-  CustomGreen3: "rgba(101, 207, 88, 0.4)",
-  CustomGreen4: "rgba(101, 207, 88, 0.2)",
-  CustomGreen5: "rgba(101, 207, 88, 0.1)",
+  CustomGreen: '#65CF58',
+  CustomGreen1: 'rgba(101, 207, 88, 0.8)',
+  CustomGreen2: 'rgba(101, 207, 88, 0.6)',
+  CustomGreen3: 'rgba(101, 207, 88, 0.4)',
+  CustomGreen4: 'rgba(101, 207, 88, 0.2)',
+  CustomGreen5: 'rgba(101, 207, 88, 0.1)',
 
-  transparentWhite: "rgba(255, 255, 255, 0.2)",
-  transparentBlack: "rgba(0, 0, 0, 0.4)",
-  transparent: "transparent",
+  transparentWhite: 'rgba(255, 255, 255, 0.2)',
+  transparentBlack: 'rgba(0, 0, 0, 0.4)',
+  transparent: 'transparent',
 };
 export const SIZES = {
   // global sizes
@@ -58,7 +59,6 @@ export const SIZES = {
   radius2: 14,
   radius3: 8,
   padding: 24,
-
 
   // font sizes
   largeTitle: 36,
@@ -78,31 +78,31 @@ export const SIZES = {
   height,
 };
 export const FONTS = {
-  largeTitle: { fontSize: SIZES.largeTitle, fontFamily: "PublicaSansRound-Rg" },
-  h1: { fontSize: SIZES.font1, fontFamily: "PublicaSansRound-Rg" },
-  h2: { fontSize: SIZES.font2, fontFamily: "PublicaSansRound-Rg" },
-  h3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
-  h4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
-  h5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
-  h6: { fontSize: SIZES.font6, fontFamily: "PublicaSansRound-Rg" },
-  h7: { fontSize: SIZES.font7, fontFamily: "PublicaSansRound-Rg" },
-  h8: { fontSize: SIZES.font8, fontFamily: "PublicaSansRound-Rg" },
-  h9: { fontSize: SIZES.font9, fontFamily: "PublicaSansRound-Rg" },
-  h10: { fontSize: SIZES.font10, fontFamily: "PublicaSansRound-Rg" },
-  body1: { fontSize: SIZES.font1, fontFamily: "PublicaSansRound-Rg" },
-  body2: { fontSize: SIZES.font2, fontFamily: "PublicaSansRound-Rg" },
-  body3: { fontSize: SIZES.font3, fontFamily: "PublicaSansRound-Rg" },
-  body4: { fontSize: SIZES.font4, fontFamily: "PublicaSansRound-Rg" },
-  body5: { fontSize: SIZES.font5, fontFamily: "PublicaSansRound-Rg" },
-  body6: { fontSize: SIZES.font6, fontFamily: "PublicaSansRound-Rg" },
-  body7: { fontSize: SIZES.font7, fontFamily: "PublicaSansRound-Rg" },
-  body8: { fontSize: SIZES.font8, fontFamily: "PublicaSansRound-Rg" },
-  body9: { fontSize: SIZES.font9, fontFamily: "PublicaSansRound-Rg" },
-  body10: { fontSize: SIZES.font10, fontFamily: "PublicaSansRound-Rg" },
+  largeTitle: {fontSize: SIZES.largeTitle, fontFamily},
+  h1: {fontSize: SIZES.font1, fontFamily},
+  h2: {fontSize: SIZES.font2, fontFamily},
+  h3: {fontSize: SIZES.font3, fontFamily},
+  h4: {fontSize: SIZES.font4, fontFamily},
+  h5: {fontSize: SIZES.font5, fontFamily},
+  h6: {fontSize: SIZES.font6, fontFamily},
+  h7: {fontSize: SIZES.font7, fontFamily},
+  h8: {fontSize: SIZES.font8, fontFamily},
+  h9: {fontSize: SIZES.font9, fontFamily},
+  h10: {fontSize: SIZES.font10, fontFamily},
+  body1: {fontSize: SIZES.font1, fontFamily},
+  body2: {fontSize: SIZES.font2, fontFamily},
+  body3: {fontSize: SIZES.font3, fontFamily},
+  body4: {fontSize: SIZES.font4, fontFamily},
+  body5: {fontSize: SIZES.font5, fontFamily},
+  body6: {fontSize: SIZES.font6, fontFamily},
+  body7: {fontSize: SIZES.font7, fontFamily},
+  body8: {fontSize: SIZES.font8, fontFamily},
+  body9: {fontSize: SIZES.font9, fontFamily},
+  body10: {fontSize: SIZES.font10, fontFamily},
 };
 
 export const darkTheme = {
-  name: "dark",
+  name: 'dark',
   backgroundColor: COLORS.black,
   backgroundColor2: COLORS.black2,
   backgroundColor3: COLORS.black,
@@ -119,7 +119,7 @@ export const darkTheme = {
 };
 
 export const lightTheme = {
-  name: "light",
+  name: 'light',
   backgroundColor: COLORS.white,
   backgroundColor2: COLORS.white2,
   backgroundColor3: COLORS.white3,
