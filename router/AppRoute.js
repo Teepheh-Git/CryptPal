@@ -83,7 +83,7 @@ const AppRoute = () => {
         options={options}
         sharedElements={(route, otherRoute, showing) => {
           // const {item} = route.params;
-          return [route.params.image, route.params.name];
+          return [route.params.image];
         }}
       />
       <Stack.Screen name="Search" component={Search} options={options} />

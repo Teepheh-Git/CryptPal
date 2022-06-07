@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import CoinListRenderItem from '../../components/CoinListRenderItem/CoinListRenderItem';
@@ -21,6 +22,7 @@ import NetworkError from '../../components/NetworkError/NetworkError';
 import styles from './styles';
 import NotchResponsive from '../../components/NotchResponsive';
 import * as Animatable from 'react-native-animatable';
+import BackPressHandler from '../../constants/utils';
 
 function wait(timeout) {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -169,12 +171,25 @@ const Home = ({navigation}) => {
       }
 
       dispatch(getCardMarket((currency = appCurrency.ticker)));
+
+      return () => {
+        setHomePageLoading(true);
+        setCategoryLoading(false);
+        setTabStatus('Popular');
+        setOrderByCoin('market_cap_desc');
+        setRetry('');
+        setRefreshing(false);
+      };
     },
     [appCurrency, orderByCoin, retry],
   );
 
   useEffect(
     currency => {
+      if (Platform.OS === 'android') {
+        BackPressHandler(() => null);
+      }
+
       dispatch(getCardMarket((currency = appCurrency.ticker)));
     },
     [appCurrency],
@@ -338,11 +353,7 @@ const Home = ({navigation}) => {
                   </View>
 
                   {/* COIN CARD SECTION */}
-                  <Animatable.View
-                    useNativeDriver={true}
-                    animation={'zoomIn'}
-                    duration={400}
-                    style={styles.coinCard}>
+                  <View style={styles.coinCard}>
                     <FlatList
                       // data={[]}
                       data={coinCard?.sort(TopMoverCoins)?.slice(0, 7)}
@@ -361,7 +372,7 @@ const Home = ({navigation}) => {
                         />
                       )}
                     />
-                  </Animatable.View>
+                  </View>
 
                   {/* MARKET TRENDS  */}
                   <View style={styles.marketTrendsContainer}>

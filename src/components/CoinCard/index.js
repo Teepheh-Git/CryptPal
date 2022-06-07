@@ -46,35 +46,33 @@ const CoinCard = ({
         {name}/{appCurrency.ticker}
       </Text>
 
-      <SharedElement id={name}>
-        <Text
-          numberOfLines={1}
-          style={[styles.coinPrice, {color: appTheme.textColor}]}>
-          {appCurrency.symbol + ''} {currentPrice.toLocaleString('en-US')}
-        </Text>
-        <View style={styles.coinPercentage}>
-          {priceChangePercentage24h !== 0 && (
-            <Image
-              source={icons.arrowUp}
-              resizeMode={'contain'}
-              style={{
-                width: 13,
-                height: 13,
-                tintColor: priceChangeColor,
-                transform:
-                  priceChangePercentage24h > 0
-                    ? [{rotate: '0deg'}]
-                    : [{rotate: '180deg'}],
-              }}
-            />
-          )}
+      <Text
+        numberOfLines={1}
+        style={[styles.coinPrice, {color: appTheme.textColor}]}>
+        {appCurrency.symbol + ''} {currentPrice.toLocaleString('en-US')}
+      </Text>
+      <View style={styles.coinPercentage}>
+        {priceChangePercentage24h !== 0 && (
+          <Image
+            source={icons.arrowUp}
+            resizeMode={'contain'}
+            style={{
+              width: 13,
+              height: 13,
+              tintColor: priceChangeColor,
+              transform:
+                priceChangePercentage24h > 0
+                  ? [{rotate: '0deg'}]
+                  : [{rotate: '180deg'}],
+            }}
+          />
+        )}
 
-          <Text style={[styles.priceChange, {color: priceChangeColor}]}>
-            {' '}
-            {priceChangePercentage24h.toLocaleString('en-US')}%
-          </Text>
-        </View>
-      </SharedElement>
+        <Text style={[styles.priceChange, {color: priceChangeColor}]}>
+          {' '}
+          {priceChangePercentage24h.toLocaleString('en-US')}%
+        </Text>
+      </View>
     </Pressable>
   );
 };

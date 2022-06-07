@@ -10,6 +10,11 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import Toast from 'react-native-toast-message';
 import {persistor, store} from './src/stores/store';
 import constants from './src/constants/constants';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 
 TouchableOpacity.defaultProps = {
   ...(TouchableOpacity.defaultProps || {}),
